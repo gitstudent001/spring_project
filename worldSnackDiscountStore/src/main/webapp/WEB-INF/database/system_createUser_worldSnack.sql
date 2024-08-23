@@ -1,19 +1,19 @@
--- system ¿¡¼­ ¼¼°è°úÀÚÇÁ·ÎÁ§Æ® À¯Àú »ý¼º --
+-- system ì—ì„œ ì„¸ê³„ê³¼ìží”„ë¡œì íŠ¸ ìœ ì € ìƒì„± --
 CREATE USER worldSnack IDENTIFIED BY 1234;
 
--- ¼¼¼Ç Á¢¼Ó ±ÇÇÑ ºÎ¿© --
+-- ì„¸ì…˜ ì ‘ì† ê¶Œí•œ ë¶€ì—¬ --
 GRANT CREATE SESSION TO worldSnack;
 
--- Å×ÀÌºí »ý¼º ±ÇÇÑ ºÎ¿© --
+-- í…Œì´ë¸” ìƒì„± ê¶Œí•œ ë¶€ì—¬ --
 GRANT CREATE TABLE TO worldSnack;
 
--- tablespace ÇÒ´ç·® ±ÇÇÑ ºÎ¿© --
+-- tablespace í• ë‹¹ëŸ‰ ê¶Œí•œ ë¶€ì—¬ --
 ALTER USER worldSnack DEFAULT TABLESPACE USERS QUOTA UNLIMITED ON USERS;
 
 
-/* ¾Æ·¡ ÄÚµå Ãß°¡ Çß½À´Ï´Ù ¾Æ·¡ ÄÚµå¸¸ SYSTEM°èÁ¤¿¡¼­ ½ÇÇàÇØ ÁÖ¼¼¿ä */
--- ±âº» »ç¿ëÀÚ ±ÇÇÑ ºÎ¿© --
+/* ì•„ëž˜ ì½”ë“œ ì¶”ê°€ í–ˆìŠµë‹ˆë‹¤ ì•„ëž˜ ì½”ë“œë§Œ SYSTEMê³„ì •ì—ì„œ ì‹¤í–‰í•´ ì£¼ì„¸ìš” */
+-- ê¸°ë³¸ ì‚¬ìš©ìž ê¶Œí•œ ë¶€ì—¬ --
 GRANT RESOURCE, CONNECT, DBA TO worldSnack;
 
--- ½ÃÄö½º, ÇÁ·Î½ÃÁ® »ý¼º ±ÇÇÑ ºÎ¿© --
+-- ì‹œí€€ìŠ¤, í”„ë¡œì‹œì ¸ ìƒì„± ê¶Œí•œ ë¶€ì—¬ --
 GRANT CREATE SEQUENCE, CREATE PROCEDURE TO worldSnack;

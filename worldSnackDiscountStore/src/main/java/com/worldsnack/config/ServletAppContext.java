@@ -18,8 +18,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.worldsnack.mapper.CategoryMapper;
-import com.worldsnack.mapper.ContentMapper;
+import com.worldsnack.mapper.BoardMapper;
+import com.worldsnack.mapper.MypageMapper;
 import com.worldsnack.mapper.UserMapper;
 
 
@@ -93,23 +93,23 @@ public class ServletAppContext implements WebMvcConfigurer{
 				new MapperFactoryBean<>(UserMapper.class);
 		factoryBean.setSqlSessionFactory(factory);
 		return factoryBean;
+	}
+
+	@Bean
+	public MapperFactoryBean<MypageMapper> getMypageMapper(SqlSessionFactory factory) throws Exception{
+		MapperFactoryBean<MypageMapper> factoryBean = 
+				new MapperFactoryBean<>(MypageMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+	}		
+	
+	@Bean
+	public MapperFactoryBean<BoardMapper> getBoardMapper(SqlSessionFactory factory) throws Exception{
+		MapperFactoryBean<BoardMapper> factoryBean = 
+				new MapperFactoryBean<>(BoardMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
 	}	
-	
-	@Bean
-	public MapperFactoryBean<ContentMapper> getContentMapper(SqlSessionFactory factory) throws Exception{
-		MapperFactoryBean<ContentMapper> factoryBean = 
-				new MapperFactoryBean<>(ContentMapper.class);
-		factoryBean.setSqlSessionFactory(factory);
-		return factoryBean;
-	}
-	
-	@Bean
-	public MapperFactoryBean<CategoryMapper> getCategoryMapper(SqlSessionFactory factory) throws Exception{
-		MapperFactoryBean<CategoryMapper> factoryBean = 
-				new MapperFactoryBean<>(CategoryMapper.class);
-		factoryBean.setSqlSessionFactory(factory);
-		return factoryBean;
-	}
 	
 
 	/*
