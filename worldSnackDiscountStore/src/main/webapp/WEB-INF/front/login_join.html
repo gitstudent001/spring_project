@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../css/login_join.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <div class="sign-up-container">
+          <form>
+            <h1>회원가입</h1>
+            <div class="social-links">
+              <div>
+                <a href="#"
+                  ><i class="fa fa-facebook" aria-hidden="true"></i
+                ></a>
+              </div>
+              <div>
+                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+              </div>
+              <div>
+                <a href="#"
+                  ><i class="fa fa-linkedin" aria-hidden="true"></i
+                ></a>
+              </div>
+            </div>
+            <span>또는 새로운 계정으로 회원가입</span>
+            <input class="form_input" type="text" placeholder="Name" />
+            <input class="form_input" type="text" placeholder="NickName" />
+            <input class="form_input" type="text" placeholder="ID" />
+            <input class="form_input" type="email" placeholder="Email" />
+            <input class="form_input" type="password" placeholder="Password" />
+            <input class="form_input" type="password" placeholder="Password2" />
+            <button class="form_btn">Sign Up</button>
+          </form>
+        </div>
+        <div class="sign-in-container">
+          <form>
+            <h1>로그인</h1>
+            <div class="social-links">
+              <div>
+                <a href="#"
+                  ><i class="fa fa-facebook" aria-hidden="true"></i
+                ></a>
+              </div>
+              <div>
+                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+              </div>
+              <div>
+                <a href="#"
+                  ><i class="fa fa-linkedin" aria-hidden="true"></i
+                ></a>
+              </div>
+            </div>
+            <span>또는 계정으로 로그인</span>
+            <input type="text" placeholder="ID" />
+            <input type="password" placeholder="Password" />
+            <button class="form_btn">로그인</button>
+          </form>
+        </div>
+        <div class="overlay-container">
+          <div class="overlay-left">
+            <h1>방문을 환영합니다</h1>
+            <p>
+              이미 계정이 있으시다면 아래 버튼을 눌러 맛있는 간식을 구경하세요!
+            </p>
+            <button id="signIn" class="overlay_btn">Sign In</button>
+          </div>
+          <div class="overlay-right">
+            <h1>처음 방문하시나요?</h1>
+            <p>회원가입을 원하시면 아래에 버튼을 클릭해주세요.</p>
+            <button id="signUp" class="overlay_btn">회원가입</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="../js/login_join.js"></script>
+  </body>
+</html>
