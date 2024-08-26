@@ -30,7 +30,7 @@ public class HomeContoller {
 	public String home(@RequestParam(value="category_info_idx", defaultValue="0") int category_info_idx, 
 										 HttpServletRequest request, 
 										 Model model) {
-		String contextPath = request.getServletContext().getRealPath("/");
+		//String contextPath = request.getServletContext().getRealPath("/");
 		//System.out.println("contextPath : " + contextPath);
 		
 		List<CategoryInfoDTO> categoryDTO = categoryService.selectAll(); 

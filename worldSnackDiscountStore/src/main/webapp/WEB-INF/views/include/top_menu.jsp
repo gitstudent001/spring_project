@@ -37,10 +37,10 @@
                 </ul>
                 <ul class="navbar-nav me-auto" style="float:right;">
 				          <li class="nav-item">
-				          	<a class="nav-link" style="color:black;" href="${root}user/login" class="active">로그인</a>
+				          	<a class="nav-link" style="color:black;" href="${root}user/login_join" class="active">로그인 / 회원가입</a>
 				          </li>
 				          <li class="nav-item">
-				          	<a class="nav-link" style="color:black;" href="${root}user/join">회원가입</a>
+				          	<a class="nav-link" style="color:black;" href="${root}mypage/main" class="active">마이페이지</a>
 				          </li>
 				        </ul>
 				        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

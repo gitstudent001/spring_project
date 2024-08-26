@@ -18,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.worldsnack.mapper.MypageMapper;
 import com.worldsnack.mapper.CategoryMapper;
 import com.worldsnack.mapper.ContentMapper;
 import com.worldsnack.mapper.UserMapper;
@@ -110,6 +111,14 @@ public class ServletAppContext implements WebMvcConfigurer{
 		factoryBean.setSqlSessionFactory(factory);
 		return factoryBean;
 	}
+	
+	@Bean
+	public MapperFactoryBean<MypageMapper> getMypageMapper(SqlSessionFactory factory) throws Exception{
+		MapperFactoryBean<MypageMapper> factoryBean = 
+				new MapperFactoryBean<>(MypageMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+	}		
 	
 
 	/*
