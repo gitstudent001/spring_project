@@ -11,7 +11,7 @@
 <body>
 	<script>
 	alert("${loginUserDTO.user_name}님 환영합니다.");
-	location.href="${root}main?user_idx=${loginUserDTO.user_idx}";
+	location.href="${root}";
 	</script>
 </body>
 </html>    

@@ -21,6 +21,9 @@
 <link href="${root }css/mypage.css" rel="stylesheet" />
 </head>
 <body id="page-top">
+	<!-- top_menu 삽입 -->
+	<c:import url="/WEB-INF/views/include/top_menu.jsp" />
+
 	<!-- mypage_navigation 삽입 -->
 	<c:import url="/WEB-INF/views/include/mypage_nav.jsp"></c:import>
 	
@@ -122,6 +125,9 @@
 		</div>
 	</section>
 	<hr class="m-0" />
+	
+	<!-- bottom_menu 삽입 -->
+  <c:import url="/WEB-INF/views/include/bottom_menu.jsp" />
 
 	<!-- Bootstrap core JS-->
 	<script

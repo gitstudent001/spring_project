@@ -51,7 +51,7 @@ public class UserService {
 		List<String> gradeNameAndClass = new ArrayList<>();
 		String gradeName = "";
 		String gradeClass = "";
-		
+		//System.out.println("유저 등급 : " + userGrade);
 		switch (userGrade) {
 		case 1:
 			gradeName = "맛동산";
@@ -82,7 +82,8 @@ public class UserService {
 			gradeName = "알 수 없는";
 			gradeClass = "grade-unknow";
 		}
-		
+		//System.out.println("등급 이름 : " + gradeName);
+		//System.out.println("등급 클래스 : " + gradeClass);
     gradeNameAndClass.add(gradeName);
     gradeNameAndClass.add(gradeClass);
 		return gradeNameAndClass;

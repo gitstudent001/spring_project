@@ -22,6 +22,9 @@
 
 </head>
 <body id="page-top">
+	<!-- top_menu 삽입 -->
+	<c:import url="/WEB-INF/views/include/top_menu.jsp" />
+
 	<!-- mypage_navigation 삽입 -->
 	<c:import url="/WEB-INF/views/include/mypage_nav.jsp"></c:import>
 	
@@ -49,7 +52,9 @@
 		</div>
 	</section>
 	<hr class="m-0" />
-
+	
+	<!-- bottom_menu 삽입 -->
+  <c:import url="/WEB-INF/views/include/bottom_menu.jsp" />
 	<!-- Bootstrap core JS-->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

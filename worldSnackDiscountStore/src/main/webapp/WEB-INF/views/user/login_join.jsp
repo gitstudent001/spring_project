@@ -17,6 +17,9 @@
 
 </head>
 <body>
+	<!-- top_menu 삽입 -->
+	<c:import url="/WEB-INF/views/include/top_menu.jsp" />
+
 	<div class="wrapper">
 		<div class="container">
 			<div class="sign-up-container">
@@ -116,6 +119,9 @@
 		</div>
 	</div>
 
+	<!-- bottom_menu 삽입 -->
+  <c:import url="/WEB-INF/views/include/bottom_menu.jsp" />
+  
 	<script type="text/javascript">
 		function checkUserIdExist() {
 			let user_id = $("#join_user_id").val();

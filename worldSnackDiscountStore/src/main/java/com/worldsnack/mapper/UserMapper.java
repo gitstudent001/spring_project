@@ -13,7 +13,7 @@ public interface UserMapper {
 	String checkUserIdExist(String user_id);
 	
 	@Insert("INSERT INTO USER_TABLE " +
-					"VALUES(USER_SEQ.NEXTVAL, #{user_name}, #{user_id}, #{user_pw}, #{user_email}, #{user_nickname})")
+					"VALUES(USER_SEQ.NEXTVAL, #{user_name}, #{user_id}, #{user_pw}, #{user_email}, #{user_nickname}, 1)")
 	void insertUser(UserDTO joinUserDTO);
 	
 	@Select("SELECT * " +
@@ -23,10 +23,10 @@ public interface UserMapper {
 
 	
 	// ---------------------- 내 등급 조회용 매퍼(희만) ---------------------	
-	@Select("SELECT U.USER_IDX, G.GRADE_IDX " +
+	@Select("SELECT G.GRADE_IDX " +
 		  		"FROM USER_TABLE U JOIN GRADE_TABLE G " +
 	    		"ON U.USER_CONTENT_COUNT BETWEEN G.GRADE_LOW AND G.GRADE_HIGH " +
-					"WHERE USER_IDX = #{uesr_idx}")
+					"WHERE USER_IDX = #{user_idx}")
 	int getMyGrade(int user_idx);
 	
 	
