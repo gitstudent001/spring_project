@@ -131,7 +131,7 @@
 								<div class="text-right">
 									<a href="${root }content/write" class="btn btn-primary">글쓰기</a>
 								</div>								
-								<a href="${root }content/main" class="btn btn-primary">제품게시판 전체보기</a>
+								<a href="${root }content/list" class="btn btn-primary">제품게시판 전체보기</a>
 							</div>
 						</div>
 					</div>

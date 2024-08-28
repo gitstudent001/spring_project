@@ -30,8 +30,9 @@
 	</table> 
 	 
 	<c:if test="${detailContentDTO.content_writer_idx == loginUserDTO.getUser_idx() }">
-	<a href="${root }content/modify?content_idx=${content_idx}" class="btn btn-info">수정하기</a>
-	<a href="${root }content/delete?content_idx=${content_idx}&content_writer_idx=${detailContentDTO.content_writer_idx}" class="btn btn-danger">삭제하기</a>
-	 </c:if> 
+		<a href="${root }content/modify?content_idx=${content_idx}" class="btn btn-info">수정하기</a>
+		<a href="${root }content/delete?content_idx=${content_idx}&content_writer_idx=${detailContentDTO.content_writer_idx}" class="btn btn-danger">삭제하기</a>
+	</c:if>
+	<a href="${root }content/list?category_info_idx=${category_info_idx }&limit=${limit}">목록으로</a>  
 </body>
 </html>    

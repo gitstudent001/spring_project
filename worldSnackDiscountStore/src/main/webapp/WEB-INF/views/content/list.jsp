@@ -15,9 +15,9 @@
 	<h1>list.jsp</h1>
 	<h2>${categoryName }</h2>
 	
-	<input type="button" onclick="location.href='list'" value="전체"/>
+	<input type="button" onclick="location.href='list?limit=${limit }'" value="전체"/>
 	<c:forEach var="ctgInfo" items="${categoryDTO}"> 
-		<input type="button" onclick="location.href='list?category_info_idx=${ctgInfo.category_info_idx }'" value="${ctgInfo.category_info_name }" />
+		<input type="button" onclick="location.href='list?category_info_idx=${ctgInfo.category_info_idx }&limit=${limit }'" value="${ctgInfo.category_info_name }" />
 	</c:forEach> 
 
 	<form method="get" action="${root }content/list" class="contentOption">
@@ -37,7 +37,7 @@
 		<c:forEach var="dataInfo" items="${contentDTO}">
 			<tr>
 				<td>${dataInfo.content_idx }</td>		
-				<td><a href="${root }content/detail?content_idx=${dataInfo.content_idx }">${dataInfo.content_subject }</a></td>
+				<td><a href="${root }content/detail?content_idx=${dataInfo.content_idx }&category_info_idx=${category_info_idx}&limit=${limit}">${dataInfo.content_subject }</a></td>
 				<td>${dataInfo.content_text }</td>
 				<td>${dataInfo.content_file }</td>
 				<td>${dataInfo.content_writer_idx }</td>
