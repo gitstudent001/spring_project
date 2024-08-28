@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<!-- c 태그 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}/" />
+
+<!-- 날짜 형식 변환 태그 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -40,7 +44,7 @@
 			<div class="d-flex justify-content-between align-items-start mb-5">
 				<div class="subheading mb-3">게시글 업로드 수 : ${myContentCount }</div>
 				<div>
-					<span class="text-primary">최근 포스팅 - ${myContentDate }</span>
+					<span class="text-primary">최근 포스팅 - <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${myContentDate }"/></span>
 				</div>
 			</div>
 			<!-- 게시판 미리보기 부분 -->
@@ -63,8 +67,8 @@
 										<c:forEach var="content" items="${myContentList }">
 											<tr>
 												<td class="text-center">${content.content_idx }</td>
-												<th><a href='${root }board/read?content_idx=${content.content_idx}&page=${page}'>${content.content_subject }</a></th>
-												<td class="text-center d-none d-xl-table-cell">${content.content_date }</td>
+												<th><a href='${root }content/detail?content_idx=${content.content_idx}&page=${page}'>${content.content_subject }</a></th>
+												<td class="text-center d-none d-xl-table-cell"><fmt:formatDate pattern="yyyy-MM-dd" value="${content.content_date }"/></td>
 												<td class="text-center d-none d-xl-table-cell">${content.content_view }</td>
 											</tr>
 										</c:forEach>
@@ -114,9 +118,9 @@
 								</div>
 								
 								<div class="text-right">
-									<a href="${root }board/write" class="btn btn-primary">글쓰기</a>
+									<a href="${root }content/write" class="btn btn-primary">글쓰기</a>
 								</div>								
-								<a href="${root }board/main" class="btn btn-primary">제품게시판 전체보기</a>
+								<a href="${root }content/main" class="btn btn-primary">제품게시판 전체보기</a>
 							</div>
 						</div>
 					</div>

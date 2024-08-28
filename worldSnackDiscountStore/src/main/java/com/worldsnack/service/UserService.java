@@ -46,7 +46,11 @@ public class UserService {
 	
 	// ---------------------- 내 등급 조회(희만) ---------------------	
 	public List<String> getMyGrade(int user_idx) {
-		int userGrade = userDAO.getMyGrade(user_idx);
+		Integer userGrade = userDAO.getMyGrade(user_idx);
+		
+		if (userGrade == null || userGrade < 1 || userGrade > 6) {
+      userGrade = 1;  // 기본 등급 "맛동산"으로 설정
+		}
 		
 		List<String> gradeNameAndClass = new ArrayList<>();
 		String gradeName = "";
@@ -77,10 +81,6 @@ public class UserService {
 			gradeName = "꼬깔콘";
 			gradeClass = "grade-six";
 			break;
-			
-		default:
-			gradeName = "알 수 없는";
-			gradeClass = "grade-unknow";
 		}
 		//System.out.println("등급 이름 : " + gradeName);
 		//System.out.println("등급 클래스 : " + gradeClass);

@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<!-- c 태그 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}/" />
+
+<!-- 날짜 형식 변환 태그 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -33,14 +37,25 @@
 			My <span class="text-primary">Page</span>
 		</h1>
 	</div>
-	<!-- 내가 쓴 게시글-->
+	<!-- 내가 스크랩한 게시글-->
 	<section class="resume-section" id="myContent">
 		<div class="resume-section-content">
 			<h3 class="mb-5">내 스크랩</h3>
 			<div class="d-flex justify-content-between align-items-start mb-5">
 				<div class="subheading mb-3">스크랩 한 게시글 수 : ${myScrapCount }</div>
 				<div>
-					<span class="text-primary">관심 카테고리</span>
+					<form method="get" action="${root }mypage/myScrap" class="text-primary">
+						<label for="categoryList">관심 카테고리</label>
+						<select id="categoryList" name="category_info_idx" onchange="this.form.submit()">
+							<option value="0">전체</option>
+							<c:if test="${categoryDTO != null }">
+								<c:forEach var="category" items="${categoryDTO }">
+									<option value="${category.category_info_idx }" ${category.category_info_idx == category_info_idx ? 'selected' : '' }>${category.category_info_name }</option>
+								</c:forEach>
+							</c:if>
+							
+						</select>
+					</form>
 				</div>
 			</div>
 			<!-- 게시판 미리보기 부분 -->
@@ -63,8 +78,8 @@
 										<c:forEach var="scrapContent" items="${myScrapList }">
 											<tr>
 												<td class="text-center">${scrapContent.content_idx }</td>
-												<th><a href='${root }board/read?content_idx=${content.content_idx}&page=${page}'>${scrapContent.content_subject }</a></th>
-												<td class="text-center d-none d-xl-table-cell">${scrapContent.content_date }</td>
+												<th><a href='${root }content/detail?content_idx=${scrapContent.content_idx}&page=${page}'>${scrapContent.content_subject }</a></th>
+												<td class="text-center d-none d-xl-table-cell"><fmt:formatDate pattern="yyyy-MM-dd" value="${scrapContent.content_date }"/></td>
 												<td class="text-center d-none d-xl-table-cell">${scrapContent.content_view }</td>
 											</tr>
 										</c:forEach>
@@ -80,7 +95,7 @@
 									</c:when>
 									<c:otherwise>
 										<li class="page-item">
-											<a href="${root}mypage/myContent?page=${pageDTO.prevPage}" class="page-link">이전</a>
+											<a href="${root}mypage/myScrap?page=${pageDTO.prevPage}&category_info_idx=${category_info_idx}" class="page-link">이전</a>
 										</li>
 									</c:otherwise>	
 								    </c:choose>		
@@ -88,12 +103,12 @@
 										<c:choose>
 										<c:when test="${idx == pageDTO.currentPage }" >
 											<li class="page-item active">
-												<a href="${root}mypage/myContent?page=${idx}" class="page-link">${idx }</a>
+												<a href="${root}mypage/myScrap?page=${idx}&category_info_idx=${category_info_idx}" class="page-link">${idx }</a>
 											</li>
 										</c:when>
 										<c:otherwise>
 										    <li class="page-item">
-												<a href="${root}mypage/myContent?page=${idx}" class="page-link">${idx }</a>
+												<a href="${root}mypage/myScrap?page=${idx}&category_info_idx=${category_info_idx}" class="page-link">${idx }</a>
 											</li>
 										</c:otherwise>	
 										</c:choose>	
@@ -106,7 +121,7 @@
 										</c:when>
 										<c:otherwise>
 											<li class="page-item">
-												<a href="${root}mypage/myContent?page=${pageDTO.nextPage}" class="page-link">다음</a>
+												<a href="${root}mypage/myScrap?page=${pageDTO.nextPage}&category_info_idx=${category_info_idx}" class="page-link">다음</a>
 											</li>
 										</c:otherwise>	
 									    </c:choose>	
@@ -114,9 +129,9 @@
 								</div>
 								
 								<div class="text-right">
-									<a href="${root }board/write" class="btn btn-primary">글쓰기</a>
+									<a href="${root }content/write" class="btn btn-primary">글쓰기</a>
 								</div>								
-								<a href="${root }board/main" class="btn btn-primary">제품게시판 전체보기</a>
+								<a href="${root }content/main" class="btn btn-primary">제품게시판 전체보기</a>
 							</div>
 						</div>
 					</div>

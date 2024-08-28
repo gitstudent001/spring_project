@@ -1,7 +1,9 @@
 package com.worldsnack.dao;
 
+import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -39,7 +41,7 @@ public class MypageDAO {
 	}
 	
 	// 내가 올린 최근 게시 일자 조회
-	public String myContentDate(int user_idx) {
+	public Date myContentDate(int user_idx) {
 		return mypageMapper.myContentDate(user_idx);
 	}
 	
@@ -50,14 +52,32 @@ public class MypageDAO {
 	}
 
 	// ---------------------- 내 관심 게시글 조회용 매퍼 ---------------------
-	//내 관심 게시글 미리보기 조회
-	public List<ContentDTO> myScrapPreview(int user_idx, RowBounds rowBounds) {
-		List<ContentDTO> myScrapList = mypageMapper.myScrapPreview(user_idx, rowBounds);
+	//내 관심 게시글 미리보기 조회 (전체 카테고리)
+	public List<ContentDTO> myScrapPreviewAll(int user_idx, RowBounds rowBounds) {
+		List<ContentDTO> myScrapList = mypageMapper.myScrapPreviewAll(user_idx, rowBounds);
+		return myScrapList;
+	}
+	
+	//내 관심 게시글 미리보기 조회 (선택한 카테고리)
+	public List<ContentDTO> myScrapPreviewSelect(@Param("user_idx") int user_idx, 
+																							 @Param("rowBounds")	RowBounds rowBounds, 
+																							 @Param("category_info_idx") int category_info_idx) {
+		List<ContentDTO> myScrapList = mypageMapper.myScrapPreviewSelect(user_idx, rowBounds, category_info_idx);
 		return myScrapList;
 	}
 
 	// 내 관심 개수 조회
 	public String myScrapCount(int user_idx) {
 		return mypageMapper.myScrapCount(user_idx);
+	}
+	
+	// 페이지네이션용 카테고리별 스크랩 개수 조회 (전체)
+	public String myScrapCountForPaginationAll(int user_idx) {
+		return mypageMapper.myScrapCountForPaginationAll(user_idx);
+	}
+	
+	// 페이지네이션용 카테고리별 스크랩 개수 조회 (선택)
+	public String myScrapCountForPaginationSelect(int user_idx, int category_info_idx) {
+		return mypageMapper.myScrapCountForPaginationSelect(user_idx, category_info_idx);
 	}
 }
