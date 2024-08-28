@@ -12,24 +12,10 @@ public class UserDAO {
 	@Autowired
 	private UserMapper userMapper;
 	
-	public String checkUserIdExist(String user_id) {
-		String user_name = userMapper.checkUserIdExist(user_id);
-		return user_name;
-}
-
-	public void insertUser(UserDTO joinUserDTO) {
-		userMapper.insertUser(joinUserDTO);
-	}
-	
-	
-	
-	public UserDTO getLoginUserInfo(UserDTO validationLoginUserDTO) {
-		return userMapper.getLoginUserInfo(validationLoginUserDTO);
-	}
-
-	// ---------------------- 내 등급 조회(희만) ---------------------	
-	public int getMyGrade(int user_idx) {
-		return userMapper.getMyGrade(user_idx);
+	public UserDTO testList(String user_id) {
+		UserDTO userDTO = userMapper.testList(user_id);
+		System.out.println("userDTO : " + userDTO);
+		return userDTO;
 	}
 	
 }

@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.session.RowBounds;
 
 import com.worldsnack.dto.ContentDTO;
 
@@ -23,24 +22,9 @@ public interface ContentMapper {
 			+ "FROM CONTENT_TABLE CT "
 			+ "INNER JOIN CATEGORY_SELECT_TABLE CST "
 			+ "ON CT.CONTENT_IDX = CST.CONTENT_IDX "
-			+ "ORDER BY CONTENT_DATE DESC")
-	List<ContentDTO> selectAllForLimit(RowBounds rowBounds);
-	
-	@Select("SELECT * "
-			+ "FROM CONTENT_TABLE CT "
-			+ "INNER JOIN CATEGORY_SELECT_TABLE CST "
-			+ "ON CT.CONTENT_IDX = CST.CONTENT_IDX "
 			+ "WHERE CST.CATEGORY_INFO_IDX = #{category_info_idx} "
 			+ "ORDER BY CONTENT_DATE DESC")
 	List<ContentDTO> selectList(int category_info_idx);
-	
-	@Select("SELECT * "
-			+ "FROM CONTENT_TABLE CT "
-			+ "INNER JOIN CATEGORY_SELECT_TABLE CST "
-			+ "ON CT.CONTENT_IDX = CST.CONTENT_IDX "
-			+ "WHERE CST.CATEGORY_INFO_IDX = #{category_info_idx} "
-			+ "ORDER BY CONTENT_DATE DESC")
-	List<ContentDTO> selectListForLimit(int category_info_idx, RowBounds rowBounds);
 
 	@Select("SELECT CT.CONTENT_IDX, "
 			+ "CT.CONTENT_SUBJECT, "
