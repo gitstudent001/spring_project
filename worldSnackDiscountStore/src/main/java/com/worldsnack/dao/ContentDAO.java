@@ -33,6 +33,11 @@ public class ContentDAO {
 	public List<ContentDTO> selectListForLimit(int content_idx, RowBounds rowBounds) {
 		List<ContentDTO> contentDTO = contentMapper.selectListForLimit(content_idx, rowBounds);
 		return contentDTO;
+	}	
+	
+	public List<ContentDTO> selectInList(String category_info_idx) {
+		List<ContentDTO> contentDTO = contentMapper.selectInList(category_info_idx);
+		return contentDTO;
 	}
 	
 	public ContentDTO getContentDetail(int content_idx) {
