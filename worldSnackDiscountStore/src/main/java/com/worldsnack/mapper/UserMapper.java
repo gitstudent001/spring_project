@@ -12,8 +12,8 @@ public interface UserMapper {
 					"WHERE USER_ID=#{user_id}")
 	String checkUserIdExist(String user_id);
 	
-	@Insert("INSERT INTO USER_TABLE " +
-					"VALUES(USER_SEQ.NEXTVAL, #{user_name}, #{user_id}, #{user_pw}, #{user_email}, #{user_nickname}, 1)")
+	@Insert("INSERT INTO USER_TABLE (USER_IDX, USER_NAME, USER_ID, USER_PW, USER_EMAIL, USER_NICKNAME) " +
+					"VALUES(USER_SEQ.NEXTVAL, #{user_name}, #{user_id}, #{user_pw}, #{user_email}, #{user_nickname})")
 	void insertUser(UserDTO joinUserDTO);
 	
 	@Select("SELECT * " +

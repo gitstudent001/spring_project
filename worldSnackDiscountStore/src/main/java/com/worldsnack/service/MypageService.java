@@ -1,9 +1,11 @@
 package com.worldsnack.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -101,7 +103,7 @@ public class MypageService {
 	}
 	
 	// 내가 올린 최근 게시 일자 조회
-	public String myContentDate(int user_idx) {
+	public Date myContentDate(int user_idx) {
 		return mypageDAO.myContentDate(user_idx);
 	}
 	
@@ -114,11 +116,20 @@ public class MypageService {
 	}
 	
 	// ---------------------- 내 관심 게시글 조회용 매퍼 ---------------------
-	//내 관심 게시글 미리보기 조회
-	public List<ContentDTO> myScrapPreview(int user_idx, int page) {
+	//내 관심 게시글 미리보기 전체 조회 (전체 카테고리)
+	public List<ContentDTO> myScrapPreviewAll(int user_idx, int page) {
 		int startPage = (page - 1) * this.countPerPage;
 		RowBounds rowBounds = new RowBounds(startPage, countPerPage);
-		List<ContentDTO> myScrapList = mypageDAO.myScrapPreview(user_idx, rowBounds);
+		List<ContentDTO> myScrapList = mypageDAO.myScrapPreviewAll(user_idx, rowBounds);
+		return myScrapList;
+	}
+	//내 관심 게시글 미리보기 조회 (선택한 카테고리)
+	public List<ContentDTO> myScrapPreviewSelect(@Param("user_idx") int user_idx, 
+																							 @Param("page") int page, 
+																							 @Param("category_info_idx")int category_info_idx) {
+		int startPage = (page - 1) * this.countPerPage;
+		RowBounds rowBounds = new RowBounds(startPage, countPerPage);
+		List<ContentDTO> myScrapList = mypageDAO.myScrapPreviewSelect(user_idx, rowBounds, category_info_idx);
 		return myScrapList;
 	}
 	
@@ -128,9 +139,20 @@ public class MypageService {
 	}	
 	
 	//페이지네이션을 위해 내가 올린 게시글 수 조회 후 페이지 값 리턴
-	public PageDTO getCountOfMyScrapTotal(int user_idx, int currentPage) {
+	public PageDTO getCountOfMyScrapTotal(@Param("user_idx") int user_idx, 
+																				@Param("page") int currentPage, 
+																				@Param("flag") boolean flag, 
+																				@Param("category_info_idx") int category_info_idx) {
 
-		int countOftotalContent = Integer.parseInt(mypageDAO.myScrapCount(user_idx));
+		int countOftotalContent = 0;
+		
+		
+		if (!flag) { // 전체 카테고리 일 경우
+			countOftotalContent = Integer.parseInt(mypageDAO.myScrapCountForPaginationAll(user_idx));
+		}
+		else { // 카테고리를 선택 했을 경우
+			countOftotalContent = Integer.parseInt(mypageDAO.myScrapCountForPaginationSelect(user_idx, category_info_idx));
+		}
 		
 		PageDTO pageDTO = 
 				new PageDTO(countOftotalContent, currentPage, countOfPagination, countPerPage);
