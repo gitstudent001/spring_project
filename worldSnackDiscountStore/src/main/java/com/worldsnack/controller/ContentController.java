@@ -2,6 +2,7 @@ package com.worldsnack.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.worldsnack.dto.CategoryInfoDTO;
 import com.worldsnack.dto.CategorySelectDTO;
 import com.worldsnack.dto.ContentDTO;
+import com.worldsnack.dto.UserDTO;
 import com.worldsnack.service.CategoryService;
 import com.worldsnack.service.ContentService;
 
@@ -29,6 +31,45 @@ public class ContentController {
 	
 	@Autowired
 	private ContentService contentService;
+	
+	@Resource(name="loginUserDTO")
+	private UserDTO loginUserDTO;
+	
+	
+	@GetMapping("/list")
+	public String list(@RequestParam(value="limit", defaultValue="10") int limit,
+              			 @RequestParam(value="category_info_idx", defaultValue="0") int category_info_idx,
+              			 Model model) {
+		
+		List<CategoryInfoDTO> categoryDTO = categoryService.selectAll(); 
+		model.addAttribute("categoryDTO", categoryDTO);
+		
+		List<ContentDTO> contentDTO = null;
+		
+		if(category_info_idx > 0) {
+			contentDTO = contentService.selectListForLimit(category_info_idx, limit);
+		}else {
+  		contentDTO = contentService.selectAllForLimit(limit); 
+		}
+		model.addAttribute("category_info_idx", category_info_idx);
+		model.addAttribute("contentDTO", contentDTO);
+		model.addAttribute("limit", limit);
+		return "content/list";
+	}
+	
+
+	@GetMapping("/detail")
+	public String detail(@RequestParam("content_idx") int content_idx,
+											 @RequestParam(value = "page", defaultValue = "1") int page,
+											 Model model) {
+		model.addAttribute("content_idx", content_idx);
+		
+		ContentDTO detailContentDTO = contentService.getContentDetail(content_idx);
+		model.addAttribute("detailContentDTO", detailContentDTO);
+		model.addAttribute("page", page);
+		model.addAttribute("loginUserDTO", loginUserDTO);
+		return "content/detail";
+	}
 	
 	@GetMapping("/write")
 	public String write(@ModelAttribute("writeContentDTO") ContentDTO writeContentDTO, Model model) {

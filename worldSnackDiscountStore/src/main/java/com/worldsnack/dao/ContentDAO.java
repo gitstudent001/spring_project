@@ -2,6 +2,7 @@ package com.worldsnack.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,8 +20,18 @@ public class ContentDAO {
 		return contentDTO;
 	}
 	
+	public List<ContentDTO> selectAllForLimit(RowBounds rowBounds) {
+		List<ContentDTO> contentDTO = contentMapper.selectAllForLimit(rowBounds);
+		return contentDTO;
+	}
+	
 	public List<ContentDTO> selectList(int content_idx) {
 		List<ContentDTO> contentDTO = contentMapper.selectList(content_idx);
+		return contentDTO;
+	}
+	
+	public List<ContentDTO> selectListForLimit(int content_idx, RowBounds rowBounds) {
+		List<ContentDTO> contentDTO = contentMapper.selectListForLimit(content_idx, rowBounds);
 		return contentDTO;
 	}
 	
