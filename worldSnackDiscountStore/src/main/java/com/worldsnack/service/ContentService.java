@@ -64,6 +64,11 @@ public class ContentService {
 		return contentDTO;
 	}
 	
+	public List<ContentDTO> selectInList(String category_info_idx) {
+		List<ContentDTO> contentDTO = contentDAO.selectInList(category_info_idx);
+		return contentDTO;
+	}	
+	
 	/* 게시글 상세 정보 조회 */
 	public ContentDTO getContentDetail(int content_idx) {
 		return contentDAO.getContentDetail(content_idx);

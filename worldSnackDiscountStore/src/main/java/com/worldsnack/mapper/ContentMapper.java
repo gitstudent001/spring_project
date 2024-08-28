@@ -42,6 +42,14 @@ public interface ContentMapper {
 			+ "ORDER BY CONTENT_DATE DESC")
 	List<ContentDTO> selectListForLimit(int category_info_idx, RowBounds rowBounds);
 
+	@Select("SELECT * "
+			+ "FROM CONTENT_TABLE CT "
+			+ "INNER JOIN CATEGORY_SELECT_TABLE CST "
+			+ "ON CT.CONTENT_IDX = CST.CONTENT_IDX "
+			+ "WHERE TO_CHAR(CST.CATEGORY_INFO_IDX) IN ( #{category_info_idx} ) "
+			+ "ORDER BY CONTENT_DATE DESC")
+	List<ContentDTO> selectInList(String category_info_idx);
+
 	@Select("SELECT CT.CONTENT_IDX, "
 			+ "CT.CONTENT_SUBJECT, "
 			+ "CT.CONTENT_TEXT, "

@@ -114,6 +114,7 @@
  			                            <%-- onclick="location.href='${root}?category_info_idx=${category.category_info_idx}'" --%>
 		                               <span class="text-dark" style="width: 130px;">${category.category_info_name }</span>
 		                           </a>
+		                           <input type="hidden" id="hdCategoryClickChk_${category.category_info_idx}" data-categoryIdx="${category.category_info_idx}" />
 		                       </li>
 		                       </c:forEach>
 		                       
@@ -226,34 +227,16 @@
  	  		console.log("id : " + this.id);
  	  		console.log("className : " + this.className);
  	  		*/
- 	  		$.ajax({
- 	  	        url : '${root}main',
- 	  	        type : 'post',
- 	  	        dataType : "html",
- 	  	        //contentType:"application/json",
- 	  	        data : {category_info_idx : 0},
- 	  	        timeout: 10000,
- 	  	        beforeSend:function(){
- 	  	            //$('#loading').removeClass('display-none');
- 	  	        },
- 	  	        success : function(data){
- 	  	            //console.log(data);
- 	  	            
- 	  	            $("#rowProductList").html("");
- 	  	            $("#rowProductList").html(data);
- 	  	        },
- 	  	        error : function(request, status, error){
- 	  	            //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
- 	  	            var err=JSON.parse(request.responseText);
-
- 	  	            //alert(err.resData[0].errorMsg);
- 	  	                
- 	  	            //$('#loading').addClass('display-none');
- 	  	        },
- 	  	        complete:function(){
- 	  	            //$('#loading').addClass('display-none');
- 	  	        }
-	 	  		});
+ 	  		
+ 	  		$(".btnCategory").removeClass("active"); 	  		
+ 	  		dataSearch(0, "", 0);
+ 	  		$(".btnCategory").each(function() {
+	  			let categoryIdx = $("#" + this.id).attr("data-categoryIdx");
+	 	  		let categoryChkId = $("#hdCategoryClickChk_" + categoryIdx).attr("id");
+	 	  		
+	 	  		$("#" + categoryChkId).val("");
+ 	  		});
+ 	  		
   		});
   		
   		$(".btnCategory").on("click", function(obj) {
@@ -262,41 +245,108 @@
  	  		console.log("id : " + this.id);
  	  		console.log("className : " + this.className);
  	  		*/
- 	  		let categoryIdx =$("#" + this.id).attr("data-categoryIdx");
+ 	  		let categoryIdx = $("#" + this.id).attr("data-categoryIdx");
+ 	  		let categoryChkId = $("#hdCategoryClickChk_" + categoryIdx).attr("id");
  	  		
-  			$.ajax({
- 	  	        url : '${root}main',
- 	  	        type : 'post',
- 	  	        dataType : "html",
- 	  	        //contentType:"application/json",
- 	  	        data : {category_info_idx : categoryIdx},
- 	  	        timeout: 10000,
- 	  	        beforeSend:function(){
- 	  	            //$('#loading').removeClass('display-none');
- 	  	        },
- 	  	        success : function(data){
- 	  	            //console.log(data);
- 	  	            
- 	  	        		$("#rowProductList").html("");
- 	  	            $("#rowProductList").html(data);
- 	  	        },
- 	  	        error : function(request, status, error){
- 	  	            //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
- 	  	            var err=JSON.parse(request.responseText);
-
- 	  	            //alert(err.resData[0].errorMsg);
- 	  	                
- 	  	            //$('#loading').addClass('display-none');
- 	  	        },
- 	  	        complete:function(){
- 	  	            //$('#loading').addClass('display-none');
- 	  	        }
-	 	  		});
+ 	  		$(".btnCategoryAll").removeClass("active");
+ 	  		
+ 	  		//console.log(categoryChkId);
+ 	  		//console.log($("#" + categoryChkId).val());
+ 	  		
+        if ($("#" + categoryChkId).val() == "Y") {
+        	$("#" + this.id).removeClass("active");
+        	$("#" + categoryChkId).val("N");
+        }
+        else{
+        	$("#" + this.id).addClass("active");
+        	$("#" + categoryChkId).val("Y");
+        }
+        
+        //console.log(`id : ` + $("#" + categoryChkId).attr("id"));
+	  		//console.log(`value : ` + $("#" + categoryChkId).val());
+  			
+	  		let categoryChk = false;
+	  		let categoryCnt = 0;
+	  		let idxArr = "";
+	  		$(".btnCategory").each(function() {
+	  			let categoryIdx = $("#" + this.id).attr("data-categoryIdx");
+	 	  		let categoryChkId = $("#hdCategoryClickChk_" + categoryIdx).attr("id");
+	  			
+	 	  		//console.log(this.id);
+	  			//console.log($("#" + categoryChkId).val());
+	 	  		
+	 	  		if($("#" + categoryChkId).val() == "Y") {
+	 	  			$("#" + this.id).addClass("active");
+	 	  			categoryChk = true;
+	 	  			categoryCnt += categoryCnt + 1;
+	 	  			
+	 	  			if($.trim(idxArr) == ""){
+	 	  				idxArr = "'" + categoryIdx + "'";
+	 	  			}
+	 	  			else{
+	 	  				idxArr = idxArr + ",'" + categoryIdx + "'";
+	 	  			}
+	 	  		}
+	  		});
+	  		
+	  		if(categoryChk == false) {
+	  			$(".btnCategoryAll").addClass("active");
+	  			dataSearch(0, "");
+	  		}
+	  		else{
+	  			if(categoryCnt > 1) {
+	  				dataSearch(categoryIdx, idxArr, categoryCnt);
+	  			}
+	  			else{
+	  				dataSearch(categoryIdx, "", 1);
+	  			}
+	  		}
+	  		
 			});
-  		
+  		  		
   		$(".btnCategoryAll").trigger("click");
   		
   	});
+  	
+  	
+  	function dataSearch(categoryIdx, categorys, categoryCnt){
+  		console.log(`categoryIdx : ` + categoryIdx);
+  		console.log(`categorys : ` + categorys);
+  		console.log(`categoryCnt : ` + categoryCnt);
+  		
+  		
+			$.ajax({
+	        url : '${root}main',
+	        type : 'post',
+	        dataType : "html",
+	        //contentType:"application/json",
+	        data : { category_info_idx : categoryIdx,
+	        				 category_infos : categorys,
+	        				 categoryCnt : categoryCnt
+	        			},
+	        timeout: 10000,
+	        beforeSend:function(){
+	            //$('#loading').removeClass('display-none');
+	        },
+	        success : function(data){
+	            //console.log(data);
+	            
+	            $("#rowProductList").html("");
+            	$("#rowProductList").html(data);
+	        },
+	        error : function(request, status, error){
+	            //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	            var err=JSON.parse(request.responseText);
+
+	            //alert(err.resData[0].errorMsg);
+	                
+	            //$('#loading').addClass('display-none');
+	        },
+	        complete:function(){
+	            //$('#loading').addClass('display-none');
+	        }
+	 		});
+  	}
   </script>
 		
 </body>
