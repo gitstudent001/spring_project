@@ -46,7 +46,7 @@ public interface ContentMapper {
 			+ "FROM CONTENT_TABLE CT "
 			+ "INNER JOIN CATEGORY_SELECT_TABLE CST "
 			+ "ON CT.CONTENT_IDX = CST.CONTENT_IDX "
-			+ "WHERE TO_CHAR(CST.CATEGORY_INFO_IDX) IN ( #{category_info_idx} ) "
+			+ "WHERE TO_CHAR(CST.CATEGORY_INFO_IDX) IN ( ${category_info_idx} ) "
 			+ "ORDER BY CONTENT_DATE DESC")
 	List<ContentDTO> selectInList(String category_info_idx);
 

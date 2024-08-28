@@ -278,28 +278,30 @@
 	 	  		if($("#" + categoryChkId).val() == "Y") {
 	 	  			$("#" + this.id).addClass("active");
 	 	  			categoryChk = true;
-	 	  			categoryCnt += categoryCnt + 1;
+	 	  			categoryCnt = categoryCnt + 1;
 	 	  			
 	 	  			if($.trim(idxArr) == ""){
-	 	  				idxArr = "'" + categoryIdx + "'";
+	 	  				//idxArr = "'" + categoryIdx + "'";
+	 	  				idxArr = categoryIdx;
 	 	  			}
 	 	  			else{
-	 	  				idxArr = idxArr + ",'" + categoryIdx + "'";
+	 	  				//idxArr = idxArr + ",'" + categoryIdx + "'";
+	 	  				idxArr = idxArr + "," + categoryIdx;
 	 	  			}
 	 	  		}
 	  		});
 	  		
 	  		if(categoryChk == false) {
 	  			$(".btnCategoryAll").addClass("active");
-	  			dataSearch(0, "");
+	  			dataSearch(0, "", 0);
 	  		}
 	  		else{
-	  			if(categoryCnt > 1) {
+	  			//if(categoryCnt > 0) {
 	  				dataSearch(categoryIdx, idxArr, categoryCnt);
-	  			}
-	  			else{
-	  				dataSearch(categoryIdx, "", 1);
-	  			}
+	  			//}
+	  			//else{
+	  				//dataSearch(categoryIdx, "", 1);
+	  			//}
 	  		}
 	  		
 			});
