@@ -60,14 +60,17 @@ public class ContentController {
 
 	@GetMapping("/detail")
 	public String detail(@RequestParam("content_idx") int content_idx,
-											 @RequestParam(value = "page", defaultValue = "1") int page,
+											 @RequestParam(value="limit", defaultValue="10") int limit,
+											 @RequestParam(value="category_info_idx", defaultValue="0") int category_info_idx,
 											 Model model) {
 		model.addAttribute("content_idx", content_idx);
 		
 		ContentDTO detailContentDTO = contentService.getContentDetail(content_idx);
 		model.addAttribute("detailContentDTO", detailContentDTO);
-		model.addAttribute("page", page);
 		model.addAttribute("loginUserDTO", loginUserDTO);
+		
+		model.addAttribute("limit", limit);
+		model.addAttribute("category_info_idx", category_info_idx);
 		return "content/detail";
 	}
 	
@@ -103,6 +106,9 @@ public class ContentController {
 		categorySelectDTO.setCategory_select_name(writeContentDTO.getCategory_select_name());
 		
 		categoryService.addCategorySelect(categorySelectDTO);
+		
+		int category_info_idx = writeContentDTO.getCategory_info_idx();
+		model.addAttribute("category_info_idx", category_info_idx);
 		
 		return "content/write_success";
 	}
@@ -164,6 +170,8 @@ public class ContentController {
 		
 		categoryService.updateCategorySelect(categorySelectDTO);
 		
+		int category_info_idx = modifyContentDTO.getCategory_info_idx();
+		model.addAttribute("category_info_idx", category_info_idx);
 		return "content/modify_success";
 	}
 	
