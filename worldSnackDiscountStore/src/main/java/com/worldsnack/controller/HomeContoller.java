@@ -49,17 +49,48 @@ public class HomeContoller {
 	}
 	
 	@PostMapping("/main")
-	public String main(@RequestParam(value="category_info_idx", defaultValue="0") int category_info_idx, Model model) {
+	public String main(@RequestParam(value="category_info_idx", defaultValue="0") int category_info_idx,
+										 @RequestParam(value="category_infos", defaultValue="") String category_infos,
+										 @RequestParam(value="categoryCnt", defaultValue="0") int categoryCnt,
+										 Model model) {
 		
 		List<CategoryInfoDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
 		
 		List<ContentDTO> contentDTO = null;
 		
-		if(category_info_idx > 0) {
-			contentDTO = contentService.selectList(category_info_idx);
+		String[] arr = null;
+		if(categoryCnt > 0) {
+			//if(categoryCnt > 1) {
+				
+				int len = 0;
+				if(category_infos.trim().equals(",")) {
+					arr = category_infos.split(",");
+					len = arr.length;
+				}
+				
+				/*
+				//int[] category_info_idx_arr = new int[len];
+				//List<Category> category = new ArrayList<Category>();
+				if(arr != null) {
+  				for(int i=0; i < len; i++) {
+  					//category_info_idx_arr[i] = Integer.parseInt(arr[i]);
+  					
+  					Category cate = new Category();
+  					cate.setCategory_info_idx(Integer.parseInt(arr[i]));
+  					
+  					category.add(cate);
+  				}
+				}
+				*/
+				
+				contentDTO = contentService.selectInList(category_infos);
+			//}
+			//else {
+				//contentDTO = contentService.selectList(category_info_idx);
+			//}
 		}else {
-  		contentDTO = contentService.selectAll(); 
+  		contentDTO = contentService.selectAll();
 		}
 		model.addAttribute("contentDTO", contentDTO);
 		
