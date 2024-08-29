@@ -4,6 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,15 +14,21 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.worldsnack.mapper.MypageMapper;
+import com.worldsnack.dto.UserDTO;
+import com.worldsnack.interceptor.CheckWriterInterceptor;
+import com.worldsnack.interceptor.LoginCheckInterceptor;
+import com.worldsnack.interceptor.TopMenuInterceptor;
 import com.worldsnack.mapper.CategoryMapper;
 import com.worldsnack.mapper.ContentMapper;
+import com.worldsnack.mapper.MypageMapper;
 import com.worldsnack.mapper.UserMapper;
+import com.worldsnack.service.ContentService;
 
 
 // Spring MVC 프로젝트에 관련된 설정을 하는 클래스
@@ -49,6 +56,12 @@ public class ServletAppContext implements WebMvcConfigurer{
 	
 	@Value("${oracle.password}")
 	private String oraclePassword;
+	
+	@Autowired
+	private UserDTO loginUserDTO;
+	
+	@Autowired
+	private ContentService contentService;
 
 	// Controller 의 메소드가 반환하는 jsp(view) 이름 앞뒤로
 	// 있는 경로의 접두사, 접미사 설정하기
@@ -136,7 +149,28 @@ public class ServletAppContext implements WebMvcConfigurer{
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-			  
+		WebMvcConfigurer.super.addInterceptors(registry);
+		
+		/* TopMenu에서 세션스코프에 있는 loginUserDTO의 정보를 가져옴 */
+		TopMenuInterceptor topMenuInterceptor = 
+				new TopMenuInterceptor(loginUserDTO);
+		InterceptorRegistration regi1 = registry.addInterceptor(topMenuInterceptor);
+		regi1.addPathPatterns("/**");
+		
+		/* 로그인 여부 확인하여 접근 가능 url 지정 */
+		LoginCheckInterceptor loginCheckInterceptor = 
+				new LoginCheckInterceptor(loginUserDTO);
+		InterceptorRegistration regi2 = registry.addInterceptor(loginCheckInterceptor);
+	  // 로그인하지 않았을 때 접근 못하게 하는 Url Pattern 을 지정함
+		regi2.addPathPatterns("/mypage/*", "/user/logout", "/content/*");
+		// 로그인하지 않아도 접근할 수 있는 url pattern  
+		regi2.excludePathPatterns("/content/list");	
+		
+		/* 작성자 확인하여 작성자가 아닐경우 수정 / 삭제 불가 */
+		CheckWriterInterceptor checkWriterInterceptor = 
+				new CheckWriterInterceptor(loginUserDTO, contentService);
+		InterceptorRegistration regi3 = registry.addInterceptor(checkWriterInterceptor);
+		regi3.addPathPatterns("/content/modify", "/content/delete");
 	}
 	
 	// errors.properties 파일과 database.properties 파일이 충돌되지 않도록 함
