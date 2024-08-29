@@ -37,7 +37,7 @@ public class ContentController {
 	
 	@GetMapping("/list")
 	public String list(@RequestParam(value="limit", defaultValue="10") int limit,
-              			 @RequestParam(value="category_idx", defaultValue="0") int category_idx,
+              			 @RequestParam(value="category_info_idx", defaultValue="0") int category_idx,
               			 Model model) {
 		
 		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
@@ -50,7 +50,7 @@ public class ContentController {
 		}else {
   		contentDTO = contentService.selectAllForLimit(limit); 
 		}
-		model.addAttribute("category_idx", category_idx);
+		model.addAttribute("category_info_idx", category_idx);
 		model.addAttribute("contentDTO", contentDTO);
 		model.addAttribute("limit", limit);
 		return "content/list";
@@ -146,8 +146,5 @@ public class ContentController {
 		
 		return "content/modify_success";
 	}
-	
-	@GetMapping("/cant_modify_delete")
-	void cant_modify_delete() { }
 	
 }

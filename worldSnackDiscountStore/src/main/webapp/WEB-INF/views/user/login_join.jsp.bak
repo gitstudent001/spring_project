@@ -41,63 +41,55 @@
 	<div class="wrapper">
 		<div class="container-login">
 			<div class="sign-up-container">
-				<form:form id="signUpForm" action="${root }user/join_procedure" modelAttribute="joinUserDTO">
-					<div class="sign-up-header">
-						<h1>회원가입</h1>
-						<div class="social-links">
-							<div>
-								<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-							</div>
-							<div>
-								<a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-							</div>
-							<div>
-								<a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-							</div>
+				<form:form action="${root }user/join_procedure" modelAttribute="joinUserDTO">
+					<h1>회원가입</h1>
+					<div class="social-links">
+						<div>
+							<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
 						</div>
-						<span>또는 새로운 계정으로 회원가입</span> 
-						<% 
-						  String errorMessage = (String) request.getAttribute("errorMessage");
-						  if (errorMessage != null) {
-						%>
-						  <div id="errorMessage" class = "errorCode"><%= errorMessage %></div>
-						<% 
-						  } 
-						%>
+						<div>
+							<a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+						</div>
+						<div>
+							<a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+						</div>
 					</div>
-					<div class="sign-up-content">
-						<div class="sign-up-left">
-							<form:hidden path="userIdExist"/>
-							<form:label path="user_name">이름</form:label>
-							<form:input path="user_name" class="form_input" placeholder="Name"/>
-		          <form:errors path="user_name" class="errors" />
-		          
-		          <form:label path="user_nickname">닉네임</form:label>
-							<form:input path="user_nickname" class="form_input" placeholder="NickName"/>
-		          <form:errors path="user_nickname" class="errors" />
-		          
-		          <form:label for= "join_user_id" path="user_id">아이디</form:label>
-		          <form:input id= "join_user_id" path="user_id" class="form_input" placeholder="ID" onkeypress="resetUserIdExist()" />
-		          <button type = "button" class="form_btn btn_check" onclick="checkUserIdExist()">중복확인</button>
-		          <form:errors path="user_id" class="errors" />
-	          </div>
-	          <div class="sign-up-right">
-		          <form:label path="user_email">이메일</form:label>
-							<form:input type="email" path="user_email" class="form_input" placeholder="Email"/>
-		          <form:errors path="user_email" class="errors" />
-		          
-		          <form:label for="join_user_pw" path="user_pw">비밀번호</form:label>
-							<form:password id="join_user_pw" path="user_pw" class="form_input" placeholder="Password"/>
-		          <form:errors path="user_pw" class="errors" />
-		          
-		          <form:label path="user_pw2">비밀번호 확인</form:label>
-							<form:password path="user_pw2" class="form_input" placeholder="Password2"/>
-		          <form:errors path="user_pw2" class="errors" />
-	          </div>
-          </div>
-          <div class= "sign-up-footer">
-						<form:button class="form_btn">회원가입</form:button>
-					</div>
+					<span>또는 새로운 계정으로 회원가입</span> 
+					<% 
+					  String errorMessage = (String) request.getAttribute("errorMessage");
+					  if (errorMessage != null) {
+					%>
+					  <div id="errorMessage" class = "errorCode"><%= errorMessage %></div>
+					<% 
+					  } 
+					%>
+					<form:hidden path="userIdExist"/>
+					<form:label path="user_name">이름</form:label>
+					<form:input path="user_name" class="form_input" placeholder="Name"/>
+          <form:errors path="user_name" class="errors" />
+          
+          <form:label path="user_nickname">닉네임</form:label>
+					<form:input path="user_nickname" class="form_input" placeholder="NickName"/>
+          <form:errors path="user_nickname" class="errors" />
+          
+          <form:label for= "join_user_id" path="user_id">아이디</form:label>
+          <form:input id= "join_user_id" path="user_id" class="form_input" placeholder="ID" onkeypress="resetUserIdExist()" />
+          <button type = "button" class="form_btn" onclick="checkUserIdExist()">중복확인</button>
+          <form:errors path="user_id" class="errors" />
+          
+          <form:label path="user_email">이메일</form:label>
+					<form:input type="email" path="user_email" class="form_input" placeholder="Email"/>
+          <form:errors path="user_email" class="errors" />
+          
+          <form:label for="join_user_pw" path="user_pw">비밀번호</form:label>
+					<form:password id="join_user_pw" path="user_pw" class="form_input" placeholder="Password"/>
+          <form:errors path="user_pw" class="errors" />
+          
+          <form:label path="user_pw2">비밀번호 확인</form:label>
+					<form:password path="user_pw2" class="form_input" placeholder="Password2"/>
+          <form:errors path="user_pw2" class="errors" />
+          
+					<form:button class="form_btn">회원가입</form:button>
 				</form:form>
 			</div>
 			<div class="sign-in-container">
