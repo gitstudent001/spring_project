@@ -41,7 +41,7 @@
 	<div class="wrapper">
 		<div class="container-login">
 			<div class="sign-up-container">
-				<form:form id="signUpForm" action="${root }user/join_procedure" modelAttribute="joinUserDTO">
+				<form:form action="${root }user/join_procedure" modelAttribute="joinUserDTO">
 					<div class="sign-up-header">
 						<h1>회원가입</h1>
 						<div class="social-links">

@@ -12,7 +12,7 @@ body {
 .wrapper {
   width: 100%;
   /*height: 100vh;*/
-  height: 950px;
+  height: 1200px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,8 +23,8 @@ body {
   border-radius: 10px;
   box-shadow: -5px -5px 10px #fff, 5px 5px 10px #babebc;
   position: relative;
-  width: 768px;
-  min-height: 850px;
+  width: 1080px;
+  min-height: 96%;
   overflow: hidden;
 }
 
@@ -209,7 +209,7 @@ span {
 	border-radius: 25px;
 }
 
-/* ¹ÝÀÀÇü À¥À» À§ÇÑ ÄÚµå */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ */
 @media screen and (max-width: 768px) {
 	.sign-in-container {
 	  position: absolute;
@@ -246,7 +246,7 @@ span {
 	  flex-direction: row;
 	  width: 100%;
 	  justify-content: space-between;
-	  flex-grow: 1; /* Áß°£ ¿µ¿ªÀÌ ³²Àº °ø°£À» Â÷ÁöÇÏµµ·Ï ¼³Á¤ */
+	  flex-grow: 1; 
 	}
 	
 	.sign-up-left,
@@ -350,6 +350,7 @@ span {
 	}
 	.container-login.right-panel-active .overlay-right {
 	  transform: translateY(-100%);
+	  
 	  opacity: 0;
 	}
 	.container-login.right-panel-active .overlay-left {
@@ -366,12 +367,5 @@ span {
 	.sign-up-container .social-links {
 	  margin: 3px 0;
 	}
-	
-	.sign-up-container .input-error {
-		border: 2px solid red;
-	}
-	
-	.sign-up-container .errors {
-		display: none;
-	}
+
 }

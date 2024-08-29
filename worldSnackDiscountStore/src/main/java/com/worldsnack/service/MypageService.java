@@ -126,10 +126,10 @@ public class MypageService {
 	//내 관심 게시글 미리보기 조회 (선택한 카테고리)
 	public List<ContentDTO> myScrapPreviewSelect(@Param("user_idx") int user_idx, 
 																							 @Param("page") int page, 
-																							 @Param("category_info_idx")int category_info_idx) {
+																							 @Param("category_idx")int category_idx) {
 		int startPage = (page - 1) * this.countPerPage;
 		RowBounds rowBounds = new RowBounds(startPage, countPerPage);
-		List<ContentDTO> myScrapList = mypageDAO.myScrapPreviewSelect(user_idx, rowBounds, category_info_idx);
+		List<ContentDTO> myScrapList = mypageDAO.myScrapPreviewSelect(user_idx, rowBounds, category_idx);
 		return myScrapList;
 	}
 	
@@ -142,7 +142,7 @@ public class MypageService {
 	public PageDTO getCountOfMyScrapTotal(@Param("user_idx") int user_idx, 
 																				@Param("page") int currentPage, 
 																				@Param("flag") boolean flag, 
-																				@Param("category_info_idx") int category_info_idx) {
+																				@Param("category_idx") int category_idx) {
 
 		int countOftotalContent = 0;
 		
@@ -151,7 +151,7 @@ public class MypageService {
 			countOftotalContent = Integer.parseInt(mypageDAO.myScrapCountForPaginationAll(user_idx));
 		}
 		else { // 카테고리를 선택 했을 경우
-			countOftotalContent = Integer.parseInt(mypageDAO.myScrapCountForPaginationSelect(user_idx, category_info_idx));
+			countOftotalContent = Integer.parseInt(mypageDAO.myScrapCountForPaginationSelect(user_idx, category_idx));
 		}
 		
 		PageDTO pageDTO = 

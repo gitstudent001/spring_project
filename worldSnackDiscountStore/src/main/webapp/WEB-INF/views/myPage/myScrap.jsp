@@ -46,11 +46,11 @@
 				<div>
 					<form method="get" action="${root }mypage/myScrap" class="text-primary">
 						<label for="categoryList">관심 카테고리</label>
-						<select id="categoryList" name="category_info_idx" onchange="this.form.submit()">
+						<select id="categoryList" name="category_idx" onchange="this.form.submit()">
 							<option value="0">전체</option>
 							<c:if test="${categoryDTO != null }">
 								<c:forEach var="category" items="${categoryDTO }">
-									<option value="${category.category_info_idx }" ${category.category_info_idx == category_info_idx ? 'selected' : '' }>${category.category_info_name }</option>
+									<option value="${category.category_idx }" ${category.category_idx == category_idx ? 'selected' : '' }>${category.category_name }</option>
 								</c:forEach>
 							</c:if>
 							
@@ -95,7 +95,7 @@
 									</c:when>
 									<c:otherwise>
 										<li class="page-item">
-											<a href="${root}mypage/myScrap?page=${pageDTO.prevPage}&category_info_idx=${category_info_idx}" class="page-link">이전</a>
+											<a href="${root}mypage/myScrap?page=${pageDTO.prevPage}&category_idx=${category_idx}" class="page-link">이전</a>
 										</li>
 									</c:otherwise>	
 								    </c:choose>		
@@ -103,12 +103,12 @@
 										<c:choose>
 										<c:when test="${idx == pageDTO.currentPage }" >
 											<li class="page-item active">
-												<a href="${root}mypage/myScrap?page=${idx}&category_info_idx=${category_info_idx}" class="page-link">${idx }</a>
+												<a href="${root}mypage/myScrap?page=${idx}&category_idx=${category_idx}" class="page-link">${idx }</a>
 											</li>
 										</c:when>
 										<c:otherwise>
 										    <li class="page-item">
-												<a href="${root}mypage/myScrap?page=${idx}&category_info_idx=${category_info_idx}" class="page-link">${idx }</a>
+												<a href="${root}mypage/myScrap?page=${idx}&category_idx=${category_idx}" class="page-link">${idx }</a>
 											</li>
 										</c:otherwise>	
 										</c:choose>	
@@ -121,7 +121,7 @@
 										</c:when>
 										<c:otherwise>
 											<li class="page-item">
-												<a href="${root}mypage/myScrap?page=${pageDTO.nextPage}&category_info_idx=${category_info_idx}" class="page-link">다음</a>
+												<a href="${root}mypage/myScrap?page=${pageDTO.nextPage}&category_idx=${category_idx}" class="page-link">다음</a>
 											</li>
 										</c:otherwise>	
 									    </c:choose>	
