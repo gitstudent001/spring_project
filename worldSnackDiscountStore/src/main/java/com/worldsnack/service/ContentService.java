@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -123,7 +124,28 @@ public class ContentService {
 	
 	/* 게시글 등록 */
 	public void addContent(ContentDTO writeContentDTO) {
-		
+		for (int i = 0; i < 100; i++) {
+			MultipartFile uploadFile = writeContentDTO.getUploadFile();
+			
+			if(uploadFile.getSize() > 0) {
+				String uploadFileName = saveUploadFile(uploadFile);
+				System.out.println("업로드한 파일 이름 : " + uploadFileName);
+				writeContentDTO.setContent_file(uploadFileName);
+			}
+			
+			//test
+			//writeContentDTO.setContent_writer_idx(1);
+			//writeContentDTO.setContent_prodno("NO_0000003");
+			
+			System.out.println("제품번호 : NO_" + prodnoSet());
+			
+			writeContentDTO.setContent_writer_idx(loginUserDTO.getUser_idx());
+			writeContentDTO.setContent_prodno("NO_" + prodnoSet());
+
+			
+			contentDAO.insertContent(writeContentDTO);
+		}
+		/*
 		MultipartFile uploadFile = writeContentDTO.getUploadFile();
 		
 		if(uploadFile.getSize() > 0) {
@@ -143,6 +165,7 @@ public class ContentService {
 
 		
 		contentDAO.insertContent(writeContentDTO);
+		*/
 	}
 	
 	/* 게시글 수정 */
@@ -167,4 +190,18 @@ public class ContentService {
 		contentDAO.updateContent(modifyContentDTO);
 	}
 	
+	//게시글 스크랩 (희만)
+	public void insertScrap(int user_idx, int content_idx) {
+		contentDAO.insertScrap(user_idx, content_idx);
+	}
+	
+	// 게시글 스크랩 유무 확인 (희만)
+	public boolean checkScrap(int user_idx, int content_idx) {
+		return contentDAO.checkScrap(user_idx, content_idx);
+	}
+	
+	//게시글 스크랩 취소하기 (희만)
+	public void deleteScrap(@Param("user_idx")int user_idx, @Param("content_idx") int content_idx) {
+		contentDAO.deleteScrap(user_idx, content_idx);
+	}
 }

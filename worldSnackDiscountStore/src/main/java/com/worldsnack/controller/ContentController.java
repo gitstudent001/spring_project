@@ -60,16 +60,22 @@ public class ContentController {
 	@GetMapping("/detail")
 	public String detail(@RequestParam("content_idx") int content_idx,
 											 @RequestParam(value="limit", defaultValue="10") int limit,
-											 @RequestParam(value="category_info_idx", defaultValue="0") int category_info_idx,
+											 @RequestParam(value="category_idx", defaultValue="0") int category_idx,
+											 @RequestParam("user_idx") int user_idx,
 											 Model model) {
 		model.addAttribute("content_idx", content_idx);
 		
 		ContentDTO detailContentDTO = contentService.getContentDetail(content_idx);
+		// 스크랩 유무 확인
+		boolean alreadyScrap = contentService.checkScrap(user_idx, content_idx);
+		
+		
 		model.addAttribute("detailContentDTO", detailContentDTO);
 		model.addAttribute("loginUserDTO", loginUserDTO);
 		
 		model.addAttribute("limit", limit);
-		model.addAttribute("category_info_idx", category_info_idx);
+		model.addAttribute("category_idx", category_idx);
+		model.addAttribute("alreadyScrap", alreadyScrap);
 		return "content/detail";
 	}
 	
@@ -104,8 +110,14 @@ public class ContentController {
 	
 	@GetMapping("/modify")
 	public String modify(@RequestParam(value="content_idx", defaultValue="0") int content_idx,
+                			 @RequestParam(value="limit", defaultValue="10") int limit,
+                			 @RequestParam(value="category_idx", defaultValue="0") int category_idx,
                        @ModelAttribute("modifyContentDTO") ContentDTO modifyContentDTO, 
                        Model model) {
+		
+		model.addAttribute("limit", limit);
+		model.addAttribute("category_idx", category_idx);
+		
 		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
 
@@ -148,6 +160,36 @@ public class ContentController {
 	}
 	
 	@GetMapping("/cant_modify_delete")
-	void cant_modify_delete() { }
+	public void cant_modify_delete() { }
+	
+	@PostMapping("/scrap")
+	public String scrap(@RequestParam("user_idx") int user_idx,
+											@RequestParam("content_idx") int content_idx,
+											@RequestParam(value="limit", defaultValue="10") int limit,
+											@RequestParam(value="category_idx", defaultValue="0") int category_idx,
+											@RequestParam(value="scrapCheck", defaultValue="false") boolean scrapCheck,
+											Model model) {
+		
+		model.addAttribute("user_idx", user_idx);
+		model.addAttribute("content_idx", content_idx);
+		model.addAttribute("limit", limit);
+		model.addAttribute("category_idx", category_idx);
+		
+		/*
+		System.out.println("user_idx : " + user_idx);
+		System.out.println("content_idx : " + content_idx);
+		System.out.println("limit : " + limit);
+		System.out.println("category_idx : " + category_idx);
+		*/
+		if(scrapCheck != true) { // scrap을 안 했다면
+			// 스크랩 하기
+			contentService.insertScrap(user_idx, content_idx);
+			return "content/scrap_success";
+		}
+		else { // 이미 scrap을 했다면
+			contentService.deleteScrap(user_idx, content_idx);
+			return "content/scrap_delete";
+		}
+	}
 	
 }
