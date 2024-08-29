@@ -35,7 +35,7 @@
 
 	<script>
 		alert("게시글이 등록되었습니다");
-		location.href="${root}content/detail?content_idx=${content_idx}&category_info_idx=${category_info_idx}";
+		location.href="${root}content/detail?content_idx=${content_idx}&category_idx=${category_idx}";
 	</script>
 
 <c:import url="/WEB-INF/views/include/bottom_menu.jsp" />

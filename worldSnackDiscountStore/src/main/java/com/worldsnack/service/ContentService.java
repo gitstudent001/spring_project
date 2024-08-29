@@ -64,8 +64,8 @@ public class ContentService {
 		return contentDTO;
 	}
 	
-	public List<ContentDTO> selectInList(String category_info_idx) {
-		List<ContentDTO> contentDTO = contentDAO.selectInList(category_info_idx);
+	public List<ContentDTO> selectInList(String category_idx) {
+		List<ContentDTO> contentDTO = contentDAO.selectInList(category_idx);
 		return contentDTO;
 	}	
 	
@@ -82,7 +82,7 @@ public class ContentService {
 		
 		String[] prodnoArr = prodno.split("_");
 		
-		String sNumber = "";
+		String sNumber = "0000000";
 		int iNumber = 0;
 		
 		// NO_0000001 (제품번호 0000001만 사용하도록 예외처리) 
@@ -135,7 +135,9 @@ public class ContentService {
 		//test
 		//writeContentDTO.setContent_writer_idx(1);
 		//writeContentDTO.setContent_prodno("NO_0000003");
-				
+		
+		System.out.println("제품번호 : NO_" + prodnoSet());
+		
 		writeContentDTO.setContent_writer_idx(loginUserDTO.getUser_idx());
 		writeContentDTO.setContent_prodno("NO_" + prodnoSet());
 

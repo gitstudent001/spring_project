@@ -13,60 +13,60 @@ import com.worldsnack.dto.ContentDTO;
 public interface ContentMapper {
 
 	@Select("SELECT * "
-			+ "FROM CONTENT_TABLE CT "
-			+ "INNER JOIN CATEGORY_SELECT_TABLE CST "
-			+ "ON CT.CONTENT_IDX = CST.CONTENT_IDX "
-			+ "ORDER BY CONTENT_DATE DESC")
+			+ "FROM CONTENT_TABLE CO "
+			+ "INNER JOIN CATEGORY_TABLE CA "
+			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+			+ "ORDER BY CO.CONTENT_DATE DESC")
 	List<ContentDTO> selectAll();
 	
 	@Select("SELECT * "
-			+ "FROM CONTENT_TABLE CT "
-			+ "INNER JOIN CATEGORY_SELECT_TABLE CST "
-			+ "ON CT.CONTENT_IDX = CST.CONTENT_IDX "
-			+ "ORDER BY CONTENT_DATE DESC")
+			+ "FROM CONTENT_TABLE CO "
+			+ "INNER JOIN CATEGORY_TABLE CA "
+			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+			+ "ORDER BY CO.CONTENT_DATE DESC")
 	List<ContentDTO> selectAllForLimit(RowBounds rowBounds);
 	
 	@Select("SELECT * "
-			+ "FROM CONTENT_TABLE CT "
-			+ "INNER JOIN CATEGORY_SELECT_TABLE CST "
-			+ "ON CT.CONTENT_IDX = CST.CONTENT_IDX "
-			+ "WHERE CST.CATEGORY_INFO_IDX = #{category_info_idx} "
-			+ "ORDER BY CONTENT_DATE DESC")
-	List<ContentDTO> selectList(int category_info_idx);
+			+ "FROM CONTENT_TABLE CO "
+			+ "INNER JOIN CATEGORY_TABLE CA "
+			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+			+ "WHERE CO.CATEGORY_IDX = #{category_idx} "
+			+ "ORDER BY CO.CONTENT_DATE DESC")
+	List<ContentDTO> selectList(int category_idx);
 	
 	@Select("SELECT * "
-			+ "FROM CONTENT_TABLE CT "
-			+ "INNER JOIN CATEGORY_SELECT_TABLE CST "
-			+ "ON CT.CONTENT_IDX = CST.CONTENT_IDX "
-			+ "WHERE CST.CATEGORY_INFO_IDX = #{category_info_idx} "
-			+ "ORDER BY CONTENT_DATE DESC")
-	List<ContentDTO> selectListForLimit(int category_info_idx, RowBounds rowBounds);
+			+ "FROM CONTENT_TABLE CO "
+			+ "INNER JOIN CATEGORY_TABLE CA "
+			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+			+ "WHERE CO.CATEGORY_INFO_IDX = #{category_idx} "
+			+ "ORDER BY CO.CONTENT_DATE DESC")
+	List<ContentDTO> selectListForLimit(int category_idx, RowBounds rowBounds);
 
 	@Select("SELECT * "
-			+ "FROM CONTENT_TABLE CT "
-			+ "INNER JOIN CATEGORY_SELECT_TABLE CST "
-			+ "ON CT.CONTENT_IDX = CST.CONTENT_IDX "
-			+ "WHERE TO_CHAR(CST.CATEGORY_INFO_IDX) IN ( ${category_info_idx} ) "
-			+ "ORDER BY CONTENT_DATE DESC")
-	List<ContentDTO> selectInList(String category_info_idx);
+			+ "FROM CONTENT_TABLE CO "
+			+ "INNER JOIN CATEGORY_TABLE CA "
+			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+			+ "WHERE TO_CHAR(CO.CATEGORY_IDX) IN ( ${category_idx} ) "
+			+ "ORDER BY CO.CONTENT_DATE DESC")
+	List<ContentDTO> selectInList(String category_idx);
 
-	@Select("SELECT CT.CONTENT_IDX, "
-			+ "CT.CONTENT_SUBJECT, "
-			+ "CT.CONTENT_TEXT, "
-			+ "CT.CONTENT_FILE, "
-			+ "CT.CONTENT_WRITER_IDX, "
-			+ "CT.CONTENT_MAKE, "
-			+ "CT.CONTENT_COUNTRY, "
-			+ "CT.CONTENT_PRODNO, "
-			+ "CT.CONTENT_PRODPRICE, "
-			+ "CT.CONTENT_VIEW, "
-			+ "CT.CONTENT_DATE, "
-			+ "CST.CATEGORY_INFO_IDX, "
-			+ "CST.CATEGORY_SELECT_NAME "
-			+ "FROM CONTENT_TABLE CT "
-			+ "INNER JOIN CATEGORY_SELECT_TABLE CST "
-			+ "ON CT.CONTENT_IDX = CST.CONTENT_IDX "
-			+ "WHERE CT.CONTENT_IDX = #{content_idx}")
+	@Select("SELECT CO.CONTENT_IDX, "
+			+ "CO.CATEGORY_IDX, "
+			+ "CO.CONTENT_SUBJECT, "
+			+ "CO.CONTENT_TEXT, "
+			+ "CO.CONTENT_FILE, "
+			+ "CO.CONTENT_WRITER_IDX, "
+			+ "CO.CONTENT_MAKE, "
+			+ "CO.CONTENT_COUNTRY, "
+			+ "CO.CONTENT_PRODNO, "
+			+ "CO.CONTENT_PRODPRICE, "
+			+ "CO.CONTENT_VIEW, "
+			+ "CO.CONTENT_DATE, "
+			+ "CA.CATEGORY_NAME "
+			+ "FROM CONTENT_TABLE CO "
+			+ "INNER JOIN CATEGORY_TABLE CA "
+			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+			+ "WHERE CO.CONTENT_IDX = #{content_idx}")
 	ContentDTO getContentDetail(int content_idx);
 		
 	@SelectKey(statement="SELECT CONTENT_SEQ.NEXTVAL FROM DUAL", 
@@ -74,6 +74,7 @@ public interface ContentMapper {
 	
 	@Insert("INSERT INTO CONTENT_TABLE VALUES( "
 			+ "#{content_idx}, "
+			+ "#{category_idx}, " 
 			+ "#{content_subject}, "
 			+ "#{content_text}, "
 			+ "#{content_file, jdbcType=VARCHAR}, "
@@ -86,7 +87,8 @@ public interface ContentMapper {
 	void insertContent(ContentDTO writeContentDTO);
 	
 	@Update("UPDATE CONTENT_TABLE SET "
-			+ "CONTENT_SUBJECT=#{content_subject} "
+			+ "CATEGORY_IDX=#{category_idx}, "
+			+ ",CONTENT_SUBJECT=#{content_subject} "
 			+ ",CONTENT_TEXT=#{content_text} "
 			+ ",CONTENT_FILE=#{content_file, jdbcType=VARCHAR} " 
 			+ ",CONTENT_MAKE=#{content_make} "
@@ -95,7 +97,7 @@ public interface ContentMapper {
 			+ "WHERE CONTENT_IDX=#{content_idx}")
 	void updateContent(ContentDTO modifyContentDTO);
 	
-	@Select("SELECT MAX(CONTENT_PRODNO) FROM CONTENT_TABLE")
+	@Select("SELECT NVL(MAX(CONTENT_PRODNO), '0000000') FROM CONTENT_TABLE")
 	String getContentProdnoMax();
 	
 }

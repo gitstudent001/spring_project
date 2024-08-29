@@ -35,8 +35,8 @@ public class ContentDAO {
 		return contentDTO;
 	}	
 	
-	public List<ContentDTO> selectInList(String category_info_idx) {
-		List<ContentDTO> contentDTO = contentMapper.selectInList(category_info_idx);
+	public List<ContentDTO> selectInList(String category_idx) {
+		List<ContentDTO> contentDTO = contentMapper.selectInList(category_idx);
 		return contentDTO;
 	}
 	

@@ -51,19 +51,18 @@
 	    </colgroup>
 	    <tr>
 				<td style="text-align:right;padding-right:10px;">
-					<form:label class="col-form-label mt-4" path="category_info_idx">카테고리</form:label>
+					<form:label class="col-form-label mt-4" path="category_idx">카테고리</form:label>
 				</td>
 				<td>
 					<div class="row" style="padding-left:12px;">
-						<form:select class="form-select" path="category_info_idx" style="width:29%;" title="카테고리종류" onchange="selectCategory(this)">
+						<form:select class="form-select" path="category_idx" style="width:29%;" title="카테고리종류">
 							<c:forEach var="item" items="${categoryDTO }">
-							<%-- <c:if test ="${modifyContentDTO.category_info_idx == item.category_info_idx}">selected="selected"</c:if> --%>
-								<option value="${item.category_info_idx}" title="${categoryDTO}" <c:if test ="${modifyContentDTO.getCategory_info_idx() eq item.category_info_idx}">selected="true"</c:if>>${item.category_info_name}</option>
+								<option value="${item.category_idx}" title="${categoryDTO}" <c:if test ="${modifyContentDTO.getCategory_idx() eq item.category_idx}">selected="true"</c:if>>${item.category_name}</option>
 							</c:forEach>
 						</form:select>
 						
-						<form:input type="text" class="form-control" path="category_select_name" style="width:70%;display:none;" 
-												value="${modifyContentDTO.category_select_name }" placeholder="카테고리를 입력하세요" />
+						<%-- <form:input type="text" class="form-control" path="category_select_name" style="width:70%;display:none;" 
+												value="${modifyContentDTO.category_select_name }" placeholder="카테고리를 입력하세요" /> --%>
 					</div>
 				</td>
 			</tr>
@@ -155,6 +154,7 @@
   
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script>
+		/*
 		function selectCategory(obj){
 			//console.log(obj.id);
 			let id = obj.id;
@@ -168,8 +168,8 @@
 			else{
 				$("#category_select_name").hide();
 			}
-			
 		}
+		*/
 	</script>
   
 </body>

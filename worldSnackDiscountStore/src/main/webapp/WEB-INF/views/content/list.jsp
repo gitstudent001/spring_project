@@ -17,12 +17,12 @@
 	
 	<input type="button" onclick="location.href='list?limit=${limit }'" value="전체"/>
 	<c:forEach var="ctgInfo" items="${categoryDTO}"> 
-		<input type="button" onclick="location.href='list?category_info_idx=${ctgInfo.category_info_idx }&limit=${limit }'" value="${ctgInfo.category_info_name }" />
+		<input type="button" onclick="location.href='list?category_idx=${ctgInfo.category_idx }&limit=${limit }'" value="${ctgInfo.category_name }" />
 	</c:forEach> 
 
 	<form method="get" action="${root }content/list" class="contentOption">
 		<label for="limit">게시글 수 :</label>
-		<input type="hidden" name="category_info_idx" value="${category_info_idx }">
+		<input type="hidden" name="category_idx" value="${category_idx }">
 		<select class = "limit_select"id="limit" name="limit" onchange="this.form.submit()">
 			<option value="10" ${limit == 10 ? 'selected' : '' }>10개</option>
 			<option value="20" ${limit == 20 ? 'selected' : '' }>20개</option>
