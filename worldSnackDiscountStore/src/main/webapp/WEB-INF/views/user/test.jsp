@@ -35,8 +35,8 @@
 <div class="container-fluid py-5 mb-5 hero-header">
 	<h1>test.jsp</h1>
 	
-	<h2>이메일 :  ${userDTO.user_email }</h2>
-	<h2>닉네임 :  ${userDTO.user_nickname }</h2>
+	<h2>이메일 :  </h2>
+	<h2>닉네임 :  </h2>
 </div>
 	
 	<c:import url="/WEB-INF/views/include/bottom_menu.jsp" />

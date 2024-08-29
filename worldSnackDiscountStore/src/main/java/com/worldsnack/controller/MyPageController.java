@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.worldsnack.dto.CategoryInfoDTO;
+import com.worldsnack.dto.CategoryDTO;
 import com.worldsnack.dto.ContentDTO;
 import com.worldsnack.dto.PageDTO;
 import com.worldsnack.dto.UserDTO;
@@ -144,7 +144,7 @@ public class MyPageController {
 												Model model) {
 		int user_idx = loginUserDTO.getUser_idx();
 		// 카테고리 정보를 전달해줌
-		List<CategoryInfoDTO> categoryDTO = categoryService.selectAll(); 
+		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
 		
 		// 로그인한 회원의 정보를 전달해줌

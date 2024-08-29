@@ -72,7 +72,7 @@
           <div class="row g-5 align-items-center">
               <div class="col-md-12 col-lg-7">
                   <h4 class="mb-3 text-secondary">World Snack Discount Store</h4>
-                  <h1 class="mb-5 display-3 text-primary">세계 과자 할인점</h1>
+                  <h1 class="mb-5 display-3 text-primary">세계 과자 할인점 커뮤니티</h1>
                   <div class="position-relative mx-auto">
                       <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
                       <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;">Submit Now</button>
@@ -109,12 +109,12 @@
 		                       <c:forEach var="category" items="${categoryDTO}">
 		                       <li class="nav-item">
 		                           <a class="d-flex m-2 py-2 bg-light rounded-pill btnCategory" data-bs-toggle="pill" href="#tab-1"
-		                           		id="btnCategory_${category.category_info_idx}" 
-		                           		data-categoryIdx="${category.category_info_idx}">
+		                           		id="btnCategory_${category.category_idx}" 
+		                           		data-categoryIdx="${category.category_idx}">
  			                            <%-- onclick="location.href='${root}?category_info_idx=${category.category_info_idx}'" --%>
-		                               <span class="text-dark" style="width: 130px;">${category.category_info_name }</span>
+		                               <span class="text-dark" style="width: 130px;">${category.category_name }</span>
 		                           </a>
-		                           <input type="hidden" id="hdCategoryClickChk_${category.category_info_idx}" data-categoryIdx="${category.category_info_idx}" />
+		                           <input type="hidden" id="hdCategoryClickChk_${category.category_idx}" data-categoryIdx="${category.category_idx}" />
 		                       </li>
 		                       </c:forEach>
 		                       
@@ -157,31 +157,6 @@
                             </div>
                         </div>
                     </div>
-
-                    
-                    <%-- <div id="tab-2" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                <c:forEach var="dataInfo" items="${contentDTO}">
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="${root}upload/${dataInfo.content_file}" 
-                                                class="img-fluid w-100 rounded-top" alt="" 
-                                                onerror="this.onerror=null; this.src='${fruitables}img/fruite-item-5.jpg';">
-                                            </div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>${dataInfo.content_subject}</h4>
-                                                <p>${dataInfo.content_text }...</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                    						</c:forEach>                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div> --%>
                     
                 </div>
             </div>      
@@ -296,12 +271,7 @@
 	  			dataSearch(0, "", 0);
 	  		}
 	  		else{
-	  			//if(categoryCnt > 0) {
 	  				dataSearch(categoryIdx, idxArr, categoryCnt);
-	  			//}
-	  			//else{
-	  				//dataSearch(categoryIdx, "", 1);
-	  			//}
 	  		}
 	  		
 			});
@@ -322,8 +292,8 @@
 	        type : 'post',
 	        dataType : "html",
 	        //contentType:"application/json",
-	        data : { category_info_idx : categoryIdx,
-	        				 category_infos : categorys,
+	        data : { category_idx : categoryIdx,
+	        				 categorys : categorys,
 	        				 categoryCnt : categoryCnt
 	        			},
 	        timeout: 10000,

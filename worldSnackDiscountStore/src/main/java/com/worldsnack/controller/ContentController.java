@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.worldsnack.dto.CategoryInfoDTO;
-import com.worldsnack.dto.CategorySelectDTO;
+import com.worldsnack.dto.CategoryDTO;
 import com.worldsnack.dto.ContentDTO;
 import com.worldsnack.dto.UserDTO;
 import com.worldsnack.service.CategoryService;
@@ -38,20 +37,20 @@ public class ContentController {
 	
 	@GetMapping("/list")
 	public String list(@RequestParam(value="limit", defaultValue="10") int limit,
-              			 @RequestParam(value="category_info_idx", defaultValue="0") int category_info_idx,
+              			 @RequestParam(value="category_info_idx", defaultValue="0") int category_idx,
               			 Model model) {
 		
-		List<CategoryInfoDTO> categoryDTO = categoryService.selectAll(); 
+		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
 		
 		List<ContentDTO> contentDTO = null;
 		
-		if(category_info_idx > 0) {
-			contentDTO = contentService.selectListForLimit(category_info_idx, limit);
+		if(category_idx > 0) {
+			contentDTO = contentService.selectListForLimit(category_idx, limit);
 		}else {
   		contentDTO = contentService.selectAllForLimit(limit); 
 		}
-		model.addAttribute("category_info_idx", category_info_idx);
+		model.addAttribute("category_info_idx", category_idx);
 		model.addAttribute("contentDTO", contentDTO);
 		model.addAttribute("limit", limit);
 		return "content/list";
@@ -76,7 +75,7 @@ public class ContentController {
 	
 	@GetMapping("/write")
 	public String write(@ModelAttribute("writeContentDTO") ContentDTO writeContentDTO, Model model) {
-		List<CategoryInfoDTO> categoryDTO = categoryService.selectInfoAll(); 
+		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
 		
 		return "content/write";
@@ -87,28 +86,18 @@ public class ContentController {
 															 BindingResult result,
 															 Model model) {
 		
-		List<CategoryInfoDTO> categoryDTO = categoryService.selectInfoAll(); 
+		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
 		
 		if(result.hasErrors()) {
 			return "content/write"; 
 		}
 		
+		System.out.println("writeContentDTO : " + writeContentDTO);
+		
 		contentService.addContent(writeContentDTO);
-		int content_idx = writeContentDTO.getContent_idx();
-		model.addAttribute("content_idx", content_idx);
-		
-		//System.out.println("content_idx : " + content_idx);
-		
-		CategorySelectDTO categorySelectDTO = new CategorySelectDTO();
-		categorySelectDTO.setContent_idx(content_idx);
-		categorySelectDTO.setCategory_info_idx(writeContentDTO.getCategory_info_idx());
-		categorySelectDTO.setCategory_select_name(writeContentDTO.getCategory_select_name());
-		
-		categoryService.addCategorySelect(categorySelectDTO);
-		
-		int category_info_idx = writeContentDTO.getCategory_info_idx();
-		model.addAttribute("category_info_idx", category_info_idx);
+		model.addAttribute("content_idx", writeContentDTO.getContent_idx());
+		model.addAttribute("category_idx", writeContentDTO.getCategory_idx());
 		
 		return "content/write_success";
 	}
@@ -117,11 +106,12 @@ public class ContentController {
 	public String modify(@RequestParam(value="content_idx", defaultValue="0") int content_idx,
                        @ModelAttribute("modifyContentDTO") ContentDTO modifyContentDTO, 
                        Model model) {
-		List<CategoryInfoDTO> categoryDTO = categoryService.selectInfoAll(); 
+		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
 
 		ContentDTO contentDTO = contentService.getContentDetail(content_idx);
 		modifyContentDTO.setContent_idx(contentDTO.getContent_idx());
+		modifyContentDTO.setCategory_idx(contentDTO.getCategory_idx());
 		modifyContentDTO.setContent_subject(contentDTO.getContent_subject());
 		modifyContentDTO.setContent_text(contentDTO.getContent_text());
 		modifyContentDTO.setContent_file(contentDTO.getContent_file());
@@ -132,8 +122,6 @@ public class ContentController {
 		modifyContentDTO.setContent_prodprice(contentDTO.getContent_prodprice());
 		modifyContentDTO.setContent_view(contentDTO.getContent_view());
 		modifyContentDTO.setContent_date(contentDTO.getContent_date());
-		modifyContentDTO.setCategory_info_idx(contentDTO.getCategory_info_idx());
-		modifyContentDTO.setCategory_select_name(contentDTO.getCategory_select_name());
 
 		return "content/modify";
 	}
@@ -142,7 +130,7 @@ public class ContentController {
 	public String modifyProcedure(@Valid @ModelAttribute("modifyContentDTO") ContentDTO modifyContentDTO, 
                                 BindingResult result,
                                 Model model) {
-		List<CategoryInfoDTO> categoryDTO = categoryService.selectInfoAll(); 
+		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
 		
 		int content_idx = modifyContentDTO.getContent_idx();
@@ -154,24 +142,8 @@ public class ContentController {
 		
 		contentService.editContent(modifyContentDTO);
 		
-		CategorySelectDTO categorySelectDTO = categoryService.getCategorySelect(content_idx);
-		categorySelectDTO.setCategory_info_idx(modifyContentDTO.getCategory_info_idx());
-		if(modifyContentDTO.getCategory_info_idx() == 5) {
-			if(modifyContentDTO.getCategory_select_name() != null && !modifyContentDTO.getCategory_select_name().trim().equals("")) {
-				categorySelectDTO.setCategory_select_name(modifyContentDTO.getCategory_select_name());
-			}
-			else {
-				categorySelectDTO.setCategory_select_name("");
-			}
-		}
-		else {
-			categorySelectDTO.setCategory_select_name("");
-		}
+		model.addAttribute("category_idx", modifyContentDTO.getCategory_idx());
 		
-		categoryService.updateCategorySelect(categorySelectDTO);
-		
-		int category_info_idx = modifyContentDTO.getCategory_info_idx();
-		model.addAttribute("category_info_idx", category_info_idx);
 		return "content/modify_success";
 	}
 	
