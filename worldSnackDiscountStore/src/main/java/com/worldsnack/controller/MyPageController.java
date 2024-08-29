@@ -140,7 +140,7 @@ public class MyPageController {
 	
 	@GetMapping("/myScrap")
 	public String myScrap(@RequestParam(value = "page", defaultValue = "1") int page,
-												@RequestParam(value="category_info_idx", defaultValue="0") int category_info_idx,
+												@RequestParam(value="category_idx", defaultValue="0") int category_idx,
 												Model model) {
 		int user_idx = loginUserDTO.getUser_idx();
 		// 카테고리 정보를 전달해줌
@@ -160,20 +160,20 @@ public class MyPageController {
 		PageDTO pageDTO = null;
 		boolean flag = false;
 		
-		if(category_info_idx > 0) {
+		if(category_idx > 0) {
 			flag = true;
 			
-			myScrapList = mypageService.myScrapPreviewSelect(user_idx, page, category_info_idx);
+			myScrapList = mypageService.myScrapPreviewSelect(user_idx, page, category_idx);
 			
 			/* 페이지네이션을 위한 PageDTO 선언 */
-			pageDTO = mypageService.getCountOfMyScrapTotal(user_idx, page, flag, category_info_idx);
+			pageDTO = mypageService.getCountOfMyScrapTotal(user_idx, page, flag, category_idx);
 		}else {
 			flag = false;
 			
 			myScrapList = mypageService.myScrapPreviewAll(user_idx, page); 
 			
 			/* 페이지네이션을 위한 PageDTO 선언 */
-			pageDTO = mypageService.getCountOfMyScrapTotal(user_idx, page, flag, category_info_idx);
+			pageDTO = mypageService.getCountOfMyScrapTotal(user_idx, page, flag, category_idx);
 		}
 		System.out.println(myScrapList);
 		model.addAttribute("myScrapList", myScrapList);	
@@ -183,7 +183,7 @@ public class MyPageController {
 		// 페이지의 정보를 전달해줌
 		model.addAttribute("page", page);
 		// 현재 선택한 카테고리 인덱스 번호 전달해줌
-		model.addAttribute("category_info_idx", category_info_idx);
+		model.addAttribute("category_idx", category_idx);
 			
 		return "myPage/myScrap";
 	}

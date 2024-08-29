@@ -56,29 +56,29 @@ public interface MypageMapper {
 	
 	// ---------------------- 내 관심 게시글 조회용 매퍼 ---------------------
 	// 내 관심 게시글 미리보기 조회 (선오형꺼 활용)
-	@Select("SELECT * " +
-		  		"FROM CONTENT_TABLE CT " + 
-		  		"INNER JOIN CATEGORY_SELECT_TABLE CST " +
-		      "ON CT.CONTENT_IDX = CST.CONTENT_IDX " +
-		  		"INNER JOIN SCRAP_TABLE ST " +
-		      "ON CST.CONTENT_IDX = ST.CONTENT_IDX " +
-		   		"WHERE ST.USER_IDX = #{user_idx} " +
-		  		"ORDER BY CONTENT_DATE DESC")
+	@Select("SELECT * "
+  			+ "FROM CONTENT_TABLE CO "
+  			+ "INNER JOIN CATEGORY_TABLE CA "
+  			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+  			+ "INNER JOIN SCRAP_TABLE ST " 
+  			+ "ON CO.CONTENT_IDX = ST.CONTENT_IDX "
+	   		+ "WHERE ST.USER_IDX = #{user_idx} "
+	  		+ "ORDER BY CONTENT_DATE DESC")
 	List<ContentDTO> myScrapPreviewAll(int user_idx, RowBounds rowBounds);
 	
 	//내 관심 게시글 미리보기 조회 (선택한 카테고리) (선오형꺼 활용)
-	@Select("SELECT * " +
-					"FROM CONTENT_TABLE CT " +
-					"INNER JOIN CATEGORY_SELECT_TABLE CST " + 
-					"ON CT.CONTENT_IDX = CST.CONTENT_IDX " +
-					"INNER JOIN SCRAP_TABLE ST " +
-					"ON CST.CONTENT_IDX = ST.CONTENT_IDX " +
-					"WHERE CST.CATEGORY_INFO_IDX = #{category_info_idx} " +
-					"AND ST.USER_IDX = #{user_idx} " +
-					"ORDER BY CONTENT_DATE DESC")	
+	@Select("SELECT * "
+    			+ "FROM CONTENT_TABLE CO "
+    			+ "INNER JOIN CATEGORY_TABLE CA "
+    			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+					+ "INNER JOIN SCRAP_TABLE ST " 
+					+ "ON CO.CONTENT_IDX = ST.CONTENT_IDX "
+					+ "WHERE CO.CATEGORY_IDX = #{category_idx} "
+					+ "AND ST.USER_IDX = #{user_idx} "
+					+ "ORDER BY CONTENT_DATE DESC")	
 	public List<ContentDTO> myScrapPreviewSelect(@Param("user_idx") int user_idx,
 																							 @Param("rowBounds") RowBounds rowBounds,
-																							 @Param("category_info_idx") int category_info_idx);
+																							 @Param("category_idx") int category_idx);
 	
 	// 내 전체 스크랩 개수 조회
 	@Select("SELECT COUNT(*) " +
@@ -87,26 +87,26 @@ public interface MypageMapper {
 	String myScrapCount(int user_idx);
 	
 	// 페이지네이션용 카테고리별 스크랩 개수 조회 (전체)
-	@Select("SELECT COUNT(*) " +
-  		"FROM CONTENT_TABLE CT " + 
-  		"INNER JOIN CATEGORY_SELECT_TABLE CST " +
-      "ON CT.CONTENT_IDX = CST.CONTENT_IDX " +
-  		"INNER JOIN SCRAP_TABLE ST " +
-      "ON CST.CONTENT_IDX = ST.CONTENT_IDX " +
-   		"WHERE ST.USER_IDX = #{user_idx} " +
-  		"ORDER BY CONTENT_DATE DESC")
+	@Select("SELECT COUNT(*) "
+  			+ "FROM CONTENT_TABLE CO "
+  			+ "INNER JOIN CATEGORY_TABLE CA "
+  			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+  			+ "INNER JOIN SCRAP_TABLE ST " 
+  			+ "ON CO.CONTENT_IDX = ST.CONTENT_IDX "
+     		+ "WHERE ST.USER_IDX = #{user_idx} "
+    		+ "ORDER BY CONTENT_DATE DESC")
 	String myScrapCountForPaginationAll(int user_idx);
 	
 	// 페이지네이션용 카테고리별 스크랩 개수 조회 (선택)
-	@Select("SELECT COUNT(*) " +
-			"FROM CONTENT_TABLE CT " +
-			"INNER JOIN CATEGORY_SELECT_TABLE CST " + 
-			"ON CT.CONTENT_IDX = CST.CONTENT_IDX " +
-			"INNER JOIN SCRAP_TABLE ST " +
-			"ON CST.CONTENT_IDX = ST.CONTENT_IDX " +
-			"WHERE CST.CATEGORY_INFO_IDX = #{category_info_idx} " +
-			"AND ST.USER_IDX = #{user_idx} " +
-			"ORDER BY CONTENT_DATE DESC")	
-	String myScrapCountForPaginationSelect(@Param("user_idx") int user_idx, @Param("category_info_idx") int category_info_idx);
+	@Select("SELECT COUNT(*) "
+  			+ "FROM CONTENT_TABLE CO "
+  			+ "INNER JOIN CATEGORY_TABLE CA "
+  			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+  			+ "INNER JOIN SCRAP_TABLE ST " 
+  			+ "ON CO.CONTENT_IDX = ST.CONTENT_IDX "
+  			+ "WHERE CO.CATEGORY_IDX = #{category_idx} "
+  			+ "AND ST.USER_IDX = #{user_idx} "
+  			+ "ORDER BY CONTENT_DATE DESC")	
+	String myScrapCountForPaginationSelect(@Param("user_idx") int user_idx, @Param("category_idx") int category_idx);
 	
 }

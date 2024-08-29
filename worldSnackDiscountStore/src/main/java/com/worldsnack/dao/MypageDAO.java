@@ -61,8 +61,8 @@ public class MypageDAO {
 	//내 관심 게시글 미리보기 조회 (선택한 카테고리)
 	public List<ContentDTO> myScrapPreviewSelect(@Param("user_idx") int user_idx, 
 																							 @Param("rowBounds")	RowBounds rowBounds, 
-																							 @Param("category_info_idx") int category_info_idx) {
-		List<ContentDTO> myScrapList = mypageMapper.myScrapPreviewSelect(user_idx, rowBounds, category_info_idx);
+																							 @Param("category_idx") int category_idx) {
+		List<ContentDTO> myScrapList = mypageMapper.myScrapPreviewSelect(user_idx, rowBounds, category_idx);
 		return myScrapList;
 	}
 
@@ -77,7 +77,7 @@ public class MypageDAO {
 	}
 	
 	// 페이지네이션용 카테고리별 스크랩 개수 조회 (선택)
-	public String myScrapCountForPaginationSelect(int user_idx, int category_info_idx) {
-		return mypageMapper.myScrapCountForPaginationSelect(user_idx, category_info_idx);
+	public String myScrapCountForPaginationSelect(int user_idx, int category_idx) {
+		return mypageMapper.myScrapCountForPaginationSelect(user_idx, category_idx);
 	}
 }
