@@ -18,14 +18,14 @@ public interface ContentMapper {
 			+ "FROM CONTENT_TABLE CO "
 			+ "INNER JOIN CATEGORY_TABLE CA "
 			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
-			+ "ORDER BY CO.CONTENT_DATE DESC")
+			+ "ORDER BY CO.CONTENT_DATE DESC, CO.CONTENT_IDX DESC")
 	List<ContentDTO> selectAll();
 	
 	@Select("SELECT * "
 			+ "FROM CONTENT_TABLE CO "
 			+ "INNER JOIN CATEGORY_TABLE CA "
 			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
-			+ "ORDER BY CO.CONTENT_DATE DESC")
+			+ "ORDER BY CO.CONTENT_DATE DESC, CO.CONTENT_IDX DESC")
 	List<ContentDTO> selectAllForLimit(RowBounds rowBounds);
 	
 	@Select("SELECT * "
@@ -33,23 +33,43 @@ public interface ContentMapper {
 			+ "INNER JOIN CATEGORY_TABLE CA "
 			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
 			+ "WHERE CO.CATEGORY_IDX = #{category_idx} "
-			+ "ORDER BY CO.CONTENT_DATE DESC")
+			+ "ORDER BY CO.CONTENT_DATE DESC, CO.CONTENT_IDX DESC")
 	List<ContentDTO> selectList(int category_idx);
+	
+	
 	
 	@Select("SELECT * "
 			+ "FROM CONTENT_TABLE CO "
 			+ "INNER JOIN CATEGORY_TABLE CA "
 			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
 			+ "WHERE CO.CATEGORY_IDX = #{category_idx} "
-			+ "ORDER BY CO.CONTENT_DATE DESC")
+			+ "ORDER BY CO.CONTENT_DATE DESC, CO.CONTENT_IDX DESC")
 	List<ContentDTO> selectListForLimit(int category_idx, RowBounds rowBounds);
+	
+	
+	//제품페이지 페이지네이션(전체)
+	@Select("SELECT COUNT(*) "
+			+ "FROM CONTENT_TABLE CO "
+			+ "INNER JOIN CATEGORY_TABLE CA "
+			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+			+ "ORDER BY CO.CONTENT_DATE DESC, CO.CONTENT_IDX DESC")
+	String getCountOfselectAllForLimit(RowBounds rowBounds);
+	    
+	// 제품페이지 페이지네이션(카테고리 선택)
+	@Select("SELECT COUNT(*) "
+			+ "FROM CONTENT_TABLE CO "
+			+ "INNER JOIN CATEGORY_TABLE CA "
+			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+			+ "WHERE CO.CATEGORY_IDX = #{category_idx} "
+			+ "ORDER BY CO.CONTENT_DATE DESC, CO.CONTENT_IDX DESC")
+	String getCountselectListForLimit(int category_idx, RowBounds rowBounds);
 
 	@Select("SELECT * "
 			+ "FROM CONTENT_TABLE CO "
 			+ "INNER JOIN CATEGORY_TABLE CA "
 			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
 			+ "WHERE TO_CHAR(CO.CATEGORY_IDX) IN ( ${category_idx} ) "
-			+ "ORDER BY CO.CONTENT_DATE DESC")
+			+ "ORDER BY CO.CONTENT_DATE DESC, CO.CONTENT_IDX DESC")
 	List<ContentDTO> selectInList(String category_idx);
 
 	@Select("SELECT CO.CONTENT_IDX, "

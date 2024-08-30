@@ -31,10 +31,29 @@ public class ContentDAO {
 		return contentDTO;
 	}
 	
-	public List<ContentDTO> selectListForLimit(int content_idx, RowBounds rowBounds) {
-		List<ContentDTO> contentDTO = contentMapper.selectListForLimit(content_idx, rowBounds);
+	// 0830
+	public List<ContentDTO> selectListForLimit(int category_idx, RowBounds rowBounds) {
+		List<ContentDTO> contentDTO = contentMapper.selectListForLimit(category_idx, rowBounds);
 		return contentDTO;
 	}	
+	
+	//제품페이지 페이지네이션 
+	
+	public String getCountselectAllForLimit(int limit) {
+		RowBounds rowBounds = new RowBounds(0, limit);
+		
+		String contentCount = contentMapper.getCountOfselectAllForLimit(rowBounds);
+		System.out.println("전체 : " + contentCount);
+		return contentCount;
+	}
+	
+	public String  getCountselectListForLimit(int category_idx, int limit) {
+		RowBounds rowBounds = new RowBounds(0, limit);
+		System.out.println("선택 : " + rowBounds);
+		String contentCount = contentMapper.getCountselectListForLimit(category_idx, rowBounds);
+		return contentCount;
+	}	
+	
 	
 	public List<ContentDTO> selectInList(String category_idx) {
 		List<ContentDTO> contentDTO = contentMapper.selectInList(category_idx);
