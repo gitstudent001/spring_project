@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.worldsnack.dao.ContentDAO;
 import com.worldsnack.dto.ContentDTO;
+import com.worldsnack.dto.PageDTO;
 import com.worldsnack.dto.UserDTO;
 
 @Service
@@ -46,8 +47,9 @@ public class ContentService {
 	}
 	
 	/* 카테고리 전체 게시글 중 원하는 갯수만큼 조회 */
-	public List<ContentDTO> selectAllForLimit(int limit) {
-		RowBounds rowBounds = new RowBounds(0, limit);
+	public List<ContentDTO> selectAllForLimit(int limit, int page) {
+		int startPage = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(startPage, limit);
 		List<ContentDTO> contentDTO = contentDAO.selectAllForLimit(rowBounds);
 		return contentDTO;
 	}
@@ -59,11 +61,39 @@ public class ContentService {
 	}
 	
 	/* 선택한 카테고리 게시글 중 원하는 갯수만큼 조회 */
-	public List<ContentDTO> selectListForLimit(int content_idx, int limit) {
-		RowBounds rowBounds = new RowBounds(0, limit);
-		List<ContentDTO> contentDTO = contentDAO.selectListForLimit(content_idx, rowBounds);
+	public List<ContentDTO> selectListForLimit(int category_idx, int limit, int page) {
+		int startPage = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(startPage, limit);
+		List<ContentDTO> contentDTO = contentDAO.selectListForLimit(category_idx, rowBounds);
 		return contentDTO;
 	}
+	
+//제품페이지 카테고리에 맞게 페이지네이션을 하기위해 페이지 값 리턴
+	public PageDTO getCountOfTotalContent(@Param("category_idx")int category_idx,
+																	 		  @Param("page") int currentPage,
+																			  @Param("flag") boolean flag,
+																			  @Param("limit")int limit) {
+		
+		int countOftotalContent = 0;
+		if (!flag) { // 전체 카테고리 일 경우
+			countOftotalContent = Integer.parseInt(contentDAO.getCountselectAllForLimit(limit));
+		}
+		else { // 카테고리를 선택 했을 경우
+			countOftotalContent = Integer.parseInt(contentDAO.getCountselectListForLimit(category_idx, limit));
+		}
+		
+		if(limit > 10) {
+			int tempCount = countOftotalContent / limit;
+			int temp2Count = countOftotalContent % limit;
+			countOftotalContent = (tempCount * 10) + temp2Count;
+		}
+		
+		PageDTO pageDTO = 
+				new PageDTO(countOftotalContent, currentPage, countOfPagination, countPerPage);
+		return pageDTO;
+	}
+	
+	
 	
 	public List<ContentDTO> selectInList(String category_idx) {
 		List<ContentDTO> contentDTO = contentDAO.selectInList(category_idx);

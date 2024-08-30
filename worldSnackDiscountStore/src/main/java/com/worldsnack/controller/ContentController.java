@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.worldsnack.dto.CategoryDTO;
 import com.worldsnack.dto.ContentDTO;
+import com.worldsnack.dto.PageDTO;
 import com.worldsnack.dto.UserDTO;
 import com.worldsnack.service.CategoryService;
 import com.worldsnack.service.ContentService;
@@ -34,25 +35,37 @@ public class ContentController {
 	@Resource(name="loginUserDTO")
 	private UserDTO loginUserDTO;
 	
-	
 	@GetMapping("/list")
 	public String list(@RequestParam(value="limit", defaultValue="10") int limit,
               			 @RequestParam(value="category_idx", defaultValue="0") int category_idx,
+              			 @RequestParam(value = "page", defaultValue = "1") int page,
               			 Model model) {
 		
 		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
-		
+				
 		List<ContentDTO> contentDTO = null;
+		/* 페이지네이션을 위한 PageDTO 선언 */
+		PageDTO pageDTO = null;
+		boolean flag = false;
 		
 		if(category_idx > 0) {
-			contentDTO = contentService.selectListForLimit(category_idx, limit);
+			flag = true;
+			contentDTO = contentService.selectListForLimit(category_idx, limit, page);
+			
+			pageDTO = contentService.getCountOfTotalContent(category_idx, page, flag, limit);
 		}else {
-  		contentDTO = contentService.selectAllForLimit(limit); 
+			flag = false;
+  		contentDTO = contentService.selectAllForLimit(limit, page); 
+  		
+  		pageDTO = contentService.getCountOfTotalContent(category_idx, page, flag, limit);
 		}
 		model.addAttribute("category_idx", category_idx);
 		model.addAttribute("contentDTO", contentDTO);
 		model.addAttribute("limit", limit);
+		model.addAttribute("pageDTO", pageDTO);
+		// 페이지의 정보를 전달해줌
+		model.addAttribute("page", page);
 		return "content/list";
 	}
 	
