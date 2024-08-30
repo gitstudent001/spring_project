@@ -37,7 +37,7 @@
 		<c:forEach var="dataInfo" items="${contentDTO}">
 			<tr>
 				<td>${dataInfo.content_idx }</td>		
-				<td><a href="${root }content/detail?content_idx=${dataInfo.content_idx }&category_info_idx=${category_info_idx}&limit=${limit}">${dataInfo.content_subject }</a></td>
+				<td><a href="${root }content/detail?content_idx=${dataInfo.content_idx }&category_idx=${category_idx}&limit=${limit}&user_idx=${loginUserDTO.user_idx}">${dataInfo.content_subject }</a></td>
 				<td>${dataInfo.content_text }</td>
 				<td>${dataInfo.content_file }</td>
 				<td>${dataInfo.content_writer_idx }</td>

@@ -2,7 +2,9 @@ package com.worldsnack.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
@@ -38,7 +40,7 @@ public interface ContentMapper {
 			+ "FROM CONTENT_TABLE CO "
 			+ "INNER JOIN CATEGORY_TABLE CA "
 			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
-			+ "WHERE CO.CATEGORY_INFO_IDX = #{category_idx} "
+			+ "WHERE CO.CATEGORY_IDX = #{category_idx} "
 			+ "ORDER BY CO.CONTENT_DATE DESC")
 	List<ContentDTO> selectListForLimit(int category_idx, RowBounds rowBounds);
 
@@ -99,5 +101,21 @@ public interface ContentMapper {
 	
 	@Select("SELECT NVL(MAX(CONTENT_PRODNO), '0000000') FROM CONTENT_TABLE")
 	String getContentProdnoMax();
+	
+	// 게시글 스크랩 (희만)
+	@Insert("INSERT INTO SCRAP_TABLE VALUES(#{user_idx}, #{content_idx})")
+	void insertScrap(@Param("user_idx")int user_idx, @Param("content_idx") int content_idx);
+	
+	// 게시글 스크랩 유무 확인(희만)
+	@Select("SELECT COUNT(*) " +
+		  		"FROM SCRAP_TABLE " +
+		  		"WHERE USER_IDX=#{user_idx} " +
+	    		"AND CONTENT_IDX=#{content_idx}")
+	boolean checkScrap(@Param("user_idx")int user_idx, @Param("content_idx") int content_idx);
+	
+	// 게시글 스크랩 취소하기 (희만)
+	@Delete("DELETE FROM SCRAP_TABLE " +
+					"WHERE user_idx = #{user_idx} AND content_idx = #{content_idx}")
+	void deleteScrap(@Param("user_idx")int user_idx, @Param("content_idx") int content_idx);
 	
 }

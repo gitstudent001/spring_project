@@ -18,7 +18,7 @@ import com.worldsnack.service.ContentService;
 
 
 @Controller
-public class HomeContoller {
+public class HomeController {
 
 	@Autowired
 	private CategoryService categoryService;
