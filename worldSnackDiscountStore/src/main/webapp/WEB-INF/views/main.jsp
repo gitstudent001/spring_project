@@ -5,7 +5,7 @@
 <c:set var="root" value="${pageContext.request.contextPath}/" />
 <c:set var="photoFolio" value="${root}template/photoFolio/" />     
 <c:set var="fruitables" value="${root}template/fruitables/" />
-<%-- <c:set var="bootswatch" value="${root}template/bootswatch/" /> --%>
+<c:set var="bootswatch" value="${root}template/bootswatch/" />
     
 <!DOCTYPE html>
 <html>
@@ -24,8 +24,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Cardo:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="${photoFolio}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <%-- <link href="${photoFolio}vendor/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <%-- <link href="${photoFolio}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="${photoFolio}vendor/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="${photoFolio}vendor/vendor/aos/aos.css" rel="stylesheet">
   <link href="${photoFolio}vendor/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="${photoFolio}vendor/vendor/swiper/swiper-bundle.min.css" rel="stylesheet"> --%>
@@ -48,6 +48,8 @@
 	<link href="${fruitables}lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 	<link href="${fruitables}lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 	
+	<!-- bootswatch Stylesheet -->
+	<link href="${bootswatch}css/bootstrap.min.css" rel="stylesheet">
 	
 	<!-- Customized Bootstrap Stylesheet -->
 	<link href="${fruitables}css/bootstrap.min.css" rel="stylesheet">
@@ -55,8 +57,34 @@
 	<!-- Template Stylesheet -->
 	<link href="${fruitables}css/style.css" rel="stylesheet">
 	
-	<!-- bootswatch Stylesheet -->
-	<%-- <link href="${bootswatch}css/bootstrap.min.css" rel="stylesheet"> --%>
+	
+	
+	<style>
+		body {
+		  margin: 0;
+		  padding: 0;
+		}
+		
+		.wrapper {
+		  width: 100%;
+		  /*height: 100vh;*/
+		  height: 460px;
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: flex-start;
+		  align-items: center;
+		  overflow: hidden;
+		}
+		
+		.container-hero {
+			display: flex;
+		  flex-direction: column;
+		  justify-content: flex-start;
+		  align-items: center;
+		  margin: auto;
+		  margin-top: 50px;
+		}
+	</style>
 </head>
 
 
@@ -66,30 +94,36 @@
 	
 	<c:import url="/WEB-INF/views/include/top_menu.jsp" />
 
-	<!-- Hero Start -->
-	<div class="container-fluid py-5 mb-5 hero-header">
-      <div class="container py-5">
-          <div class="row g-5 align-items-center">
-              <div class="col-md-12 col-lg-7">
-                  <h4 class="mb-3 text-secondary">World Snack Discount Store</h4>
-                  <h1 class="mb-5 display-3 text-primary">세계 과자 할인점 커뮤니티</h1>
-                  <div class="position-relative mx-auto">
-                      <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
-                      <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;">Submit Now</button>
-                  </div>
-              </div>	
-          </div>
-      </div>
-  </div>
-  <!-- Hero End -->
-
-
+	
+	<!-- <div class="wrapper"> -->
+		
+		<!-- Hero Start -->
+		<div class="container-fluid py-5 mb-5 hero-header container-hero">
+	      <div class="container py-5">
+	          <div class="row g-5 align-items-center">
+	              <div class="col-md-12 col-lg-7">
+	                  <h4 class="mb-3 text-secondary">World Snack Discount Store</h4>
+	                  <h1 class="mb-5 display-4 text-primary">세계 과자 할인점 커뮤니티</h1>
+	                  <div class="position-relative mx-auto">
+	                      <input type="text" id="txtSearch" class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" placeholder="Search">
+	                      <button type="button" id="btnSearch" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;">Submit Now</button>
+	                  </div>
+	              </div>	
+	              <div class="col-md-12 col-lg-5">
+	              </div>
+	          </div>
+	      </div>
+	  </div>
+	  <!-- Hero End -->  	
+	
+	<!-- </div> -->
+	
 
 
   <main class="main">
 
 		<!-- Category Start -->
-		<div class="container-fluid fruite" style="margin:-50px !important;">
+		<div class="container-fluid fruite" style="margin:auto; margin:-70px !important;">
 		   <div class="container py-5">
 		       <div class="tab-class text-center" >
 		           <div class="row g-4" style="width:100%; margin:auto; margin-left:10%;">
@@ -182,19 +216,50 @@
 
 
   <!-- Vendor JS Files -->
-  <script src="${photoFolio}vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <%-- <script src="${photoFolio}vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="${photoFolio}vendor/php-email-form/validate.js"></script>
   <script src="${photoFolio}vendor/aos/aos.js"></script>
   <script src="${photoFolio}vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="${photoFolio}vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="${photoFolio}vendor/swiper/swiper-bundle.min.js"></script> --%>
 
   <!-- Main JS File -->
   <script src="${photoFolio}js/main.js"></script>
+  
+  
+	<!-- JavaScript Libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="${fruitables}lib/easing/easing.min.js"></script>
+  <script src="${fruitables}lib/waypoints/waypoints.min.js"></script>
+  <script src="${fruitables}lib/lightbox/js/lightbox.min.js"></script>
+  <script src="${fruitables}lib/owlcarousel/owl.carousel.min.js"></script>  
+  
+  <script src="${fruitables}js/main.js"></script>
 	
 
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>  
+	<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->  
   <script>
   	$(window).on("load", function () {
+  		
+  		$("#txtSearch").on("keypress",function(key) {
+  			// Enter 키 이벤트 실행
+  			if(key.keyCode==13) {
+  				$("#btnSearch").trigger("click");
+  			}
+  		});
+  		
+  		$("#btnSearch").on("click", function() {
+  			let txtSearch = $("#txtSearch").val();
+  			
+  			if($.trim(txtSearch).length > 0) {
+  				dataSearch(0, "", 0, txtSearch);
+  				categorySearch(txtSearch);
+  			}
+  			else{
+  				alert("검색어를 입력하세요");
+  				$("#txtSearch").focus();
+  			}
+  		});
   		
   		$(".btnCategoryAll").on("click", function() {
   			/*
@@ -203,8 +268,10 @@
  	  		console.log("className : " + this.className);
  	  		*/
  	  		
- 	  		$(".btnCategory").removeClass("active"); 	  		
- 	  		dataSearch(0, "", 0);
+ 	  		$("#txtSearch").val("");
+ 	  		$(".btnCategory").removeClass("active");
+ 	  		
+ 	  		dataSearch(0, "", 0, "");
  	  		$(".btnCategory").each(function() {
 	  			let categoryIdx = $("#" + this.id).attr("data-categoryIdx");
 	 	  		let categoryChkId = $("#hdCategoryClickChk_" + categoryIdx).attr("id");
@@ -223,10 +290,8 @@
  	  		let categoryIdx = $("#" + this.id).attr("data-categoryIdx");
  	  		let categoryChkId = $("#hdCategoryClickChk_" + categoryIdx).attr("id");
  	  		
+ 	  		$("#txtSearch").val("");
  	  		$(".btnCategoryAll").removeClass("active");
- 	  		
- 	  		//console.log(categoryChkId);
- 	  		//console.log($("#" + categoryChkId).val());
  	  		
         if ($("#" + categoryChkId).val() == "Y") {
         	$("#" + this.id).removeClass("active");
@@ -237,18 +302,12 @@
         	$("#" + categoryChkId).val("Y");
         }
         
-        //console.log(`id : ` + $("#" + categoryChkId).attr("id"));
-	  		//console.log(`value : ` + $("#" + categoryChkId).val());
-  			
 	  		let categoryChk = false;
 	  		let categoryCnt = 0;
 	  		let idxArr = "";
 	  		$(".btnCategory").each(function() {
 	  			let categoryIdx = $("#" + this.id).attr("data-categoryIdx");
 	 	  		let categoryChkId = $("#hdCategoryClickChk_" + categoryIdx).attr("id");
-	  			
-	 	  		//console.log(this.id);
-	  			//console.log($("#" + categoryChkId).val());
 	 	  		
 	 	  		if($("#" + categoryChkId).val() == "Y") {
 	 	  			$("#" + this.id).addClass("active");
@@ -268,10 +327,10 @@
 	  		
 	  		if(categoryChk == false) {
 	  			$(".btnCategoryAll").addClass("active");
-	  			dataSearch(0, "", 0);
+	  			dataSearch(0, "", 0, "");
 	  		}
 	  		else{
-	  				dataSearch(categoryIdx, idxArr, categoryCnt);
+	  			dataSearch(categoryIdx, idxArr, categoryCnt, "");
 	  		}
 	  		
 			});
@@ -281,7 +340,8 @@
   	});
   	
   	
-  	function dataSearch(categoryIdx, categorys, categoryCnt){
+  	// 제품 데이터 리스트
+  	function dataSearch(categoryIdx, categorys, categoryCnt, txtSearch){
   		console.log(`categoryIdx : ` + categoryIdx);
   		console.log(`categorys : ` + categorys);
   		console.log(`categoryCnt : ` + categoryCnt);
@@ -294,7 +354,8 @@
 	        //contentType:"application/json",
 	        data : { category_idx : categoryIdx,
 	        				 categorys : categorys,
-	        				 categoryCnt : categoryCnt
+	        				 categoryCnt : categoryCnt,
+	        				 categorySearch : txtSearch
 	        			},
 	        timeout: 10000,
 	        beforeSend:function(){
@@ -305,6 +366,53 @@
 	            
 	            $("#rowProductList").html("");
             	$("#rowProductList").html(data);
+	        },
+	        error : function(request, status, error){
+	            //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	            var err=JSON.parse(request.responseText);
+
+	            //alert(err.resData[0].errorMsg);
+	                
+	            //$('#loading').addClass('display-none');
+	        },
+	        complete:function(){
+	            //$('#loading').addClass('display-none');
+	        }
+	 		});
+  	}
+  	
+  	// 카테고리 번호 리스트
+  	function categorySearch(txtSearch){
+  		
+			$.ajax({
+	        url : '${root}main_categorys',
+	        type : 'post',
+	        dataType : "html",
+	        //contentType:"application/json",
+	        data : { categorySearch : txtSearch },
+	        timeout: 10000,
+	        beforeSend:function(){
+	            //$('#loading').removeClass('display-none');
+	        },
+	        success : function(data){
+	            //console.log(data);
+	            
+	            $(".btnCategoryAll").removeClass("active");
+	            $(".btnCategory").removeClass("active");
+	            
+	            if(data.indexOf(',') > -1) {
+	            	let arr = data.split(",");
+	            	
+	            	for(let i=0; i < arr.length; i++) {
+	            		$("#btnCategory_" + arr[i]).addClass("active");
+	            		$("#hdCategoryClickChk_" + arr[i]).val("Y");
+	            	}
+	            }
+	            else{
+	            	$("#btnCategory_" + data).addClass("active");
+	            	$("#hdCategoryClickChk_" + data).val("Y");
+	            }
+	            
 	        },
 	        error : function(request, status, error){
 	            //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

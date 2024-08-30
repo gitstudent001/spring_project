@@ -64,6 +64,7 @@ public interface ContentMapper {
 			+ "ORDER BY CO.CONTENT_DATE DESC, CO.CONTENT_IDX DESC")
 	String getCountselectListForLimit(int category_idx, RowBounds rowBounds);
 
+	// 메인 검색
 	@Select("SELECT * "
 			+ "FROM CONTENT_TABLE CO "
 			+ "INNER JOIN CATEGORY_TABLE CA "
@@ -72,6 +73,16 @@ public interface ContentMapper {
 			+ "ORDER BY CO.CONTENT_DATE DESC, CO.CONTENT_IDX DESC")
 	List<ContentDTO> selectInList(String category_idx);
 
+	// 메인 검색어 검색
+	@Select("SELECT * "
+			+ "FROM CONTENT_TABLE CO "
+			+ "INNER JOIN CATEGORY_TABLE CA "
+			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
+			+ "WHERE CO.CONTENT_SUBJECT LIKE '%${searchKeyword}%' "
+			+ "OR (CONTAINS(CO.CONTENT_TEXT, '%${searchKeyword}%') > 0) "
+			+ "ORDER BY CO.CATEGORY_IDX, CO.CONTENT_SUBJECT, CO.CONTENT_DATE DESC")
+	List<ContentDTO> selectSearchList(String searchKeyword);	
+	
 	@Select("SELECT CO.CONTENT_IDX, "
 			+ "CO.CATEGORY_IDX, "
 			+ "CO.CONTENT_SUBJECT, "
