@@ -54,9 +54,15 @@ public class ContentDAO {
 		return contentCount;
 	}	
 	
-	
+	// 메인 검색
 	public List<ContentDTO> selectInList(String category_idx) {
 		List<ContentDTO> contentDTO = contentMapper.selectInList(category_idx);
+		return contentDTO;
+	}
+	
+	// 메인 검색어 검색
+	public List<ContentDTO> selectSearchList(String searchKeyword) {
+		List<ContentDTO> contentDTO = contentMapper.selectSearchList(searchKeyword);
 		return contentDTO;
 	}
 	

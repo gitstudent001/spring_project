@@ -52,6 +52,7 @@ public class HomeController {
 	public String main(@RequestParam(value="category_idx", defaultValue="0") int category_idx,
 										 @RequestParam(value="categorys", defaultValue="") String categorys,
 										 @RequestParam(value="categoryCnt", defaultValue="0") int categoryCnt,
+										 @RequestParam(value="categorySearch", defaultValue="") String categorySearch,
 										 Model model) {
 		
 		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
@@ -59,38 +60,15 @@ public class HomeController {
 		
 		List<ContentDTO> contentDTO = null;
 		
-		String[] arr = null;
-		if(categoryCnt > 0) {
-			//if(categoryCnt > 1) {
-				
-				int len = 0;
-				if(categorys.trim().equals(",")) {
-					arr = categorys.split(",");
-					len = arr.length;
-				}
-				
-				/*
-				//int[] category_info_idx_arr = new int[len];
-				//List<Category> category = new ArrayList<Category>();
-				if(arr != null) {
-  				for(int i=0; i < len; i++) {
-  					//category_info_idx_arr[i] = Integer.parseInt(arr[i]);
-  					
-  					Category cate = new Category();
-  					cate.setCategory_info_idx(Integer.parseInt(arr[i]));
-  					
-  					category.add(cate);
-  				}
-				}
-				*/
-				
-				contentDTO = contentService.selectInList(categorys);
-			//}
-			//else {
-				//contentDTO = contentService.selectList(category_idx);
-			//}
-		}else {
-  		contentDTO = contentService.selectAll();
+		if(categorySearch != null && !categorySearch.equals("")) {
+			contentDTO = contentService.selectSearchList(categorySearch);
+		}
+		else {
+  		if(categoryCnt > 0) {
+  			contentDTO = contentService.selectInList(categorys);
+  		}else {
+    		contentDTO = contentService.selectAll();
+  		}
 		}
 		model.addAttribute("contentDTO", contentDTO);
 		
@@ -98,6 +76,11 @@ public class HomeController {
 		//System.out.println("contentDTO : " + contentDTO);
 		
 		return "productList";
+	}
+	
+	@GetMapping("/test")
+	public String test() {
+		return "test";
 	}
 	
 }
