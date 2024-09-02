@@ -47,13 +47,13 @@
 						<h1>회원가입</h1>
 						<div class="social-links">
 							<div>
-								<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+								<a href="https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fwebhp%3Fhl%3Dko%26ictx%3D2%26sa%3DX%26ved%3D0ahUKEwjl1Nqg06OIAxXodfUHHS8aHIAQPQgJ&ec=GAZAmgQ&hl=ko&ifkv=Ab5oB3pbIO112pvqEE01vqulSnZqhCWj-AIFqvsmoCbbpeIHznsmETbp5QPRrjyPOa_h0CAGjAPA&passive=true&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-2093252842%3A1725259182100357&ddm=1"><i class="fa fa-google" aria-hidden="true"></i></a>
 							</div>
 							<div>
-								<a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+								<a href="https://www.facebook.com/login.php?skip_api_login=1&api_key=195707104118397&kid_directed_site=0&app_id=195707104118397&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fv2.5%2Fdialog%2Foauth%3Fclient_id%3D195707104118397%26response_type%3Dcode%26scope%3Dpublic_profile%252Cuser_friends%252Cemail%26redirect_uri%3Dhttps%253A%252F%252Fauth.danawa.com%252Fsns%252Fcallback%253Ftype%253DFACEBOOK%26ret%3Dlogin%26fbapp_pres%3D0%26logger_id%3D8b87546d-d798-4d97-b45b-e532506bb9a1%26tp%3Dunspecified&cancel_url=https%3A%2F%2Fauth.danawa.com%2Fsns%2Fcallback%3Ftype%3DFACEBOOK%26error%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied%23_%3D_&display=page&locale=ko_KR&pl_dbl=0"><i class="fa fa-facebook" aria-hidden="true"></i></a> 
 							</div>
 							<div>
-								<a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+								<a href="https://www.instagram.com/accounts/login/"><i class="fa fa-instagram" aria-hidden="true"></i></a>
 							</div>
 						</div>
 						<span>또는 새로운 계정으로 회원가입</span> 
@@ -112,13 +112,13 @@
 					</c:if>
 					<div class="social-links">
 						<div>
-							<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+							<a href="https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fwebhp%3Fhl%3Dko%26ictx%3D2%26sa%3DX%26ved%3D0ahUKEwjl1Nqg06OIAxXodfUHHS8aHIAQPQgJ&ec=GAZAmgQ&hl=ko&ifkv=Ab5oB3pbIO112pvqEE01vqulSnZqhCWj-AIFqvsmoCbbpeIHznsmETbp5QPRrjyPOa_h0CAGjAPA&passive=true&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-2093252842%3A1725259182100357&ddm=1"><i class="fa fa-google" aria-hidden="true"></i></a>
 						</div>
 						<div>
-							<a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+							<a href="https://www.facebook.com/login.php?skip_api_login=1&api_key=195707104118397&kid_directed_site=0&app_id=195707104118397&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fv2.5%2Fdialog%2Foauth%3Fclient_id%3D195707104118397%26response_type%3Dcode%26scope%3Dpublic_profile%252Cuser_friends%252Cemail%26redirect_uri%3Dhttps%253A%252F%252Fauth.danawa.com%252Fsns%252Fcallback%253Ftype%253DFACEBOOK%26ret%3Dlogin%26fbapp_pres%3D0%26logger_id%3D8b87546d-d798-4d97-b45b-e532506bb9a1%26tp%3Dunspecified&cancel_url=https%3A%2F%2Fauth.danawa.com%2Fsns%2Fcallback%3Ftype%3DFACEBOOK%26error%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied%23_%3D_&display=page&locale=ko_KR&pl_dbl=0"><i class="fa fa-facebook" aria-hidden="true"></i></a>
 						</div>
 						<div>
-							<a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+							<a href="https://www.instagram.com/accounts/login/"><i class="fa fa-instagram" aria-hidden="true"></i></a>
 						</div>
 					</div>
 					<span>또는 계정으로 로그인</span> 
