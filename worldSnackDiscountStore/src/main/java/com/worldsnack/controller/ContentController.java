@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.worldsnack.dto.CategoryDTO;
@@ -71,8 +70,8 @@ public class ContentController {
 	}
 	
 
-	//@PostMapping("/detail")
-	@RequestMapping(value="/detail", method={RequestMethod.GET, RequestMethod.POST})
+	@PostMapping("/detail")
+	//@RequestMapping(value="/detail", method={RequestMethod.GET, RequestMethod.POST})
 	public String detail(@RequestParam("content_idx") int content_idx,
 											 @RequestParam(value="limit", defaultValue="10") int limit,
 											 @RequestParam(value="category_idx", defaultValue="0") int category_idx,
@@ -95,10 +94,12 @@ public class ContentController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@ModelAttribute("writeContentDTO") ContentDTO writeContentDTO, Model model) {
+	public String write(@ModelAttribute("writeContentDTO") ContentDTO writeContentDTO,
+											@RequestParam(value="category_idx", defaultValue="0") int category_idx, 
+											Model model) {
 		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
-		
+		model.addAttribute("category_idx", category_idx);
 		return "content/write";
 	}
 	
@@ -127,10 +128,12 @@ public class ContentController {
 	public String modify(@RequestParam(value="content_idx", defaultValue="0") int content_idx,
                 			 @RequestParam(value="limit", defaultValue="10") int limit,
                 			 @RequestParam(value="category_idx", defaultValue="0") int category_idx,
+                			 @RequestParam(value = "page", defaultValue = "1") int page,
                        @ModelAttribute("modifyContentDTO") ContentDTO modifyContentDTO, 
                        Model model) {
 		
 		model.addAttribute("limit", limit);
+		model.addAttribute("page", page);
 		model.addAttribute("category_idx", category_idx);
 		
 		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
@@ -182,11 +185,13 @@ public class ContentController {
 											@RequestParam("content_idx") int content_idx,
 											@RequestParam(value="limit", defaultValue="10") int limit,
 											@RequestParam(value="category_idx", defaultValue="0") int category_idx,
+											@RequestParam(value = "page", defaultValue = "1") int page,
 											@RequestParam(value="scrapCheck", defaultValue="false") boolean scrapCheck,
 											Model model) {
 		
 		model.addAttribute("content_idx", content_idx);
 		model.addAttribute("limit", limit);
+		model.addAttribute("page", page);
 		model.addAttribute("category_idx", category_idx);
 		
 		/*

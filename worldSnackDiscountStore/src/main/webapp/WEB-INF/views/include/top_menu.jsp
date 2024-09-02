@@ -46,7 +46,7 @@
 						          </li>
 						          
 						          <li class="nav-item">
-						          	<div class="nav-link"> ${loginUserDTO.user_name} <span style="color:#000;">님 환영합니다</span></div>  
+						          	<div class="nav-link" > ${loginUserDTO.user_name} <span style="color:#000;">님 환영합니다</span></div>  
 						          </li>
 						          
 						       

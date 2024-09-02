@@ -12,15 +12,16 @@
     <title>Document</title>
 </head>
 <body>
-	<form action="${root}content/detail" id="scrapForm" method="post">
+	<form action="${root}content/detail" id="detailForm" method="post">
 		<input type="hidden" name="content_idx" value="${content_idx}">
 		<input type="hidden" name="category_idx" value="${category_idx}">
 		<input type="hidden" name="limit" value="${limit}">
+		<input type="hidden" name="page" value="${page}">
 	</form>
 	
 	<script>
 		alert("해당 게시글을 스크랩하였습니다");
-		document.getElementById('scrapForm').submit();
+		document.getElementById('detailForm').submit();
 	</script>
 </body>
 </html>    

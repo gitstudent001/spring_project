@@ -106,6 +106,7 @@
 										<input type="hidden" name="content_idx" value="${dataInfo.content_idx }">
 										<input type="hidden" name="limit" value="${limit }">
 										<input type="hidden" name="category_idx" value="${category_idx }">
+										<input type="hidden" name="page" value="${page }">
 										<a href="#" onclick="document.getElementById('postForm_${dataInfo.content_idx}').submit();">
 											${dataInfo.content_subject}
 						        </a>
@@ -167,7 +168,7 @@
 		    </c:choose>	
 		</ul>
 	</div>
-    <button type="button" onclick="location.href='write'">글쓰기</button>
+    <button type="button" onclick="location.href='write?category_idx=${category_idx}'">글쓰기</button>
 </div>
 	
 	<c:import url="/WEB-INF/views/include/bottom_menu.jsp" />

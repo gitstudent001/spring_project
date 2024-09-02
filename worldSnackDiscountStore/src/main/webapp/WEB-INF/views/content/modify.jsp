@@ -43,7 +43,7 @@
 	           enctype="multipart/form-data">
 		
 		<form:hidden path="content_idx" />
-			
+		
 		<table style="width:90%;margin-left:auto;margin-right:auto;">
 			<colgroup>
 	        <col width="12%" />
@@ -130,7 +130,7 @@
 			<tr>
 				<td colspan="2" style="text-align:center;">
 					<form:button type="submit" class="btn btn-primary">수정하기</form:button>&nbsp;&nbsp;
-					<form:button type="button" class="btn btn-secondary" onclick="location.href='${root}content/list?category_idx=${category_idx }&limit=${limit}'">취소(목록)</form:button>
+					<form:button type="button" class="btn btn-secondary" onclick="location.href='${root}content/list?category_idx=${category_idx }&limit=${limit}&page=${page }'">취소(목록)</form:button>
 				</td>
 			</tr>
 		</table>	
