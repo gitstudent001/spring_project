@@ -44,6 +44,8 @@ public class MyPageController {
 		UserValidator validator1 = new UserValidator();
 		binder.addValidators(validator1);
 	}
+	
+	private boolean mypageNav =  true;
 
 	@GetMapping("/main")
 	public String main(@ModelAttribute("modifyUserDTO") UserDTO modifyUserDTO,
@@ -58,6 +60,9 @@ public class MyPageController {
 		
 		// 로그인한 회원의 정보를 전달해줌
 		model.addAttribute("loginUserDTO", this.loginUserDTO);
+		
+		// top_menu 네비게이션용 boolean 전송
+		model.addAttribute("mypageNav", this.mypageNav);
 		return "myPage/main";
 	}
 	
@@ -107,6 +112,10 @@ public class MyPageController {
 		
 		// 페이지의 정보를 전달해줌
 		model.addAttribute("page", page);
+		
+		// top_menu 네비게이션용 boolean 전송
+		model.addAttribute("mypageNav", this.mypageNav);
+		
 		return "myPage/myContent";
 		
 
@@ -118,6 +127,10 @@ public class MyPageController {
 		
 		// 로그인한 회원의 정보를 전달해줌
 		model.addAttribute("loginUserDTO", this.loginUserDTO);
+		
+		// top_menu 네비게이션용 boolean 전송
+		model.addAttribute("mypageNav", this.mypageNav);
+		
 		return "myPage/delete";
 	}
 	
@@ -142,6 +155,10 @@ public class MyPageController {
 	public String myScrap(@RequestParam(value = "page", defaultValue = "1") int page,
 												@RequestParam(value="category_idx", defaultValue="0") int category_idx,
 												Model model) {
+		
+		// top_menu 네비게이션용 boolean 전송
+		model.addAttribute("mypageNav", this.mypageNav);
+		
 		int user_idx = loginUserDTO.getUser_idx();
 		// 카테고리 정보를 전달해줌
 		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
