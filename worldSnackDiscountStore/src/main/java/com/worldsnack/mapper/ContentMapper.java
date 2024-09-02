@@ -80,6 +80,7 @@ public interface ContentMapper {
 			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
 			+ "WHERE CO.CONTENT_SUBJECT LIKE '%${searchKeyword}%' "
 			+ "OR (CONTAINS(CO.CONTENT_TEXT, '%${searchKeyword}%') > 0) "
+			+ "OR CA.CATEGORY_NAME LIKE '%${searchKeyword}%' "
 			+ "ORDER BY CO.CATEGORY_IDX, CO.CONTENT_SUBJECT, CO.CONTENT_DATE DESC")
 	List<ContentDTO> selectSearchList(String searchKeyword);	
 	
@@ -120,7 +121,7 @@ public interface ContentMapper {
 	void insertContent(ContentDTO writeContentDTO);
 	
 	@Update("UPDATE CONTENT_TABLE SET "
-			+ "CATEGORY_IDX=#{category_idx}, "
+			+ "CATEGORY_IDX=#{category_idx} "
 			+ ",CONTENT_SUBJECT=#{content_subject} "
 			+ ",CONTENT_TEXT=#{content_text} "
 			+ ",CONTENT_FILE=#{content_file, jdbcType=VARCHAR} " 

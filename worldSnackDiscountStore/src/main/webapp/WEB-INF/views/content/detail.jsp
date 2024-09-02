@@ -85,7 +85,7 @@
       <div class="product-description">
           <h3>제품 내용</h3>
           <div class="description-box">
-              <textarea title="제품 내용">${detailContentDTO.content_text }</textarea>
+              ${detailContentDTO.content_text }
           </div>
       </div>
 
