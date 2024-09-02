@@ -48,7 +48,7 @@
               <p>가격 ${detailContentDTO.content_prodprice }원</p>
               <form id="scrapForm" action="${root }content/scrap" method="post">
               	<input type="hidden" name="content_idx" value="${detailContentDTO.content_idx }">
-              	<input type="hidden" name="user_idx" value="${loginUserDTO.user_idx }">
+              	<input type="hidden" name="user_idx" value="${user_idx }">
               	<input type="hidden" name="limit" value="${limit }">
               	<input type="hidden" name="category_idx" value="${category_idx }">
 					     	<c:choose>
@@ -90,8 +90,8 @@
       </div>
 
       <div class="action-buttons">
-      	<a href="${root}content/list?category_idx=${category_idx }&limit=${limit}" class="btn btn-secondary">목록</a>
-	     	<c:if test="${detailContentDTO.content_writer_idx == loginUserDTO.getUser_idx() }">
+      	<a href="${root}content/list?category_idx=${category_idx }&limit=${limit}&page=${page}" class="btn btn-secondary">목록</a>
+	     	<c:if test="${detailContentDTO.content_writer_idx == user_idx }">
 					<a href="${root }content/modify?content_idx=${content_idx}&category_idx=${category_idx }&limit=${limit}" class="btn btn-info">수정하기</a>
 					<a href="${root }content/delete?content_idx=${content_idx}&content_writer_idx=${detailContentDTO.content_writer_idx}" class="btn btn-danger">삭제하기</a>
 				</c:if>

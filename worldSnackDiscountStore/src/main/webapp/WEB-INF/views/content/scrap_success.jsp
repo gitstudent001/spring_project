@@ -12,9 +12,15 @@
     <title>Document</title>
 </head>
 <body>
+	<form action="${root}content/detail" id="scrapForm" method="post">
+		<input type="hidden" name="content_idx" value="${content_idx}">
+		<input type="hidden" name="category_idx" value="${category_idx}">
+		<input type="hidden" name="limit" value="${limit}">
+	</form>
+	
 	<script>
 		alert("해당 게시글을 스크랩하였습니다");
-		location.href="${root}content/detail?content_idx=${content_idx}&category_idx=${category_idx}&user_idx=${user_idx}&limit=${limit}";
+		document.getElementById('scrapForm').submit();
 	</script>
 </body>
 </html>    
