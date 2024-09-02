@@ -11,7 +11,7 @@
 <body>
 <script>
 	 	alert("로그아웃 하셨습니다 !!!");
-		location.href="${root}main";
+		location.href="${root}";
 </script>
 </body>
 </html>    

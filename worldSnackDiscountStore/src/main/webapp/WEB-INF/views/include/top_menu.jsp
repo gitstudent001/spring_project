@@ -35,14 +35,32 @@
                     <a class="nav-link" style="color:black;" href="${root}content/modify?content_idx=42">제품글수정</a>
                   </li>
                 </ul>
-                <ul class="navbar-nav me-auto" style="float:right;">
-				          <li class="nav-item">
-				          	<a class="nav-link" style="color:black;" href="${root}user/login_join" class="active">로그인 / 회원가입</a>
-				          </li>
-				          <li class="nav-item">
-				          	<a class="nav-link" style="color:black;" href="${root}mypage/main" class="active">마이페이지</a>
-				          </li>
-				        </ul>
+                <c:choose>
+                	<c:when test= "${loginUserDTO.userIsLogin == true }" >
+                		<ul class="navbar-nav me-auto" >
+	                		<li class="nav-item">
+						          	<a class="nav-link" style="color:black;" href="${root}user/logout" class="active" >로그아웃</a>
+						          </li>
+						          <li class="nav-item">
+						          	<a class="nav-link" style="color:black;" href="${root}/mypage/main" class="active">마이페이지</a>
+						          </li>
+						          
+						          <li class="nav-item">
+						          	<div class="nav-link"> ${loginUserDTO.user_name} <span style="color:#000;">님 환영합니다</span></div>  
+						          </li>
+						          
+						       
+                		</ul>
+                	</c:when>
+                	<c:otherwise>
+                		<ul class="navbar-nav me-auto">
+                			<li class="nav-item">
+						          	<a class="nav-link" style="color:black;" href="${root}user/login_join" class="active">로그인 / 회원가입</a>
+						          </li>
+                		</ul>
+                	</c:otherwise>
+                </c:choose>
+		
 				        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
               </div>
             </div>
