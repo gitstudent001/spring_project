@@ -2,12 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
-<c:set var="root" value="${pageContext.request.contextPath}/" /> 
-<c:set var="photoFolio" value="${root}template/photoFolio/" />     
-<c:set var="fruitables" value="${root}template/fruitables/" />
-<c:set var="bootswatch" value="${root}template/bootswatch/" />
-    
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>     
+<c:set var="root" value="${pageContext.request.contextPath}/" />  
     
 <!DOCTYPE html>
 <html>
@@ -15,40 +10,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>제품글쓰기</title>
-  
-  <!-- Google Web Fonts -->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
-	
-	<!-- Customized Bootstrap Stylesheet -->
-	<link href="${fruitables}css/bootstrap.min.css" rel="stylesheet">
-	
-	<!-- Template Stylesheet -->
-	<link href="${fruitables}css/style.css" rel="stylesheet">
-	
-	<!-- bootswatch Stylesheet -->
-	<link href="${bootswatch}css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
-<c:import url="/WEB-INF/views/include/top_menu.jsp" />
-
+	<form action="${root}content/detail" id="detailForm" method="post">
+		<input type="hidden" name="content_idx" value="${content_idx}">
+		<input type="hidden" name="category_idx" value="${category_idx}">
+		<input type="hidden" name="limit" value="${limit}">
+		<input type="hidden" name="page" value="${page}">		
+	</form>
+	
 	<script>
 		alert("게시글이 수정되었습니다");
-		location.href="${root}content/detail?content_idx=${content_idx}&category_idx=${category_idx}";
+		document.getElementById('detailForm').submit();
 	</script>
 
-<c:import url="/WEB-INF/views/include/bottom_menu.jsp" />
-	
-	<!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-
-  <!-- Vendor JS Files -->
-  <script src="${photoFolio}vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="${photoFolio}vendor/php-email-form/validate.js"></script>
-  <script src="${photoFolio}vendor/aos/aos.js"></script>
-  <script src="${photoFolio}vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="${photoFolio}vendor/swiper/swiper-bundle.min.js"></script>	
 </body>
 </html>    

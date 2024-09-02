@@ -55,7 +55,7 @@
 					<div class="row" style="padding-left:12px;">
 						<form:select class="form-select" path="category_idx" style="width:29%;" title="카테고리종류">
 							<c:forEach var="item" items="${categoryDTO }">
-								<form:option value="${item.category_idx }" title="${categoryDTO }">${item.category_name }</form:option>
+								<option value="${item.category_idx }" <c:if test ="${category_idx eq item.category_idx}">selected="true"</c:if>>${item.category_name }</option>
 							</c:forEach>
 						</form:select>
 						

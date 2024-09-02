@@ -50,6 +50,7 @@
               	<input type="hidden" name="content_idx" value="${detailContentDTO.content_idx }">
               	<input type="hidden" name="user_idx" value="${user_idx }">
               	<input type="hidden" name="limit" value="${limit }">
+              	<input type="hidden" name="page" value="${page }">
               	<input type="hidden" name="category_idx" value="${category_idx }">
 					     	<c:choose>
 									<c:when test="${alreadyScrap == true }">
@@ -85,14 +86,14 @@
       <div class="product-description">
           <h3>제품 내용</h3>
           <div class="description-box">
-              ${detailContentDTO.content_text }
+          	<textarea title="제품 내용" readonly>${detailContentDTO.content_text }</textarea>
           </div>
       </div>
 
       <div class="action-buttons">
       	<a href="${root}content/list?category_idx=${category_idx }&limit=${limit}&page=${page}" class="btn btn-secondary">목록</a>
 	     	<c:if test="${detailContentDTO.content_writer_idx == user_idx }">
-					<a href="${root }content/modify?content_idx=${content_idx}&category_idx=${category_idx }&limit=${limit}" class="btn btn-info">수정하기</a>
+					<a href="${root }content/modify?content_idx=${content_idx}&category_idx=${category_idx }&limit=${limit}&page=${page}" class="btn btn-info">수정하기</a>
 					<a href="${root }content/delete?content_idx=${content_idx}&content_writer_idx=${detailContentDTO.content_writer_idx}" class="btn btn-danger">삭제하기</a>
 				</c:if>
       </div>
@@ -113,6 +114,5 @@
   
   
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-	<script src="${root }js/detail.js" type="text/javascript"></script>
 </body>
 </html>

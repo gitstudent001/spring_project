@@ -67,7 +67,14 @@
 										<c:forEach var="content" items="${myContentList }">
 											<tr>
 												<td class="text-center">${content.content_idx }</td>
-												<th><a href='${root }content/detail?content_idx=${content.content_idx}&page=${page}'>${content.content_subject }</a></th>
+												<th>
+													<form action="${root }content/detail" method="post" id="postForm_${content.content_idx }">
+														<input type="hidden" name="content_idx" value="${content.content_idx }">
+														<a href="#" onclick="document.getElementById('postForm_${content.content_idx}').submit();">
+															${content.content_subject}
+										        </a>
+									        </form>		
+								        </th>										
 												<td class="text-center d-none d-xl-table-cell"><fmt:formatDate pattern="yyyy-MM-dd" value="${content.content_date }"/></td>
 												<td class="text-center d-none d-xl-table-cell">${content.content_view }</td>
 											</tr>

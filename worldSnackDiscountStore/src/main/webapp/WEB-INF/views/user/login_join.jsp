@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}/" />
+
 <c:set var="photoFolio" value="${root}template/photoFolio/" />     
 <%-- <c:set var="fruitables" value="${root}template/fruitables/" /> --%>
 <c:set var="bootswatch" value="${root}template/bootswatch/" />
