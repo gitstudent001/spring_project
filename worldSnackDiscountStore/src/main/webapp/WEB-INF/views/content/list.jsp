@@ -101,7 +101,16 @@
         <c:forEach var="dataInfo" items="${contentDTO}">
             <tr>
                 <td>${dataInfo.content_idx }</td>
-                <td><a href="${root }content/detail?content_idx=${dataInfo.content_idx }">${dataInfo.content_subject }</a></td>
+                <td>
+									<form action="${root }content/detail" method="post" id="postForm_${dataInfo.content_idx }">
+										<input type="hidden" name="content_idx" value="${dataInfo.content_idx }">
+										<input type="hidden" name="limit" value="${limit }">
+										<input type="hidden" name="category_idx" value="${category_idx }">
+										<a href="#" onclick="document.getElementById('postForm_${dataInfo.content_idx}').submit();">
+											${dataInfo.content_subject}
+						        </a>
+					        </form>
+								</td>
                 <td><img src="${root}upload/${dataInfo.content_file}"/></td>
 								<td>${dataInfo.content_writer_idx }</td>
 								<td>${dataInfo.content_make }</td>

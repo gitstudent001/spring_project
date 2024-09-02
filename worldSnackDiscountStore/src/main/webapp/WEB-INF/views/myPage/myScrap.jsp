@@ -78,7 +78,15 @@
 										<c:forEach var="scrapContent" items="${myScrapList }">
 											<tr>
 												<td class="text-center">${scrapContent.content_idx }</td>
-												<th><a href='${root }content/detail?content_idx=${scrapContent.content_idx}&page=${page}'>${scrapContent.content_subject }</a></th>
+												<th>
+												<form action="${root }content/detail" method="post" id="postForm_${scrapContent.content_idx }">
+													<input type="hidden" name="content_idx" value="${scrapContent.content_idx }">
+													<a href="#" onclick="document.getElementById('postForm_${scrapContent.content_idx}').submit();">
+														${scrapContent.content_subject}
+									        </a>
+												</form>
+													
+												</th>
 												<td class="text-center d-none d-xl-table-cell"><fmt:formatDate pattern="yyyy-MM-dd" value="${scrapContent.content_date }"/></td>
 												<td class="text-center d-none d-xl-table-cell">${scrapContent.content_view }</td>
 											</tr>

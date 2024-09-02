@@ -70,25 +70,25 @@ public class ContentController {
 	}
 	
 
-	@GetMapping("/detail")
+	@PostMapping("/detail")
 	public String detail(@RequestParam("content_idx") int content_idx,
 											 @RequestParam(value="limit", defaultValue="10") int limit,
 											 @RequestParam(value="category_idx", defaultValue="0") int category_idx,
-											 @RequestParam("user_idx") int user_idx,
+											 @RequestParam(value = "page", defaultValue = "1") int page,
 											 Model model) {
-		model.addAttribute("content_idx", content_idx);
 		
+		int user_idx = loginUserDTO.getUser_idx();
 		ContentDTO detailContentDTO = contentService.getContentDetail(content_idx);
 		// 스크랩 유무 확인
 		boolean alreadyScrap = contentService.checkScrap(user_idx, content_idx);
 		
-		
+		model.addAttribute("content_idx", content_idx);
 		model.addAttribute("detailContentDTO", detailContentDTO);
-		model.addAttribute("loginUserDTO", loginUserDTO);
-		
 		model.addAttribute("limit", limit);
+		model.addAttribute("page", page);
 		model.addAttribute("category_idx", category_idx);
 		model.addAttribute("alreadyScrap", alreadyScrap);
+		model.addAttribute("user_idx", user_idx);
 		return "content/detail";
 	}
 	
@@ -183,7 +183,6 @@ public class ContentController {
 											@RequestParam(value="scrapCheck", defaultValue="false") boolean scrapCheck,
 											Model model) {
 		
-		model.addAttribute("user_idx", user_idx);
 		model.addAttribute("content_idx", content_idx);
 		model.addAttribute("limit", limit);
 		model.addAttribute("category_idx", category_idx);
