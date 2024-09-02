@@ -55,7 +55,7 @@
 
 	<c:import url="/WEB-INF/views/include/top_menu.jsp" />
 
-	<h1>list.jsp</h1>
+	<br>
 	<h2>${categoryName }</h2>
 	
 	<!-- 카테고리 -->
