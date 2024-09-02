@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.worldsnack.dto.CategoryDTO;
@@ -70,7 +71,8 @@ public class ContentController {
 	}
 	
 
-	@PostMapping("/detail")
+	//@PostMapping("/detail")
+	@RequestMapping(value="/detail", method={RequestMethod.GET, RequestMethod.POST})
 	public String detail(@RequestParam("content_idx") int content_idx,
 											 @RequestParam(value="limit", defaultValue="10") int limit,
 											 @RequestParam(value="category_idx", defaultValue="0") int category_idx,

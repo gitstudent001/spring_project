@@ -129,7 +129,7 @@
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align:center;">
-					<form:button type="submit" class="btn btn-primary">작성하기</form:button>&nbsp;&nbsp;
+					<form:button type="submit" class="btn btn-primary">수정하기</form:button>&nbsp;&nbsp;
 					<form:button type="button" class="btn btn-secondary" onclick="location.href='${root}content/list?category_idx=${category_idx }&limit=${limit}'">취소(목록)</form:button>
 				</td>
 			</tr>
