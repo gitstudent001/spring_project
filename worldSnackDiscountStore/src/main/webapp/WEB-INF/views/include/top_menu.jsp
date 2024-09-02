@@ -25,7 +25,7 @@
                     <a class="nav-link" style="color:black;" href="${root}content/list">제품</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" style="color:black;" href="${root}user/test">테스트</a>
+                    <a class="nav-link" style="color:black;" href="${root}test">테스트</a>
                   </li>
                   
                   <li class="nav-item">
