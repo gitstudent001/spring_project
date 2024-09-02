@@ -41,15 +41,44 @@
 	                		<li class="nav-item">
 						          	<a class="nav-link" style="color:black;" href="${root}user/logout" class="active" >로그아웃</a>
 						          </li>
+						          
 						          <li class="nav-item">
-						          	<a class="nav-link" style="color:black;" href="${root}/mypage/main" class="active">마이페이지</a>
+						          	<!-- 버튼 수평 정렬을 위해 div 추가 -->
+						          	<div class="d-flex justify-content-end align-items-center">
+							          	<a class="nav-link" style="color:black;" href="${root}/mypage/main" class="active">마이페이지</a>
+							          	<c:if test="${mypageNav == true }">
+							          		<button class="navbar-toggler custom-navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
+															aria-expanded="false" aria-label="Toggle navigation">
+															<span class="navbar-toggler-icon"></span>
+														</button>							          	
+							          	</c:if>
+						          	</div>
+					          		<!-- 마이페이지 용 네비게이션 추가 -->
+					          		<c:if test="${mypageNav == true }">
+						          		<div class="d-lg-none">
+														<div class="collapse navbar-collapse" id="navbarResponsive">
+															<ul class="navbar-nav">
+																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/main">내 정보 수정</a></li>
+																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/myContent">내가 쓴 게시글</a></li>
+																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/myScrap">스크랩 한 게시글</a></li>
+													
+																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/delete">회원탈퇴</a></li>
+															</ul>
+														</div>							          		
+						          		</div>
+					          		</c:if>
 						          </li>
 						          
 						          <li class="nav-item">
-						          	<div class="nav-link" > ${loginUserDTO.user_name} <span style="color:#000;">님 환영합니다</span></div>  
+						          	<div class="nav-link" > 
+						          		${loginUserDTO.user_name} <span style="color:#000;">님 환영합니다</span>
+						          		<c:if test="${mypageNav == true }">
+							          		<p>
+							          			당신은 <span class="${loginUserDTO.user_gradeNameAndClass[1] }">${loginUserDTO.user_gradeNameAndClass[0] } </span>등급 입니다~!
+														</p>
+						          		</c:if>
+						          	</div>  
 						          </li>
-						          
-						       
                 		</ul>
                 	</c:when>
                 	<c:otherwise>

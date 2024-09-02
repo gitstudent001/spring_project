@@ -1948,9 +1948,22 @@ progress {
   }
 }
 @media (max-width: 991.98px) {
+	#sideNav {
+		display: none;
+	}
   .table-responsive-lg {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+  }
+  
+  .custom-toggler {
+	   margin-left: auto; /* 버튼을 오른쪽으로 정렬 */
+	   order: 2;
+  }
+
+  .nav-link {
+	   margin-right: 1rem;
+	   order: 1;
   }
 }
 @media (max-width: 1199.98px) {
@@ -3330,6 +3343,9 @@ textarea.form-control-lg {
     right: 0;
     left: auto;
   }
+  .custom-toggler {
+     display: none; /* 큰 화면에서는 버튼 숨기기 */
+   }
 }
 @media (min-width: 1200px) {
   .dropdown-menu-xl-start {
@@ -7030,6 +7046,8 @@ textarea.form-control-lg {
 
 .d-flex {
   display: flex !important;
+  justify-content: flex-end;
+  flex-direction: row-reverse;
 }
 
 .d-inline-flex {
@@ -10830,7 +10848,7 @@ textarea.form-control-lg {
   }
 }
 body {
-  padding-top: 3.375rem;
+  /*padding-top: 3.375rem;*/
   color: #6c757d;
 }
 
@@ -10874,10 +10892,11 @@ p.lead {
   padding-left: 1rem;
   padding-right: 1rem;
 }
-#sideNav .navbar-nav .nav-item .nav-link {
+#navbarResponsive .navbar-nav .nav-item .nav-link {
   font-weight: 800;
   letter-spacing: 0.05rem;
   text-transform: uppercase;
+  list-style-type: disc;
 }
 #sideNav .navbar-toggler:focus {
   outline-color: #d48a6e;
@@ -11136,4 +11155,25 @@ form.lead.mb-5 input[readonly] {
     padding-top: 5rem;
     padding-bottom: 5rem;
   }
+  
+	.custom-toggler {
+	    padding: 0.25rem 0.5rem;
+	    font-size: 0.875rem;
+	    line-height: 1.5;
+	    border-radius: 0.2rem;
+	    background-color: transparent;
+	}
+}
+
+.custom-navbar-toggler {
+    padding: 0.25rem 0.5rem; /* 버튼의 패딩(내부 여백)을 조정 */
+    font-size: 0.875rem; /* 아이콘의 크기를 줄이기 위해 폰트 크기 조정 */
+    height: 20px; /* 버튼의 높이 조정 */
+    width: 30px;  /* 버튼의 너비 조정 */
+    border-radius: 0.2rem; /* 버튼의 모서리를 둥글게 조정 */
+}
+
+.custom-navbar-toggler .navbar-toggler-icon {
+    width: 1em;
+    height: 1em;
 }
