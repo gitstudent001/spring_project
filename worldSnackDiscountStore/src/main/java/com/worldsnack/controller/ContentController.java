@@ -83,6 +83,9 @@ public class ContentController {
 		// 스크랩 유무 확인
 		boolean alreadyScrap = contentService.checkScrap(user_idx, content_idx);
 		
+		// 조회수 증가
+		contentService.increaseView(content_idx);
+		
 		model.addAttribute("content_idx", content_idx);
 		model.addAttribute("detailContentDTO", detailContentDTO);
 		model.addAttribute("limit", limit);
