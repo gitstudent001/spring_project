@@ -81,7 +81,7 @@ public class ContentDAO {
 	public void updateContent(ContentDTO modifyContentDTO) {
 		contentMapper.updateContent(modifyContentDTO);
 	}
-	//게시글 스크랩 (희만)
+	// 게시글 스크랩 (희만)
 	public void insertScrap(int user_idx, int content_idx) {
 		contentMapper.insertScrap(user_idx, content_idx);
 	}
@@ -91,9 +91,14 @@ public class ContentDAO {
 		return contentMapper.checkScrap(user_idx, content_idx);
 	}
 	
-	//게시글 스크랩 취소하기 (희만)
+	// 게시글 스크랩 취소하기 (희만)
 	public void deleteScrap(@Param("user_idx")int user_idx, @Param("content_idx") int content_idx) {
 		contentMapper.deleteScrap(user_idx, content_idx);
+	}
+	
+	// 조회수 증가 (희만)
+	public void increaseView(int content_idx) {
+		contentMapper.increaseView(content_idx);
 	}
 		
 }

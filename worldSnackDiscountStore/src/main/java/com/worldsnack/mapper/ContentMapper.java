@@ -150,4 +150,12 @@ public interface ContentMapper {
 					"WHERE user_idx = #{user_idx} AND content_idx = #{content_idx}")
 	void deleteScrap(@Param("user_idx")int user_idx, @Param("content_idx") int content_idx);
 	
+	// 조회수 증가 (희만)
+	@Update("UPDATE CONTENT_TABLE "
+				+ "SET CONTENT_VIEW = (SELECT CONTENT_VIEW "
+        +			                  "FROM CONTENT_TABLE "
+        +				               "WHERE CONTENT_IDX = #{content_idx}) + 1 "
+      	+ "WHERE CONTENT_IDX = #{content_idx}")
+	void increaseView(int content_idx);
+	
 }

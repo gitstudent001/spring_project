@@ -41,7 +41,7 @@
       
       <div class="product-header">
           <div class="product-image">
-              <img alt="사진 없음" src="${root }upload/카라멜사진.jpg" style="width:100%; text-align:center;" />
+              <img alt="사진 없음" src="${root }upload/${detailContentDTO.content_file}" style="width:100%; text-align:center;" />
           </div>
           <div class="product-info">
               <h2>${detailContentDTO.content_subject }</h2>
