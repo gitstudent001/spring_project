@@ -14,7 +14,7 @@
 <body>
 	<script type="text/javascript">
 		alert("회원 탈퇴를 하셨습니다. 그동안 이용해주셔서 감사합니다.");
-  	location.href="${root }main";
+  	location.href="${root }";
 	</script>
 </body>
 </html>    
