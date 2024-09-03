@@ -14,7 +14,7 @@
                 <span class="navbar-toggler-icon"></span>
               </button>
 
-              <div class="collapse navbar-collapse" id="navbarColor04">
+              <div class="collapse bg-body-tertiary navbar-collapse" id="navbarColor04" style="margin-top:10px; z-index:8; ">
                 <ul class="navbar-nav me-auto">
                   <li class="nav-item">
                     <a class="nav-link active"  style="color:black;" href="${root}">Home
