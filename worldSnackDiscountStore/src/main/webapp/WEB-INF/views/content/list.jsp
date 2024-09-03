@@ -55,19 +55,23 @@
 
 	<c:import url="/WEB-INF/views/include/top_menu.jsp" />
 
+
+<div style="width:96%;margin:auto;">
 	<br>
 	<h2>${categoryName }</h2>
 	
-	<!-- 카테고리 -->
-	<input type="button" onclick="location.href='list'" value="전체" class ="btnCategory"
+	<div>
+		<!-- 카테고리 -->
+		<input type="button" onclick="location.href='list'" value="전체" class ="btnCategory"
 		 		 style="display: inline-flex; align-items: center; justify-content: center; margin: 10px; padding: 10px 20px; background-color: #f8f9fa; border: none; border-radius: 50px; color: #000; width: 130px; cursor: pointer;"/>
 		<c:forEach var="ctgInfo" items="${categoryDTO}"> 
-		<input type="button" onclick="location.href='list?category_idx=${ctgInfo.category_idx }'" 
-						value="${ctgInfo.category_name }" class ="btnCategory"
+			<input type="button" onclick="location.href='list?category_idx=${ctgInfo.category_idx }'" 
+						 value="${ctgInfo.category_name }" class ="btnCategory"
 						 style="display: inline-flex; align-items: center; justify-content: center; margin: 10px; padding: 10px 20px; background-color: #f8f9fa; border: none; border-radius: 50px; color: #000; width: 130px; cursor: pointer;"/>
 		</c:forEach>
-		 
+	</div>		 
 
+	<div style=" float:right;">
 	<form method="get" action="${root }content/list" class="dropdown">
 		<label for="limit">게시글 수 :</label>
 		<input type="hidden" name="category_idx" value="${category_idx }">
@@ -80,6 +84,7 @@
 			<option value="100" ${limit == 100 ? 'selected' : '' }>100개</option>
 		</select>
 	</form>
+	</div>
 
 	<table class="list">
     <thead>
@@ -123,53 +128,55 @@
             </tr>
         </c:forEach>
     </tbody>
-</table>
+	</table>
 
-<div class="button-container">
-	<div class="d-none d-md-block" style="margin : auto">
-		<ul class="pagination justify-content-center">
-		<c:choose>
-	   	<c:when test="${pageDTO.prevPage <= 0 }" >	
-			<li class="page-item disabled">
-				<a href="#" class="page-link">이전</a>
-			</li>
-		</c:when>
-		<c:otherwise>
-			<li class="page-item">
-				<a href="${root}content/list?page=${pageDTO.prevPage}&category_idx=${category_idx}&limit=${limit}" class="page-link">이전</a>
-			</li>
-		</c:otherwise>	
-	    </c:choose>		
-			<c:forEach var="idx" begin="${pageDTO.min}" end="${pageDTO.max}">
+	<div class="button-container">
+		<div class="d-none d-md-block" style="margin : auto">
+			<ul class="pagination justify-content-center">
 			<c:choose>
-			<c:when test="${idx == pageDTO.currentPage }" >
-				<li class="page-item active">
-					<a href="${root}content/list?page=${idx}&category_idx=${category_idx}&limit=${limit}" class="page-link">${idx }</a>
-				</li>
-			</c:when>
-			<c:otherwise>
-			    <li class="page-item">
-					<a href="${root}content/list?page=${idx}&category_idx=${category_idx}&limit=${limit}" class="page-link">${idx }</a>
-				</li>
-			</c:otherwise>	
-			</c:choose>	
-			</c:forEach>
-			<c:choose>
-		   	<c:when test="${pageDTO.max >= pageDTO.totalPage }" >	
+		   	<c:when test="${pageDTO.prevPage <= 0 }" >	
 				<li class="page-item disabled">
-					<a href="#" class="page-link">다음</a>
+					<a href="#" class="page-link">이전</a>
 				</li>
 			</c:when>
 			<c:otherwise>
 				<li class="page-item">
-					<a href="${root}content/list?page=${pageDTO.nextPage}&category_idx=${category_idx}&limit=${limit}" class="page-link">다음</a>
+					<a href="${root}content/list?page=${pageDTO.prevPage}&category_idx=${category_idx}&limit=${limit}" class="page-link">이전</a>
 				</li>
 			</c:otherwise>	
-		    </c:choose>	
-		</ul>
+		    </c:choose>		
+				<c:forEach var="idx" begin="${pageDTO.min}" end="${pageDTO.max}">
+				<c:choose>
+				<c:when test="${idx == pageDTO.currentPage }" >
+					<li class="page-item active">
+						<a href="${root}content/list?page=${idx}&category_idx=${category_idx}&limit=${limit}" class="page-link">${idx }</a>
+					</li>
+				</c:when>
+				<c:otherwise>
+				    <li class="page-item">
+						<a href="${root}content/list?page=${idx}&category_idx=${category_idx}&limit=${limit}" class="page-link">${idx }</a>
+					</li>
+				</c:otherwise>	
+				</c:choose>	
+				</c:forEach>
+				<c:choose>
+			   	<c:when test="${pageDTO.max >= pageDTO.totalPage }" >	
+					<li class="page-item disabled">
+						<a href="#" class="page-link">다음</a>
+					</li>
+				</c:when>
+				<c:otherwise>
+					<li class="page-item">
+						<a href="${root}content/list?page=${pageDTO.nextPage}&category_idx=${category_idx}&limit=${limit}" class="page-link">다음</a>
+					</li>
+				</c:otherwise>	
+			    </c:choose>	
+			</ul>
+		</div>
+	    <button type="button" onclick="location.href='write?category_idx=${category_idx}'">글쓰기</button>
 	</div>
-    <button type="button" onclick="location.href='write?category_idx=${category_idx}'">글쓰기</button>
 </div>
+
 	
 	<c:import url="/WEB-INF/views/include/bottom_menu.jsp" />
 	
