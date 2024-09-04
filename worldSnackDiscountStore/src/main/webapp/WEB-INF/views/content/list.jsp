@@ -117,7 +117,7 @@
 						        </a>
 					        </form>
 								</td>
-                <td><img src="${root}upload/${dataInfo.content_file}"/></td>
+                <td><img src="${root}upload/${dataInfo.content_file}"  style="width:100px; height:100px;" onerror="this.style.display='none';"/></td>
 								<td>${dataInfo.content_writer_idx }</td>
 								<td>${dataInfo.content_make }</td>
 								<td>${dataInfo.content_country }</td>
@@ -192,7 +192,19 @@
   <script src="${photoFolio}vendor/glightbox/js/glightbox.min.js"></script>
   <script src="${photoFolio}vendor/swiper/swiper-bundle.min.js"></script>
 	
-
+	<!-- 이미지가 로드되지 않을 경우 안보이도록 display:none 처리 -->
+	<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", function() {
+		    const images = document.querySelectorAll('img');
+	
+		    images.forEach(img => {
+		        img.onerror = function() {
+		            this.style.display = 'none'; // 이미지 로드 실패 시 숨김
+		        };
+		    });
+		});
+	</script>
+	
 
 </body>
 </html>    

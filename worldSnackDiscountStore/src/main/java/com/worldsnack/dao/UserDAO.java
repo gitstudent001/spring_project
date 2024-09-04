@@ -32,4 +32,9 @@ public class UserDAO {
 		return userMapper.getMyGrade(user_idx);
 	}
 	
+	// 등급 분류용 content_count 증가 (희만)
+	public void increaseContentCountForGrade(int user_idx) {
+		userMapper.increaseContentCountForGrade(user_idx);
+	}
+	
 }

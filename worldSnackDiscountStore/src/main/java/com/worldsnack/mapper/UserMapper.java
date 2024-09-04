@@ -2,6 +2,7 @@ package com.worldsnack.mapper;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.worldsnack.dto.UserDTO;
 
@@ -29,7 +30,13 @@ public interface UserMapper {
 					"WHERE USER_IDX = #{user_idx}")
 	int getMyGrade(int user_idx);
 	
-	
+	// 등급 분류용 content_count 증가 (희만)
+	@Update("UPDATE USER_TABLE " +
+					"SET USER_CONTENT_COUNT = (SELECT USER_CONTENT_COUNT " +
+																		"FROM USER_TABLE " +
+                              			"WHERE USER_IDX = #{user_idx}) + 1 " +
+					"WHERE USER_IDX = #{user_idx}")
+	void increaseContentCountForGrade(int user_idx);
 	
 	
 	

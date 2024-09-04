@@ -77,7 +77,7 @@
           <div class="specs-table">
               <p>제조사/원산지 : ${detailContentDTO.content_make } / ${detailContentDTO.content_country }</p>
               <p>상품번호 : ${detailContentDTO.content_prodno }</p>
-              <p>식품의 유형 : 상품상세참조</p>
+              <p>식품의 유형 : ${detailContentDTO.category_name }</p>
           </div>
       </div>
 

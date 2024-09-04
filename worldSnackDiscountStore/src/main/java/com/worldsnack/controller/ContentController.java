@@ -21,6 +21,7 @@ import com.worldsnack.dto.PageDTO;
 import com.worldsnack.dto.UserDTO;
 import com.worldsnack.service.CategoryService;
 import com.worldsnack.service.ContentService;
+import com.worldsnack.service.UserService;
 
 @Controller
 @RequestMapping("content")
@@ -31,6 +32,9 @@ public class ContentController {
 	
 	@Autowired
 	private ContentService contentService;
+	
+	@Autowired 
+	private UserService userService;
 	
 	@Resource(name="loginUserDTO")
 	private UserDTO loginUserDTO;
@@ -121,6 +125,10 @@ public class ContentController {
 		System.out.println("writeContentDTO : " + writeContentDTO);
 		
 		contentService.addContent(writeContentDTO);
+		
+		// 게시글 등록시 해당 유저의 user_content_count 증가 (희만)
+		userService.increaseContentCountForGrade(writeContentDTO.getContent_writer_idx());
+		
 		model.addAttribute("content_idx", writeContentDTO.getContent_idx());
 		model.addAttribute("category_idx", writeContentDTO.getCategory_idx());
 		

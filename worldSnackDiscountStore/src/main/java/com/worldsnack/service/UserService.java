@@ -88,5 +88,10 @@ public class UserService {
     gradeNameAndClass.add(gradeClass);
 		return gradeNameAndClass;
 	}
+	
+	// 등급 분류용 content_count 증가 (희만)
+	public void increaseContentCountForGrade(int user_idx) {
+		userDAO.increaseContentCountForGrade(user_idx);
+	}
 
 }
