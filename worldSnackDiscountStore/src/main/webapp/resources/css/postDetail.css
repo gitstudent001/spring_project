@@ -1,0 +1,60 @@
+/* 커스텀 버튼 스타일 */
+.btn-custom {
+  border-radius: 50px;
+  border: none;
+  background-color: #F7F7F7;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-custom:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-comment {
+  border-radius: 50px;
+  border: none;
+  background-color: #FFFFFF;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-comment:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-vote{
+	width: 40px;
+	height: 40px;
+  border: none;
+  background-color: #E9ECEF;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+.btn-comment-vote{
+	width: 30px;
+	height: 30px;
+  border: none;
+  background-color: #E9ECEF;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+.up-vote:hover {
+  background-color: #D93900;
+  color: white;
+}
+.down-vote:hover {
+  background-color: #007bff;
+  color: white;
+}
+.btn-fills{
+	border-radius: 50px;
+	background-color: #E9ECEF;
+	width: 130px;
+	
+.comment-actions{
+	width: 140px;
+}	
+

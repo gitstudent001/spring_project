@@ -34,6 +34,9 @@
                   <li class="nav-item">
                     <a class="nav-link" style="color:black;" href="${root}content/modify?content_idx=42">제품글수정</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" style="color:black;" href="${root}board/community">커뮤니티</a>
+                  </li>
                 </ul>
                 <c:choose>
                 	<c:when test= "${loginUserDTO.userIsLogin == true }" >
