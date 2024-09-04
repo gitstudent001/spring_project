@@ -85,8 +85,8 @@
 
       <div class="product-description">
           <h3>제품 내용</h3>
-          <div class="description-box">
-          	<textarea title="제품 내용" readonly>${detailContentDTO.content_text }</textarea>
+          <div class="description-box" style="overflow:auto;">
+          	${detailContentDTO.content_text }
           </div>
       </div>
 

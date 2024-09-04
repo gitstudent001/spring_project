@@ -14,8 +14,23 @@
 	            onerror="this.onerror=null; this.src='${fruitables}img/fruite-item-5.jpg';">
 	        </div>
 	        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-	            <h4>${dataInfo.content_subject}</h4>
-	            <p>${dataInfo.content_text }...</p>
+		        <form action="${root }content/detail" method="post" id="postForm_${dataInfo.content_idx }">
+							<input type="hidden" name="content_idx" value="${dataInfo.content_idx }">
+							<input type="hidden" name="category_idx" value="${dataInfo.category_idx }">
+							<a href="#" onclick="document.getElementById('postForm_${dataInfo.content_idx}').submit();">
+								<h4>${dataInfo.content_subject}</h4>
+	            	<p>
+	            		<c:choose> 
+										<c:when test="${dataInfo.content_text.length() <= 20}">
+											${dataInfo.content_text}			
+										</c:when> 
+										<c:otherwise>
+											${dataInfo.content_text.substring(0, 20)}...
+										</c:otherwise> 
+									</c:choose> 
+	            	</p>
+			        </a>
+		        </form>
 	        </div>
 	    </div>
 	</div>
