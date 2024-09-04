@@ -148,9 +148,18 @@ public class ContentService {
 		
 		String originalFilename = multipartFile.getOriginalFilename();
 		String uploadFileName = System.currentTimeMillis() + "_" + originalFilename;
+
+		String uploadPath = pathUpload.replace("file:///", "");
+		//경로 자동생성
+		File chkMkdir = new File(uploadPath);
 		
 		try {
-			multipartFile.transferTo(new File(pathUpload + "/" + uploadFileName));
+			//경로 존재 확인
+			if (!chkMkdir.exists()) {
+				chkMkdir.mkdirs(); //경로가 존재하지 않을 경우 상위폴더까지 모두 생성
+			}
+			
+			multipartFile.transferTo(new File(uploadPath + uploadFileName));
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

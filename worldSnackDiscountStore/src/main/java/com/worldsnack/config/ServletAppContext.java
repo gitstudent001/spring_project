@@ -62,6 +62,13 @@ public class ServletAppContext implements WebMvcConfigurer{
 	
 	@Autowired
 	private ContentService contentService;
+	
+	@Value("${path.upload}")
+	private String uploadPath;
+	
+	@Value("${path.imgUpload}")
+	private String imgUploadPath;
+	
 
 	// Controller 의 메소드가 반환하는 jsp(view) 이름 앞뒤로
 	// 있는 경로의 접두사, 접미사 설정하기
@@ -76,6 +83,7 @@ public class ServletAppContext implements WebMvcConfigurer{
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/**").addResourceLocations("/resources/");
+		registry.addResourceHandler(imgUploadPath).addResourceLocations(uploadPath);
 	}
 	
 	// database 접속 정보 관리
@@ -164,7 +172,7 @@ public class ServletAppContext implements WebMvcConfigurer{
 	  // 로그인하지 않았을 때 접근 못하게 하는 Url Pattern 을 지정함
 		regi2.addPathPatterns("/mypage/*", "/user/logout", "/content/*");
 		// 로그인하지 않아도 접근할 수 있는 url pattern  
-		regi2.excludePathPatterns("/content/list");	
+		regi2.excludePathPatterns("/content/list", "/content/detail");
 		
 		/* 작성자 확인하여 작성자가 아닐경우 수정 / 삭제 불가 */
 		CheckWriterInterceptor checkWriterInterceptor = 
