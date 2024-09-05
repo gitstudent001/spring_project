@@ -110,7 +110,36 @@
 		    <version>1.2</version>
 		</dependency>	
 		
-
+		<!-- Thumbnailator 라이브러리 -->
+		<dependency>
+		    <groupId>net.coobird</groupId>
+		    <artifactId>thumbnailator</artifactId>
+		    <version>0.4.8</version>
+		</dependency>
+		
+		<!-- Caffeine 라이브러리 -->		
+		<dependency>
+		  <groupId>com.github.ben-manes.caffeine</groupId>
+		  <artifactId>caffeine</artifactId>
+		  <version>3.1.6</version>
+		</dependency>
+		
+		<!-- Jackson 라이브러리 -->		
+	 	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>2.13.5</version>
+		</dependency>
+		<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-core</artifactId>
+	    <version>2.13.5</version>
+		</dependency>
+		<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+  		<artifactId>jackson-annotations</artifactId>
+	    <version>2.13.5</version>
+		</dependency>
 	 
   </dependencies>
   
