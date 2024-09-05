@@ -51,7 +51,7 @@ public class UserController {
 	public String login_procedure(@Valid @ModelAttribute("loginUserDTO") UserDTO loginUserDTO,
 																BindingResult result,
 																@ModelAttribute("joinUserDTO") UserDTO joinUserDTO,
-																Model model) {
+																Model model, HttpServletRequest request) {
 		if(result.hasErrors()) {
 			//System.out.println(result);
 			return "user/login_join";
@@ -61,6 +61,9 @@ public class UserController {
 		if(this.loginUserDTO.isUserIsLogin()) {
 			// 로그인 한 유저의 등급 가져오기
 			this.loginUserDTO.setUser_gradeNameAndClass(userService.getMyGrade(this.loginUserDTO.getUser_idx()));
+			
+			// 세션에 업데이트된 사용자 정보 설정
+			request.getSession().setAttribute("loginUserDTO", this.loginUserDTO);
 			
 			model.addAttribute("loginUserDTO", this.loginUserDTO);
 			//System.out.println(this.loginUserDTO);

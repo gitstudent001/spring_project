@@ -25,6 +25,8 @@ import com.worldsnack.interceptor.CheckWriterInterceptor;
 import com.worldsnack.interceptor.LoginCheckInterceptor;
 import com.worldsnack.interceptor.TopMenuInterceptor;
 import com.worldsnack.mapper.CategoryMapper;
+import com.worldsnack.mapper.CommMapper;
+import com.worldsnack.mapper.CommentMapper;
 import com.worldsnack.mapper.ContentMapper;
 import com.worldsnack.mapper.MypageMapper;
 import com.worldsnack.mapper.UserMapper;
@@ -42,6 +44,7 @@ import com.worldsnack.service.ContentService;
 @ComponentScan("com.worldsnack.controller")
 @ComponentScan("com.worldsnack.service")
 @ComponentScan("com.worldsnack.dao")
+@ComponentScan("com.worldsnack.config")
 @PropertySource("/WEB-INF/properties/database.properties")
 public class ServletAppContext implements WebMvcConfigurer{
 	
@@ -56,6 +59,12 @@ public class ServletAppContext implements WebMvcConfigurer{
 	
 	@Value("${oracle.password}")
 	private String oraclePassword;
+	
+	@Value("${path.upload.community}")
+  	private String communityUploadPath;
+	
+	@Value("${path.upload.thumbnails}")
+  	private String thumbnailUploadPath;
 	
 	@Autowired
 	private UserDTO loginUserDTO;
@@ -81,6 +90,14 @@ public class ServletAppContext implements WebMvcConfigurer{
 	// 이미지, 음악파일, js, css 파일 등을 저장하는 경로 지정하기
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		
+		// 외부 파일 시스템에 저장된 커뮤니티 이미지 파일 핸들러 설정(hs_comm)
+		registry.addResourceHandler("/uploads/community/**")
+    .addResourceLocations("file:///" + communityUploadPath);
+		
+		registry.addResourceHandler("/uploads/thumbnails/**")
+    .addResourceLocations("file:///" + thumbnailUploadPath);
+		
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/**").addResourceLocations("/resources/");
 		registry.addResourceHandler(imgUploadPath).addResourceLocations(uploadPath);
@@ -141,6 +158,21 @@ public class ServletAppContext implements WebMvcConfigurer{
 		return factoryBean;
 	}		
 	
+	@Bean
+	public MapperFactoryBean<CommMapper> getCommMapper(SqlSessionFactory factory) throws Exception{
+		MapperFactoryBean<CommMapper> factoryBean = 
+				new MapperFactoryBean<>(CommMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+	}
+	
+	@Bean
+	public MapperFactoryBean<CommentMapper> getCommentMapper(SqlSessionFactory factory) throws Exception{
+		MapperFactoryBean<CommentMapper> factoryBean = 
+				new MapperFactoryBean<>(CommentMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+	}
 
 	/*
   // Interceptor 등록하기

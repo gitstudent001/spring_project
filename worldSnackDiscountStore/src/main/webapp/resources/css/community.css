@@ -1,0 +1,67 @@
+.card {
+  margin-bottom: 15px;
+  border: none;
+}
+.card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-title {
+  margin: 0;
+}
+.btn-action {
+  margin-left: 10px;
+}
+.loader {
+  text-align: center;
+  padding: 20px;
+  display: none;
+}
+.btn-custom {
+  border-radius: 50px;
+  border: none;
+  background-color: #ffffff;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+.btn-custom:hover {
+  background-color: #007bff;
+  color: white;
+}
+.btn-vote{
+	width: 40px;
+	height: 40px;
+  border: none;
+  background-color: #E9ECEF;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+#up-vote{
+	margin-right: 8px;
+}
+#up-vote:hover {
+  background-color: #D93900;
+  color: white;
+}
+#down-vote{
+	margin-left: 8px;
+}
+#down-vote:hover {
+  background-color: #007bff;
+  color: white;
+}
+.btn-fills{
+	width: 140px;
+	border-radius: 50px;
+	background-color: #E9ECEF;
+}
+#btn-expand{
+	width: 50px;
+	height: 40px;
+	border: none;
+}
+#btn-expand:hover {
+  background-color: #007bff;
+  color: white;
+}
