@@ -21,7 +21,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
   <!-- Toast UI Editor 관련 JS 추가 -->
   <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-  
   <link rel="stylesheet" href="${root}css/newPost.css" type="text/css" />
 	<script src="${root}js/newPost.js" type="text/javascript"></script>
 
