@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,20 @@ public class CommentController {
     public List<CommentDTO> getRepliesByCommentId(@PathVariable("id") Long parentCommentId) {
         return commentService.getRepliesByCommentId(parentCommentId);
     }
+    
+    // 대댓글 추가 메서드
+    @PostMapping("/reply")
+    public ResponseEntity<Map<String, Object>> addReply(@RequestBody CommentDTO commentDto) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            commentService.addReply(commentDto);
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "대댓글 추가 중 오류가 발생했습니다: " + e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
 
     // 댓글 추가 
     @PostMapping("")
@@ -73,19 +88,25 @@ public class CommentController {
         return ResponseEntity.ok(response);
     }
 
-    // 댓글 수정 
+    // 댓글 수정
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateComment(@PathVariable("id") Long commentId, @RequestBody CommentDTO commentDto) {
+    public ResponseEntity<Map<String, Object>> updateComment(
+        @PathVariable("id") Long commentId,
+        @RequestBody CommentDTO commentDto) {
+
+        // System.out.println("Received commentId: " + commentId + ", currentUserId: " + commentDto.getCurrentUserId());
+
         Map<String, Object> response = new HashMap<>();
         try {
-            commentDto.setComment_idx(commentId);
-            commentService.updateComment(commentDto);
+            CommentDTO updatedComment = commentService.updateComment(commentId, commentDto, commentDto.getCurrentUserId());
             response.put("success", true);
+            response.put("updatedComment", updatedComment);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             response.put("success", false);
-            response.put("message", "댓글 수정 중 오류가 발생했습니다: " + e.getMessage());
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
-        return ResponseEntity.ok(response);
     }
 
     // 댓글 삭제 
@@ -102,30 +123,25 @@ public class CommentController {
         return ResponseEntity.ok(response);
     }
 
-    // 댓글 업보트
-    @PostMapping("/vote/{id}/upvote")
-    public ResponseEntity<Map<String, Object>> upvoteComment(@PathVariable("id") Long commentId) {
+    // 댓글 투표 (업보트 또는 다운보트)
+    @PostMapping("/vote/{id}/{voteType}")
+    public ResponseEntity<Map<String, Object>> voteForComment(
+        @PathVariable("id") Long commentId, 
+        @PathVariable("voteType") String voteType,
+        @RequestParam("userId") Long userId) {  // RequestParam으로 userId를 받음
         Map<String, Object> response = new HashMap<>();
         try {
-            commentService.upvoteComment(commentId);
+            if (!"upvote".equals(voteType) && !"downvote".equals(voteType)) {
+                throw new IllegalArgumentException("Invalid vote type. Must be 'upvote' or 'downvote'.");
+            }
+            
+            // 서비스 레이어의 메서드를 호출하여 투표 로직을 처리
+            commentService.voteForComment(commentId, userId, voteType);
+            
             response.put("success", true);
         } catch (Exception e) {
             response.put("success", false);
-            response.put("message", "업보트 중 오류가 발생했습니다: " + e.getMessage());
-        }
-        return ResponseEntity.ok(response);
-    }
-
-    // 댓글 다운보트
-    @PostMapping("/vote/{id}/downvote")
-    public ResponseEntity<Map<String, Object>> downvoteComment(@PathVariable("id") Long commentId) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            commentService.downvoteComment(commentId);
-            response.put("success", true);
-        } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", "다운보트 중 오류가 발생했습니다: " + e.getMessage());
+            response.put("message", "투표 중 오류가 발생했습니다: " + e.getMessage());
         }
         return ResponseEntity.ok(response);
     }

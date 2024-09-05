@@ -45,14 +45,29 @@ public class CommentDAO {
         List<CommentDTO> comments = commentMapper.selectCommentsByPostIdWithPagination(postId, offset, limit);
         return comments != null ? comments : Collections.emptyList();
     }
+    
+    // 특정 게시물의 댓글 수 조회 메서드
+    public int countCommentsByPostId(Long postId) {
+        return commentMapper.countCommentsByPostId(postId);
+    }
+    
+    // 댓글 수 업데이트 메서드
+    public void updateCommentCount(Long postId, int commentCount) {
+        commentMapper.updateCommentCount(postId, commentCount);
+    }
 
     // 특정 댓글의 대댓글(답글)만 조회
     public List<CommentDTO> getRepliesByCommentId(Long parentCommentId) {
         List<CommentDTO> replies = commentMapper.selectRepliesByCommentId(parentCommentId);
         return replies != null ? replies : Collections.emptyList();
     }
+    
+    // 대댓글 추가 메서드
+    public void insertReply(Long userIdx, Long parentCommentIdx, String commentText, Long postId, int commentLevel) {
+        commentMapper.insertReply(userIdx, parentCommentIdx, commentText, postId, commentLevel);
+    }
 
-    // 댓글 수정
+    // 댓글 수정 DAO
     public void updateComment(CommentDTO commentDto) {
         commentMapper.updateComment(commentDto);
     }
@@ -76,7 +91,22 @@ public class CommentDAO {
     public void reportComment(Long commentIdx) {
         commentMapper.reportComment(commentIdx);
     }
+    
+    // 댓글에 대한 투표를 추가하는 메서드
+    public void insertVote(Long commentIdx, Long userIdx, Integer voteType) {
+        commentMapper.insertVote(commentIdx, userIdx, voteType);
+    }
 
+    // 댓글에 대한 투표를 업데이트하는 메서드
+    public void updateVote(Long commentIdx, Long userIdx, Integer voteType) {
+        commentMapper.updateVote(commentIdx, userIdx, voteType);
+    }
+
+ // 특정 댓글에 대한 사용자의 투표 타입을 확인하는 메서드
+    public String checkVoteType(Long commentIdx, Long userIdx) {
+        return commentMapper.checkVoteType(commentIdx, userIdx);
+    }
+    
     // 댓글 업보트 증가
     public void upvoteComment(Long commentIdx) {
         commentMapper.upvoteComment(commentIdx);
