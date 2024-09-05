@@ -19,7 +19,8 @@
 			<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/main">내 정보 수정</a></li>
 			<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/myContent">내가 쓴 게시글</a></li>
 			<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/myScrap">스크랩 한 게시글</a></li>
-
+			<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/myState">나의 활동</a></li>
+			
 			<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/delete">회원탈퇴</a></li>
 		</ul>
 	</div>

@@ -41,7 +41,7 @@
       
       <div class="product-header">
           <div class="product-image">
-              <img alt="사진 없음" src="${root }upload/${detailContentDTO.content_file}" style="width:100%; text-align:center;" />
+              <img src="${root }upload/${detailContentDTO.content_file}" style="width:100%; height:100%; object-fit:contain;" onerror="this.style.display='none';" />
           </div>
           <div class="product-info">
               <h2>${detailContentDTO.content_subject }</h2>
@@ -114,5 +114,17 @@
   
   
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  
+  <script type="text/javascript">
+	  document.addEventListener("DOMContentLoaded", function() {
+		    const images = document.querySelectorAll('img');
+	
+		    images.forEach(img => {
+		        img.onerror = function() {
+		            this.style.display = 'none'; // 이미지 로드 실패 시 숨김
+		        };
+		    });
+		});  
+  </script>
 </body>
 </html>

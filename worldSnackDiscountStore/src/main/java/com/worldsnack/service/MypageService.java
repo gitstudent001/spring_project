@@ -159,4 +159,20 @@ public class MypageService {
 
 		return pageDTO;
 	}
+	
+	// ---------------------- 나의 활동용 매퍼(희만) ---------------------
+	// 활동 시간 계산
+	public String activityTime(int user_idx) {
+		return mypageDAO.activityTime(user_idx);
+	}
+	
+	// 방문 횟수 조회
+	public String visitCount(int user_idx) {
+		return mypageDAO.visitCount(user_idx);
+	}
+	
+	// 최근 방문 이력 조회
+	public Date recentVisitTime(int user_idx) {
+		return mypageDAO.recentVisitTime(user_idx);
+	}
 }

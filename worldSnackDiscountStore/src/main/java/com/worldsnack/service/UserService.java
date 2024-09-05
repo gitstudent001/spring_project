@@ -20,6 +20,8 @@ public class UserService {
 	@Resource(name="loginUserDTO")
 	private UserDTO loginUserDTO;
 	
+	private boolean openServer = false;
+	
 	public boolean checkUserIdExist(String user_id) {
 		String user_name = userDAO.checkUserIdExist(user_id);
 		
@@ -39,6 +41,7 @@ public class UserService {
 		if(tmpUserDTO != null) {
 			loginUserDTO.setUser_idx(tmpUserDTO.getUser_idx());
 			loginUserDTO.setUser_name(tmpUserDTO.getUser_name());
+			loginUserDTO.setUser_first_join(tmpUserDTO.getUser_first_join());
 			loginUserDTO.setUserIsLogin(true);
 		}
 		return loginUserDTO;
@@ -92,6 +95,25 @@ public class UserService {
 	// 등급 분류용 content_count 증가 (희만)
 	public void increaseContentCountForGrade(int user_idx) {
 		userDAO.increaseContentCountForGrade(user_idx);
+	}
+	
+	// ---------------------- 나의 활동용 매퍼(희만) ---------------------
+	// 로그인 로그 저장
+	public void setLoginLog(int user_idx) {
+		userDAO.setLoginLog(user_idx);
+	}
+	
+	//로그아웃 로그 저장
+	public void setLogoutLog(int user_idx) {
+		userDAO.setLogoutLog(user_idx);
+	}
+	
+	// 서버 실행 시 로그아웃 못한 유저 로그아웃 로그 저장
+	public void setAllLogoutLog() {
+		if (openServer != true) {
+			userDAO.setAllLogoutLog();
+			openServer = true;
+		}
 	}
 
 }
