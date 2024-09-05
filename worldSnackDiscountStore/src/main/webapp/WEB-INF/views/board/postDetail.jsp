@@ -50,13 +50,12 @@
 		    </div>
 		  </div>
 		
-		  <!-- 작성자와 조회수, 추천수, 댓글수는 새로운 줄에 배치 -->
 		  <div class="card-header d-flex justify-content-between align-items-center">
 		    <span class="text-muted"><a href="#" style="color: black;">${post.community_nickname}</a></span>
 		    <div>
-		      <small class="text-muted mr-3">조회수: ${post.community_view}</small>
-		      <small class="text-muted mr-3">추천수: 0</small>
-		      <small class="text-muted">댓글수: ${post.community_comment} </small>
+		      <small class="text-muted mr-3">조회 수: ${post.community_view}</small>
+		      <small class="text-muted mr-3">추천 수: ${post.community_upvotes - post.community_downvotes}</small>
+		      <small class="text-muted">댓글 수: ${post.community_comment}</small>
 		    </div>
 		  </div>
             
