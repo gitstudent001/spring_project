@@ -15,6 +15,7 @@ import com.worldsnack.dto.CategoryDTO;
 import com.worldsnack.dto.ContentDTO;
 import com.worldsnack.service.CategoryService;
 import com.worldsnack.service.ContentService;
+import com.worldsnack.service.UserService;
 
 
 @Controller
@@ -25,6 +26,9 @@ public class HomeController {
 	
 	@Autowired
 	private ContentService contentService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping("/")
 	public String home(@RequestParam(value="category_info_idx", defaultValue="0") int category_info_idx, 
@@ -44,6 +48,10 @@ public class HomeController {
   		contentDTO = contentService.selectAll(); 
 		}
 		model.addAttribute("contentDTO", contentDTO);
+		
+		// 예기치 못한 상황에 로그아웃 못하고 서버가 재시작 됐을 때
+		// 로그아웃 로그 저장
+		userService.setAllLogoutLog();
 		
 		return "main";
 	}

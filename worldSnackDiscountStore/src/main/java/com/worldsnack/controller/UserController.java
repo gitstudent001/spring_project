@@ -59,7 +59,7 @@ public class UserController {
 		this.loginUserDTO = userService.getLoginUserInfo(loginUserDTO);
 		
 		if(this.loginUserDTO.isUserIsLogin()) {
-			// 로그인 한 유저의 등급 가져오기
+			// 로그인 한 유저의 등급 가져오기 (희만)
 			this.loginUserDTO.setUser_gradeNameAndClass(userService.getMyGrade(this.loginUserDTO.getUser_idx()));
 			
 			// 세션에 업데이트된 사용자 정보 설정
@@ -67,6 +67,9 @@ public class UserController {
 			
 			model.addAttribute("loginUserDTO", this.loginUserDTO);
 			//System.out.println(this.loginUserDTO);
+			
+			// 로그인 로그 저장 (희만)
+			userService.setLoginLog(this.loginUserDTO.getUser_idx());
 			
 			return "user/login_success";
 		}else {
@@ -93,6 +96,7 @@ public class UserController {
 	@GetMapping("/logout")
 	public String logout() {
 		loginUserDTO.setUserIsLogin(false);
+		userService.setLogoutLog(this.loginUserDTO.getUser_idx());
 		return "user/logout";
 	}
 		

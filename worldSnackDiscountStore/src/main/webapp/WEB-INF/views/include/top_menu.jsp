@@ -17,13 +17,12 @@
               <div class="collapse bg-body-tertiary navbar-collapse" id="navbarColor04" style="margin-top:10px; z-index:8; ">
                 <ul class="navbar-nav me-auto">
                   <li class="nav-item">
-                    <a class="nav-link active"  style="color:black;" href="${root}">Home
-                      <span class="visually-hidden">(current)</span>
-                    </a>
+                    <a class="nav-link active"  style="color:black;" href="${root}">Home</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" style="color:black;" href="${root}content/list">제품</a>
                   </li>
+                  <!-- 
                   <li class="nav-item">
                     <a class="nav-link" style="color:black;" href="${root}test">테스트</a>
                   </li>
@@ -34,6 +33,7 @@
                   <li class="nav-item">
                     <a class="nav-link" style="color:black;" href="${root}content/modify?content_idx=42">제품글수정</a>
                   </li>
+                   -->
                   <li class="nav-item">
                     <a class="nav-link" style="color:black;" href="${root}board/community">커뮤니티</a>
                   </li>
@@ -48,7 +48,7 @@
 						          <li class="nav-item">
 						          	<!-- 버튼 수평 정렬을 위해 div 추가 -->
 						          	<div class="d-flex justify-content-end align-items-center">
-							          	<a class="nav-link" style="color:black;" href="${root}/mypage/main" class="active">마이페이지</a>
+							          	<a class="nav-link" style="color:black;" href="${root}mypage/main" class="active">마이페이지</a>
 							          	<c:if test="${mypageNav == true }">
 							          		<button class="navbar-toggler custom-navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
 															aria-expanded="false" aria-label="Toggle navigation">
@@ -64,6 +64,7 @@
 																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/main">내 정보 수정</a></li>
 																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/myContent">내가 쓴 게시글</a></li>
 																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/myScrap">스크랩 한 게시글</a></li>
+																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/myState">나의 활동</a></li>
 													
 																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/delete">회원탈퇴</a></li>
 															</ul>
