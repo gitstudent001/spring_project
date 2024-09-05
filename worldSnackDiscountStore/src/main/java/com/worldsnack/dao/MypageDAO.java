@@ -80,4 +80,20 @@ public class MypageDAO {
 	public String myScrapCountForPaginationSelect(int user_idx, int category_idx) {
 		return mypageMapper.myScrapCountForPaginationSelect(user_idx, category_idx);
 	}
+	
+	// ---------------------- 나의 활동용 매퍼(희만) ---------------------
+	// 활동 시간 계산
+	public String activityTime(int user_idx) {
+		return mypageMapper.activityTime(user_idx);
+	}
+	
+	// 방문 횟수 조회
+	public String visitCount(int user_idx) {
+		return mypageMapper.visitCount(user_idx);
+	}
+	
+	// 최근 방문 이력 조회
+	public Date recentVisitTime(int user_idx) {
+		return mypageMapper.recentVisitTime(user_idx);
+	}
 }

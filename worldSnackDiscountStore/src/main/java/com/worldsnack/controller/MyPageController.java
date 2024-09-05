@@ -205,5 +205,27 @@ public class MyPageController {
 		return "myPage/myScrap";
 	}
 	
+	@GetMapping("/myState")
+	public String myState(Model model) {
+		// top_menu 네비게이션용 boolean 전송
+		model.addAttribute("mypageNav", this.mypageNav);
+		
+		// 회원의 이름, 최초 가입일
+		model.addAttribute("loginUserDTO", loginUserDTO);
+		
+		int user_idx = loginUserDTO.getUser_idx();
+		// 회원의 총 활동 시간
+		String activityTime = mypageService.activityTime(user_idx);
+		model.addAttribute("activityTime", activityTime);
+		// 회원의 방문 횟수
+		String visitCount = mypageService.visitCount(user_idx);
+		model.addAttribute("visitCount", visitCount);
+		//최근 방문 날짜 조회
+		Date recentVisitTime = mypageService.recentVisitTime(user_idx);
+		model.addAttribute("recentVisitTime", recentVisitTime);
+		
+		return "myPage/myState";
+	}
+	
 
 }

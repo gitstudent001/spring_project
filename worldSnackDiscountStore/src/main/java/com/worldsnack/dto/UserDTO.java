@@ -1,5 +1,6 @@
 package com.worldsnack.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.Email;
@@ -39,6 +40,8 @@ public class UserDTO {
 	private String user_nickname;
 	
 	private int user_content_count;
+	
+	private Date user_first_join;
 	
 	private List<String> user_gradeNameAndClass;
 	

@@ -109,4 +109,24 @@ public interface MypageMapper {
   			+ "ORDER BY CONTENT_DATE DESC")	
 	String myScrapCountForPaginationSelect(@Param("user_idx") int user_idx, @Param("category_idx") int category_idx);
 	
+	
+	// ---------------------- 나의 활동용 매퍼(희만) ---------------------
+	// 활동 시간 계산
+	@Select("SELECT TRUNC(SUM(LOGIN_END_DATE - LOGIN_START_DATE)*24, 2) AS activityTime " +
+					"FROM LOGIN_LOG_TABLE " +
+					"WHERE USER_IDX = #{user_idx}")
+	String activityTime(int user_idx);
+	
+	// 방문 횟수 조회
+	@Select("SELECT COUNT(*) " +
+					"FROM LOGIN_LOG_TABLE " +
+					"WHERE USER_IDX = #{user_idx}")
+	String visitCount(int user_idx);
+	
+	// 최근 방문 이력 조회
+	@Select("SELECT MAX(LOGIN_START_DATE) " +
+					"FROM LOGIN_LOG_TABLE " +
+					"WHERE USER_IDX=#{user_idx}")
+	Date recentVisitTime(int user_idx);
+	
 }

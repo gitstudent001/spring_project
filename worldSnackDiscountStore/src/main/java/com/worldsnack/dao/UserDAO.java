@@ -37,4 +37,19 @@ public class UserDAO {
 		userMapper.increaseContentCountForGrade(user_idx);
 	}
 	
+	// ---------------------- 나의 활동용 매퍼(희만) ---------------------
+	// 로그인 로그 저장
+	public void setLoginLog(int user_idx) {
+		userMapper.setLoginLog(user_idx);
+	}
+	
+	//로그아웃 로그 저장
+	public void setLogoutLog(int user_idx) {
+		userMapper.setLogoutLog(user_idx);
+	}
+	
+	// 서버 종료 시 모든 로그인 한 유저 로그아웃 로그 저장
+	public void setAllLogoutLog() {
+		userMapper.setAllLogoutLog();
+	}
 }

@@ -38,8 +38,38 @@ public interface UserMapper {
 					"WHERE USER_IDX = #{user_idx}")
 	void increaseContentCountForGrade(int user_idx);
 	
+	// ---------------------- 나의 활동용 매퍼(희만) ---------------------
+	// 로그인 로그 저장
+	@Update({"BEGIN",
+    			 "	UPDATE LOGIN_LOG_TABLE ",
+  			 	 "	SET LOGIN_END_DATE = SYSDATE ",
+  			 	 "	WHERE USER_IDX = #{user_idx} ",
+  			 	 "	AND USER_IDX IS NOT NULL ",
+  			 	 "	AND LOGIN_START_DATE IS NOT NULL ",
+  			 	 "	AND LOGIN_END_DATE IS NULL;",
+    
+  			 	 "	INSERT INTO LOGIN_LOG_TABLE (USER_IDX, LOGIN_START_DATE) ",
+  			 	 "	VALUES (#{user_idx}, SYSDATE);",
+      
+  			 	 "	COMMIT;",
+  			 	 "END;"})
+	void setLoginLog(int user_idx);
 	
+	//로그아웃 로그 저장
+	@Update("UPDATE LOGIN_LOG_TABLE " +
+					"SET LOGIN_END_DATE = SYSDATE " +
+					"WHERE USER_IDX = #{user_idx} " +
+					"AND USER_IDX IS NOT NULL " +
+					"AND LOGIN_START_DATE IS NOT NULL " +
+					"AND LOGIN_END_DATE IS NULL")
+	void setLogoutLog(int user_idx);
 	
-	
+	// 서버 종료 시 모든 로그인 한 유저 로그아웃 로그 저장
+	@Update("UPDATE LOGIN_LOG_TABLE " +
+					"SET LOGIN_END_DATE = SYSDATE " +
+					"WHERE USER_IDX IS NOT NULL " +
+					"AND LOGIN_START_DATE IS NOT NULL " +
+					"AND LOGIN_END_DATE IS NULL")
+	void setAllLogoutLog();
 	
 }
