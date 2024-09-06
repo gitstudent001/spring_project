@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.worldsnack.dto.CategoryDTO;
+import com.worldsnack.dto.CommentDTO;
 import com.worldsnack.dto.ContentDTO;
 import com.worldsnack.dto.PageDTO;
 import com.worldsnack.dto.UserDTO;
@@ -223,6 +224,13 @@ public class MyPageController {
 		//최근 방문 날짜 조회
 		Date recentVisitTime = mypageService.recentVisitTime(user_idx);
 		model.addAttribute("recentVisitTime", recentVisitTime);
+		
+		// 내가 작성한 댓글 조회 (커뮤니티용)
+		List<CommentDTO> myCommentDTO = mypageService.getMyAllCommentList(user_idx);
+		model.addAttribute("myCommentDTO", myCommentDTO);
+		// 내가 작성한 총 댓글 개수 조회 (커뮤니티용)
+		int myCommentCount = mypageService.getMyAllCommentCount(user_idx);
+		model.addAttribute("myCommentCount", myCommentCount);
 		
 		return "myPage/myState";
 	}

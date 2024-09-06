@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.worldsnack.dto.CommentDTO;
 import com.worldsnack.dto.ContentDTO;
 import com.worldsnack.dto.UserDTO;
 import com.worldsnack.mapper.MypageMapper;
@@ -95,5 +96,15 @@ public class MypageDAO {
 	// 최근 방문 이력 조회
 	public Date recentVisitTime(int user_idx) {
 		return mypageMapper.recentVisitTime(user_idx);
+	}
+	
+	// 내가 작성한 댓글 조회 (커뮤니티 용)
+	public List<CommentDTO> getMyAllCommentList(int user_idx) {
+		return mypageMapper.getMyAllCommentList(user_idx);
+	}
+	
+	// 내가 작성한 총 댓글 개수 조회 (커뮤니티 용)
+	public int getMyAllCommentCount(int user_idx) {
+		return mypageMapper.getMyAllCommentCount(user_idx);
 	}
 }

@@ -71,7 +71,7 @@
 											</div>
 										</li>
 										<li class="nav-item"><span>${visitCount }회</span></li>
-										<li class="nav-item"><a href="#">400개</a></li>
+										<li class="nav-item"><a href="#">${myCommentCount }개</a></li>
 										<li class="nav-item"><a href="#">200개</a></li>
 										<li class="nav-item"><a href="#">56개</a></li>
 										<li class="nav-item"><span>총 ${activityTime }시간</span></li>

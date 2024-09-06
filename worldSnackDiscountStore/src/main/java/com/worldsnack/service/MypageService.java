@@ -13,6 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import com.worldsnack.dao.MypageDAO;
+import com.worldsnack.dto.CommentDTO;
 import com.worldsnack.dto.ContentDTO;
 import com.worldsnack.dto.PageDTO;
 import com.worldsnack.dto.UserDTO;
@@ -174,5 +175,15 @@ public class MypageService {
 	// 최근 방문 이력 조회
 	public Date recentVisitTime(int user_idx) {
 		return mypageDAO.recentVisitTime(user_idx);
+	}
+	
+	// 내가 작성한 댓글 조회 (커뮤니티 용)
+	public List<CommentDTO> getMyAllCommentList(int user_idx) {
+		return mypageDAO.getMyAllCommentList(user_idx);
+	}
+	
+	// 내가 작성한 총 댓글 개수 조회 (커뮤니티 용)
+	public int getMyAllCommentCount(int user_idx) {
+		return mypageDAO.getMyAllCommentCount(user_idx);
 	}
 }

@@ -79,7 +79,7 @@ public interface ContentMapper {
 			+ "INNER JOIN CATEGORY_TABLE CA "
 			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
 			+ "WHERE CO.CONTENT_SUBJECT LIKE '%${searchKeyword}%' "
-			+ "OR (CONTAINS(CO.CONTENT_TEXT, '%${searchKeyword}%') > 0) "
+			+ "OR CO.CONTENT_TEXT LIKE '%${searchKeyword}%' "
 			+ "OR CA.CATEGORY_NAME LIKE '%${searchKeyword}%' "
 			+ "ORDER BY CO.CATEGORY_IDX, CO.CONTENT_SUBJECT, CO.CONTENT_DATE DESC")
 	List<ContentDTO> selectSearchList(String searchKeyword);	

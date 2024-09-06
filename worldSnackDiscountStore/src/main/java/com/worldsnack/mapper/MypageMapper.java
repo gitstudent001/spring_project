@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
+import com.worldsnack.dto.CommentDTO;
 import com.worldsnack.dto.ContentDTO;
 import com.worldsnack.dto.UserDTO;
 
@@ -128,5 +129,18 @@ public interface MypageMapper {
 					"FROM LOGIN_LOG_TABLE " +
 					"WHERE USER_IDX=#{user_idx}")
 	Date recentVisitTime(int user_idx);
+	
+	// 내가 작성한 댓글 조회 (커뮤니티 용)
+	@Select("SELECT POST_ID, COMMENT_TEXT, COMMENT_DATE " +
+					"FROM COMMENT_TABLE " +
+					"WHERE USER_IDX = #{user_idx} " +
+					"ORDER BY COMMENT_DATE DESC")
+	List<CommentDTO> getMyAllCommentList(int user_idx);
+	
+	// 내가 작성한 총 댓글 개수 조회 (커뮤니티 용)
+	@Select("SELECT COUNT(*) " +
+			"FROM COMMENT_TABLE " +
+			"WHERE USER_IDX = #{user_idx} ")
+	int getMyAllCommentCount(int user_idx);
 	
 }
