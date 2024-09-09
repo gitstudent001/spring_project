@@ -94,7 +94,7 @@
       	<a href="${root}content/list?category_idx=${category_idx }&limit=${limit}&page=${page}" class="btn btn-secondary">목록</a>
 	     	<c:if test="${detailContentDTO.content_writer_idx == user_idx }">
 					<a href="${root }content/modify?content_idx=${content_idx}&category_idx=${category_idx }&limit=${limit}&page=${page}" class="btn btn-info">수정하기</a>
-					<a href="${root }content/delete?content_idx=${content_idx}&content_writer_idx=${detailContentDTO.content_writer_idx}" class="btn btn-danger">삭제하기</a>
+					<a href="${root }content/delete?content_idx=${content_idx}&category_idx=${category_idx }&limit=${limit}&page=${page}" class="btn btn-danger">삭제하기</a>
 				</c:if>
       </div>
 

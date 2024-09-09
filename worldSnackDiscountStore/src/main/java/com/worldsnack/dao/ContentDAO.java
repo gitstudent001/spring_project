@@ -101,4 +101,8 @@ public class ContentDAO {
 		contentMapper.increaseView(content_idx);
 	}
 		
+	//게시글 삭제하기 (용기)
+	public void deleteContent(int content_idx){
+		 contentMapper.deleteContent(content_idx);
+	}
 }

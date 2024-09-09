@@ -222,4 +222,18 @@ public class ContentController {
 		}
 	}
 	
+	@GetMapping("/delete") 
+  public String delete(@RequestParam("content_idx") int content_idx)  { 
+	  
+	  try {
+  contentService.deleteContent(content_idx); 
+  } catch(Exception e) {
+  e.printStackTrace(); 
+  return "content/delete_fail"; 
+  }
+  // 정상적으로 삭제 되었을 때 삭제완료 페이지 반환
+  return "content/delete"; 
+  }
+ 
+	
 }
