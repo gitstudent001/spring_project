@@ -1,5 +1,7 @@
 package com.worldsnack.dto;
 
+import java.util.Date;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -14,7 +16,9 @@ public class CommDTO {
 	
 	private int community_writer_idx;
 	private String community_nickname;
-	private String community_date;
+	private Date community_date;
+	// String 타입으로 변환한 community_date (희만)
+	private String community_formattedDate;
 	
 	private String community_category;
 	private String community_url;

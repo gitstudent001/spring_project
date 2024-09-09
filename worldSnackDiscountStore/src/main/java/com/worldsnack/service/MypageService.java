@@ -13,6 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import com.worldsnack.dao.MypageDAO;
+import com.worldsnack.dto.CommDTO;
 import com.worldsnack.dto.CommentDTO;
 import com.worldsnack.dto.ContentDTO;
 import com.worldsnack.dto.PageDTO;
@@ -166,24 +167,55 @@ public class MypageService {
 	public String activityTime(int user_idx) {
 		return mypageDAO.activityTime(user_idx);
 	}
-	
 	// 방문 횟수 조회
 	public String visitCount(int user_idx) {
 		return mypageDAO.visitCount(user_idx);
 	}
-	
 	// 최근 방문 이력 조회
 	public Date recentVisitTime(int user_idx) {
 		return mypageDAO.recentVisitTime(user_idx);
 	}
 	
-	// 내가 작성한 댓글 조회 (커뮤니티 용)
-	public List<CommentDTO> getMyAllCommentList(int user_idx) {
-		return mypageDAO.getMyAllCommentList(user_idx);
+	// 내가 작성한 총 댓글 개수 조회 (커뮤니티 용)
+	public int getMyAllCommunityCommentCount(int user_idx) {
+		return mypageDAO.getMyAllCommunityCommentCount(user_idx);
 	}
 	
-	// 내가 작성한 총 댓글 개수 조회 (커뮤니티 용)
-	public int getMyAllCommentCount(int user_idx) {
-		return mypageDAO.getMyAllCommentCount(user_idx);
+	// 내가 작성한 댓글 조회 (커뮤니티 용)
+	public List<CommentDTO> getMyAllCommunityCommentList(int user_idx, int page) {
+		int startPage = (page - 1) * this.countPerPage;
+		RowBounds rowBounds = new RowBounds(startPage, countPerPage);
+		
+		return mypageDAO.getMyAllCommunityCommentList(user_idx, rowBounds);
+	}
+	/* 게시글의 페이지네이션을 위한 pageDTO 선언*/
+	public PageDTO getCommentCountForPage(int user_idx, int currentPage) {
+		int countOftotalContent = mypageDAO.getMyAllCommunityCommentCount(user_idx);
+		
+		PageDTO pageDTO = 
+				new PageDTO(countOftotalContent, currentPage, countOfPagination, countPerPage);
+		
+		return pageDTO;
+	}
+	
+	//내가 작성한 총 게시글 수 조회 (커뮤니티 용)
+	public int getMyAllCommuityContentCount(int user_idx) {
+		return mypageDAO.getMyAllCommuityContentCount(user_idx);
+	}
+	// 내가 작성한 총 게시글 리스트 조회 (커뮤니티 용)
+	public List<CommDTO> getMyAllCommunityContentList(int user_idx, int page) {
+		int startPage = (page - 1) * this.countPerPage;
+		RowBounds rowBounds = new RowBounds(startPage, countPerPage);
+		
+		return mypageDAO.getMyAllCommunityContentList(user_idx, rowBounds);
+	}
+	/* 게시글의 페이지네이션을 위한 pageDTO 선언*/
+	public PageDTO getContentCountForPage(int user_idx, int currentPage) {
+		int countOftotalContent = mypageDAO.getMyAllCommuityContentCount(user_idx);
+		
+		PageDTO pageDTO = 
+				new PageDTO(countOftotalContent, currentPage, countOfPagination, countPerPage);
+		
+		return pageDTO;
 	}
 }
