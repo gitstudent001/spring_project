@@ -1,5 +1,6 @@
 package com.worldsnack.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +39,7 @@ public class CommController {
       Model model) {
         
       List<CommDTO> posts = commService.getPostsByCategoryAndSortOrder(category, sortOrder, viewType);
-      
+
       model.addAttribute("posts", posts);
       model.addAttribute("sortOrder", sortOrder);
       model.addAttribute("viewType", viewType);
@@ -57,8 +58,13 @@ public class CommController {
         
         // 서비스 메서드 호출 시 필요한 매개변수들을 모두 전달합니다.
         CommDTO post = articleService.getArticleById(id, request, user);
-      
+        
+        // Date타입 날짜데이터를 String타입으로 변환 (희만)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String community_date = dateFormat.format(post.getCommunity_date());
+
         model.addAttribute("post", post);
+        model.addAttribute("community_date", community_date);
         return "board/postDetail";
     }
 

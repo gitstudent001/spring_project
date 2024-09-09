@@ -120,7 +120,7 @@
 				     
 				    <img id="imgThumb_${post.community_idx}" class="imgThumb" 
 				    		 src="${not empty post.community_thumb ? root.concat(post.community_thumb) : defaultThumbnailUrl}"
-						     alt="썸네일" class="img-thumbnail"1
+						     alt="썸네일" class="img-thumbnail"
 						     style="width: 60px; height: 60px; object-fit: cover;"
 						     onerror="this.onerror=null; this.src='${root}images/default-thumbnail.png';"
 						     >
@@ -132,7 +132,7 @@
             <div class="d-flex justify-content-between align-items-center mb-1">
               <small class="text-muted">${post.community_nickname}</small>
               <!-- 작성 시간에 data-date 속성을 추가 -->
-              <small class="postDate text-muted" data-date="${post.community_date}"></small>
+              <small class="postDate text-muted" data-date="${post.community_formattedDate}"></small>
             </div>
             
             <!-- 제목 -->

@@ -89,9 +89,17 @@ public interface CommMapper {
     		+ "            WHERE COMMUNITY_IDX = #{community_idx}")
     void updatePost(CommDTO post);
     
-    // 게시글 삭제
-    @Delete("DELETE FROM COMMUNITY_TABLE WHERE COMMUNITY_IDX = #{id}")
-    void deletePost(@Param("id") int id);
+    // 게시글 삭제------(희만 수정)
+    @Delete({"BEGIN",
+    				 "	DELETE FROM COMMENT_TABLE WHERE POST_ID = #{community_idx}; ",
+    				 "	DELETE FROM COMMUNITY_TABLE WHERE COMMUNITY_IDX = #{community_idx}; ",
+      
+    				 "	COMMIT; ",
+    				 "EXCEPTION ",
+    				 "	WHEN OTHERS THEN ",
+    				 "		ROLLBACK; ",
+    				 "END;"})
+    void deletePost(@Param("community_idx") int community_idx);
     
     // 조회수 증가
     @Update("UPDATE COMMUNITY_TABLE SET COMMUNITY_VIEW = COMMUNITY_VIEW + 1 WHERE COMMUNITY_IDX = #{id}")

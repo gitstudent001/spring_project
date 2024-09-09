@@ -43,13 +43,13 @@ public class ContentDAO {
 		RowBounds rowBounds = new RowBounds(0, limit);
 		
 		String contentCount = contentMapper.getCountOfselectAllForLimit(rowBounds);
-		System.out.println("전체 : " + contentCount);
+		// System.out.println("전체 : " + contentCount);
 		return contentCount;
 	}
 	
 	public String  getCountselectListForLimit(int category_idx, int limit) {
 		RowBounds rowBounds = new RowBounds(0, limit);
-		System.out.println("선택 : " + rowBounds);
+		// System.out.println("선택 : " + rowBounds);
 		String contentCount = contentMapper.getCountselectListForLimit(category_idx, rowBounds);
 		return contentCount;
 	}	

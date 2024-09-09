@@ -31,8 +31,8 @@ public class CommDAO {
   }
 
   // 게시글 삭제
-  public void deletePost(int id) {
-    commMapper.deletePost(id);
+  public void deletePost(int community_idx) {
+    commMapper.deletePost(community_idx);
   }
 
   // 게시글 업데이트

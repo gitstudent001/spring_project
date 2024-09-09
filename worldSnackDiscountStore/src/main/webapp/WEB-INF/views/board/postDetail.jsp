@@ -46,7 +46,7 @@
 		    <h3 class="d-inline">${post.community_subject}</h3>
 		    <div class="d-inline">
 		      <span id="timeAgo"></span>
-		      <span id="postDate" data-date="${post.community_date}" style="display:none;"></span>
+		      <span id="postDate" data-date="${community_date}" style="display:none;"></span>
 		    </div>
 		  </div>
 		

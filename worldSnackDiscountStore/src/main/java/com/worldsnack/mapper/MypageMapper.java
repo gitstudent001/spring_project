@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
+import com.worldsnack.dto.CommDTO;
 import com.worldsnack.dto.CommentDTO;
 import com.worldsnack.dto.ContentDTO;
 import com.worldsnack.dto.UserDTO;
@@ -131,16 +132,29 @@ public interface MypageMapper {
 	Date recentVisitTime(int user_idx);
 	
 	// 내가 작성한 댓글 조회 (커뮤니티 용)
-	@Select("SELECT POST_ID, COMMENT_TEXT, COMMENT_DATE " +
+	@Select("SELECT COMMENT_IDX, POST_ID, COMMENT_TEXT, COMMENT_DATE " +
 					"FROM COMMENT_TABLE " +
 					"WHERE USER_IDX = #{user_idx} " +
 					"ORDER BY COMMENT_DATE DESC")
-	List<CommentDTO> getMyAllCommentList(int user_idx);
+	List<CommentDTO> getMyAllCommunityCommentList(int user_idx, RowBounds rowBounds);
 	
 	// 내가 작성한 총 댓글 개수 조회 (커뮤니티 용)
 	@Select("SELECT COUNT(*) " +
 			"FROM COMMENT_TABLE " +
 			"WHERE USER_IDX = #{user_idx} ")
-	int getMyAllCommentCount(int user_idx);
+	int getMyAllCommunityCommentCount(int user_idx);
+	
+	// 내가 작성한 총 게시글 수 조회 (커뮤니티 용)
+	@Select("SELECT COUNT(*) " +
+					"FROM COMMUNITY_TABLE " +
+					"WHERE COMMUNITY_WRITER_IDX = #{user_idx}")
+	int getMyAllCommuityContentCount(int user_idx);
+	
+	// 내가 작성한 총 게시글 리스트 조회 (커뮤니티 용)
+	@Select("SELECT COMMUNITY_IDX, COMMUNITY_SUBJECT, COMMUNITY_VIEW, COMMUNITY_COMMENT, COMMUNITY_DATE " +
+					"FROM COMMUNITY_TABLE " +
+					"WHERE COMMUNITY_WRITER_IDX = #{user_idx} " +
+					"ORDER BY COMMUNITY_DATE DESC")
+	List<CommDTO> getMyAllCommunityContentList(int user_idx, RowBounds rowBounds);
 	
 }

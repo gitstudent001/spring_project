@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.worldsnack.dto.CommDTO;
 import com.worldsnack.dto.CommentDTO;
 import com.worldsnack.dto.ContentDTO;
 import com.worldsnack.dto.UserDTO;
@@ -99,12 +100,22 @@ public class MypageDAO {
 	}
 	
 	// 내가 작성한 댓글 조회 (커뮤니티 용)
-	public List<CommentDTO> getMyAllCommentList(int user_idx) {
-		return mypageMapper.getMyAllCommentList(user_idx);
+	public List<CommentDTO> getMyAllCommunityCommentList(int user_idx, RowBounds rowBounds) {
+		return mypageMapper.getMyAllCommunityCommentList(user_idx, rowBounds);
 	}
 	
 	// 내가 작성한 총 댓글 개수 조회 (커뮤니티 용)
-	public int getMyAllCommentCount(int user_idx) {
-		return mypageMapper.getMyAllCommentCount(user_idx);
+	public int getMyAllCommunityCommentCount(int user_idx) {
+		return mypageMapper.getMyAllCommunityCommentCount(user_idx);
+	}
+	
+	//내가 작성한 총 게시글 수 조회 (커뮤니티 용)
+	public int getMyAllCommuityContentCount(int user_idx) {
+		return mypageMapper.getMyAllCommuityContentCount(user_idx);
+	}
+	
+	// 내가 작성한 총 게시글 리스트 조회 (커뮤니티 용)
+	public List<CommDTO> getMyAllCommunityContentList(int user_idx, RowBounds rowBounds) {
+		return mypageMapper.getMyAllCommunityContentList(user_idx, rowBounds);
 	}
 }

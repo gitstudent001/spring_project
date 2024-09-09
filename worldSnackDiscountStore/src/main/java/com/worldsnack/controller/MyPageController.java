@@ -17,13 +17,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.worldsnack.dto.CategoryDTO;
+import com.worldsnack.dto.CommDTO;
 import com.worldsnack.dto.CommentDTO;
 import com.worldsnack.dto.ContentDTO;
 import com.worldsnack.dto.PageDTO;
 import com.worldsnack.dto.UserDTO;
 import com.worldsnack.service.CategoryService;
+import com.worldsnack.service.CommService;
+import com.worldsnack.service.CommentService;
 import com.worldsnack.service.MypageService;
 import com.worldsnack.validator.UserValidator;
 
@@ -36,6 +40,12 @@ public class MyPageController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+  private CommService commService;
+	
+	@Autowired
+	private CommentService commentService;
 	
 	@Resource(name = "loginUserDTO")
 	private UserDTO loginUserDTO;
@@ -207,7 +217,8 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/myState")
-	public String myState(Model model) {
+	public String myState(@RequestParam(value = "page", defaultValue = "1") int page,
+												Model model) {
 		// top_menu 네비게이션용 boolean 전송
 		model.addAttribute("mypageNav", this.mypageNav);
 		
@@ -225,14 +236,54 @@ public class MyPageController {
 		Date recentVisitTime = mypageService.recentVisitTime(user_idx);
 		model.addAttribute("recentVisitTime", recentVisitTime);
 		
-		// 내가 작성한 댓글 조회 (커뮤니티용)
-		List<CommentDTO> myCommentDTO = mypageService.getMyAllCommentList(user_idx);
-		model.addAttribute("myCommentDTO", myCommentDTO);
 		// 내가 작성한 총 댓글 개수 조회 (커뮤니티용)
-		int myCommentCount = mypageService.getMyAllCommentCount(user_idx);
-		model.addAttribute("myCommentCount", myCommentCount);
+		int myCommunityCommentCount = mypageService.getMyAllCommunityCommentCount(user_idx);
+		model.addAttribute("myCommunityCommentCount", myCommunityCommentCount);
+		
+		// 내가 작성한 댓글 조회 (커뮤니티용)
+		List<CommentDTO> myCommunityCommentDTO = mypageService.getMyAllCommunityCommentList(user_idx, page);
+		model.addAttribute("myCommunityCommentDTO", myCommunityCommentDTO);
+		/* 페이지네이션을 위한 PageDTO 선언(게시글) */
+		PageDTO commentPageDTO = mypageService.getCommentCountForPage(user_idx, page);
+		model.addAttribute("commentPageDTO", commentPageDTO);
+		
+		// 내가 작성한 총 게시글 수 조회 (커뮤니티용)
+		int myCommunityContentCount = mypageService.getMyAllCommuityContentCount(user_idx);
+		model.addAttribute("myCommunityContentCount", myCommunityContentCount);
+		
+		// 내가 작성한 총 게시글 리스트 조회 (커뮤니티용)
+		List<CommDTO> myCommunityContentDTO = mypageService.getMyAllCommunityContentList(user_idx, page);
+		model.addAttribute("myCommunityContentDTO", myCommunityContentDTO);
+		/* 페이지네이션을 위한 PageDTO 선언(게시글) */
+		PageDTO contentPageDTO = mypageService.getContentCountForPage(user_idx, page);
+		model.addAttribute("contentPageDTO", contentPageDTO);
 		
 		return "myPage/myState";
+	}
+	
+	@PostMapping("/deletePost")
+	public String deletePost(@RequestParam("community_idx") List<Integer> community_idx) {
+		
+		for(int idx : community_idx) {
+			commService.deletePost(idx);
+		}
+		
+		return "redirect:/mypage/myState";
+	}
+	
+	@PostMapping("/deleteComment")
+	public String deleteComment(@RequestParam("comment_idx") List<Long> comment_idx,
+															@RequestParam(value = "page", defaultValue = "1") int page,
+															@RequestParam(value="content", defaultValue = "content1") String content,
+															RedirectAttributes redirectAttributes) {
+		
+		for(Long idx : comment_idx) {
+			commentService.deleteComment(idx);
+		}
+		
+		redirectAttributes.addAttribute("content", content);
+		redirectAttributes.addAttribute("page", page);
+		return "redirect:/mypage/myState";
 	}
 	
 

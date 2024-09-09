@@ -122,7 +122,7 @@ public class ContentController {
 			return "content/write"; 
 		}
 		
-		System.out.println("writeContentDTO : " + writeContentDTO);
+		// System.out.println("writeContentDTO : " + writeContentDTO);
 		
 		contentService.addContent(writeContentDTO);
 		

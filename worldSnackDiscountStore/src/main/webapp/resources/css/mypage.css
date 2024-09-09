@@ -11143,28 +11143,6 @@ form.lead.mb-5 input[readonly] {
 	float : right; /* 글쓰기 버튼 오른쪽으로 붙임 */
 }
 
-@media (min-width: 768px) {
-  section.resume-section {
-    min-height: 100vh;
-  }
-}
-@media (min-width: 992px) {
-  section.resume-section {
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-  
-	.custom-toggler {
-	    padding: 0.25rem 0.5rem;
-	    font-size: 0.875rem;
-	    line-height: 1.5;
-	    border-radius: 0.2rem;
-	    background-color: transparent;
-	}
-}
-
 .custom-navbar-toggler {
     padding: 0.25rem 0.5rem; /* 버튼의 패딩(내부 여백)을 조정 */
     font-size: 0.875rem; /* 아이콘의 크기를 줄이기 위해 폰트 크기 조정 */
@@ -11214,7 +11192,7 @@ form.lead.mb-5 input[readonly] {
     font-size: 16px;
     display: flex;
     flex-direction: column;
-    height: 600px;
+    height: auto;
 }
 
 .orange-box .content-box-title {
@@ -11233,12 +11211,30 @@ form.lead.mb-5 input[readonly] {
 }
 
 #myState .blue-box {
-    border-color: #879deb; /* 하늘색 */
-  height: 50%;
+  border-color: #879deb; /* 하늘색 */
+ 	height: auto;
 }
 
 #myState .orange-box {
-    border-color: rgb(189 93 56); /* 주황색 */
+	border-color: rgb(189 93 56); /* 주황색 */
+}
+
+#myState .truncate {
+   display: inline-block;
+   width: 300px; /* 적절한 너비 설정 */
+   white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+   overflow: hidden; /* 넘치는 텍스트 숨김 */
+   text-overflow: ellipsis; /* 넘치는 텍스트를 ...으로 표시 */
+}
+@media (max-width: 1500px) {
+	#myState .truncate {
+		width: 200px;
+	}
+}
+@media (max-width: 1200px) {
+	#myState .truncate {
+		width: 100px;
+	}
 }
 
 .content-box-body-right a {
@@ -11253,4 +11249,26 @@ form.lead.mb-5 input[readonly] {
 .content-box-title a:hover {
 	font-weight: bold;
 	color: rgb(189 93 56);
+}
+
+@media (min-width: 768px) {
+  section.resume-section {
+    min-height: 100vh;
+  }
+}
+@media (min-width: 992px) {
+  section.resume-section {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+  
+	.custom-toggler {
+	    padding: 0.25rem 0.5rem;
+	    font-size: 0.875rem;
+	    line-height: 1.5;
+	    border-radius: 0.2rem;
+	    background-color: transparent;
+	}
 }
