@@ -158,4 +158,9 @@ public interface ContentMapper {
       	+ "WHERE CONTENT_IDX = #{content_idx}")
 	void increaseView(int content_idx);
 	
+//게시글 삭제하기 (용기)
+	@Delete("DELETE FROM CONTENT_TABLE "
+			+ "WHERE CONTENT_IDX=#{content_idx}")
+	void deleteContent(int content_idx);
+	
 }

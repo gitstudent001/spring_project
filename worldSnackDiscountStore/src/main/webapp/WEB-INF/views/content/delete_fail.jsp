@@ -14,7 +14,7 @@
 <body>
 	<script>
         alert("게시글 삭제 실패 !!!");
-        location.href="${root}list";
+        location.href="${root}content/list";
   </script>
 </body>
 </html>    

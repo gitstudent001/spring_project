@@ -259,4 +259,15 @@ public class ContentService {
 		contentDAO.increaseView(content_idx);
 	}	
 	
+	
+//게시글 삭제하기
+	public void deleteContent(int content_idx) {
+		try {
+		// 실제 삭제 작업 수행
+		contentDAO.deleteContent(content_idx);
+	} catch (Exception e) {
+		// 삭제 중 오류가 발생한 경우 예외를 발생
+		throw new RuntimeException("삭제 중 오류 발생 with content_idx :" + content_idx, e);
+	}
+}
 }
