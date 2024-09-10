@@ -19,7 +19,7 @@
   <link href="${photoFolio}img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com" rel="preconnect" >
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Cardo:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
@@ -56,7 +56,6 @@
 	
 	<!-- Template Stylesheet -->
 	<link href="${fruitables}css/style.css" rel="stylesheet">
-	
 	
 	
 	<style>
