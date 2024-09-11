@@ -81,12 +81,23 @@ public class ContentService {
 		else { // 카테고리를 선택 했을 경우
 			countOftotalContent = Integer.parseInt(contentDAO.getCountselectListForLimit(category_idx, limit));
 		}
-		
-		if(limit > 10) {
-			int tempCount = countOftotalContent / limit;
-			int temp2Count = countOftotalContent % limit;
-			countOftotalContent = (tempCount * 10) + temp2Count;
+		// 게시글의 총 개수가 limit 보다 크거나 같을 때 (몫과 나머지가 딱 떨어질 때)
+		if(limit <= countOftotalContent) {
+			// limit 가 10 일 때는 기본적으로 게시글 '10개당 1페이지'로 나눔
+			if(limit > 10) {
+				// 몫 : 10의 자릿수로 사용
+  			int tempCount = countOftotalContent / limit;
+  			// 나머지 : 1의 자릿수로 사용
+  			int temp2Count = countOftotalContent % limit;
+  			countOftotalContent = (tempCount * 10) + temp2Count;
+  		}
 		}
+		// limit가 게시글의 총 개수보다 클 경우 (소수점으로 떨어질 경우)
+		else if (limit > countOftotalContent) {
+			// 무조건 1페이지만 나오고 그 안에 모든 게시글이 나올 수 있도록 10으로 지정
+			countOftotalContent = 10;
+		}
+		
 		
 		PageDTO pageDTO = 
 				new PageDTO(countOftotalContent, currentPage, countOfPagination, countPerPage);

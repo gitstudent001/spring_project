@@ -68,8 +68,16 @@ public class ContentController {
 		model.addAttribute("contentDTO", contentDTO);
 		model.addAttribute("limit", limit);
 		model.addAttribute("pageDTO", pageDTO);
+		
 		// 페이지의 정보를 전달해줌
-		model.addAttribute("page", page);
+		if(page > pageDTO.getMax()) {
+			page = pageDTO.getMax();
+			model.addAttribute("page", page);
+			return "redirect:/content/list";
+		} 
+		else { 
+			model.addAttribute("page", page); 
+		}
 		return "content/list";
 	}
 	
