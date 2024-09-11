@@ -315,6 +315,17 @@
 		};
 	
 		function showContent(contentId) {
+			
+			// 콘텐츠 숨김
+			$('#content1').hide();
+			$('#content2').hide();
+			$('#content3').hide();
+			$('#content4').hide();
+			
+			// 클릭한 콘텐츠 표시
+			$('#' + contentId).show();
+			
+			/*
 			// 콘텐츠 숨김
 			document.getElementById('content1').style.display = 'none';
 			document.getElementById('content2').style.display = 'none';
@@ -323,6 +334,7 @@
 			
 			// 클릭한 콘텐츠 표시
 			document.getElementById(contentId).style.display = 'block';
+			*/
 		};
 		
 	</script>
