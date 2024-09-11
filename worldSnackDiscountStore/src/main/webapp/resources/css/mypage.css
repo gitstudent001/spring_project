@@ -1965,10 +1965,6 @@ progress {
 	   margin-right: 1rem;
 	   order: 1;
   }
-  
-	.navbar-nav {
-  	align-items: flex-start !important;
-  }
 }
 @media (max-width: 1199.98px) {
   .table-responsive-xl {
@@ -3815,7 +3811,6 @@ textarea.form-control-lg {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
-  align-items: center;
 }
 .navbar-nav .show > .nav-link,
 .navbar-nav .nav-link.active {
@@ -7672,14 +7667,6 @@ textarea.form-control-lg {
 
 .me-auto {
   margin-right: auto !important;
-}
-
-.rme-auto {
-	margin-right: auto;
-}
-
-.lme-auto {
-	margin-left: auto;
 }
 
 .mb-0 {
