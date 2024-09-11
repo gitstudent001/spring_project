@@ -29,6 +29,9 @@
 	
 	<!-- bootswatch Stylesheet -->
 	<link href="${bootswatch}css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Froala Editor -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.7/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -77,7 +80,7 @@
 					<form:label path="content_text" class="form-label mt-4">내용</form:label>
 				</td>
 				<td>
-					<form:textarea class="form-control" path="content_text" rows="10" />
+					<form:textarea id="froala-editor" class="form-control" path="content_text" rows="10" />
 				</td>
 			</tr>
 			<tr>
@@ -137,10 +140,23 @@
   <script src="${photoFolio}vendor/aos/aos.js"></script>
   <script src="${photoFolio}vendor/glightbox/js/glightbox.min.js"></script>
   <script src="${photoFolio}vendor/swiper/swiper-bundle.min.js"></script>	
+  
+  <!-- Froala Editor js -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.7/js/froala_editor.pkgd.min.js"></script>
 
 
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script>
+		var editor = new FroalaEditor('#froala-editor');
+		// froala 에디터 실행 jquery
+		$(function() {
+			$('#froala-editor').foralaEditor({
+				toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'formatOL', 'formatUL', '|', 'insertImage', 'insertLink'],
+				heightMin: 300
+				
+			});
+		});
+	
 		/*
 		function selectCategory(obj){
 			//console.log(obj.id);
