@@ -5,6 +5,7 @@
 <c:set var="root" value="${pageContext.request.contextPath}/" />
 
 <c:set var="photoFolio" value="${root}template/photoFolio/" />     
+<%-- <c:set var="fruitables" value="${root}template/fruitables/" /> --%>
 <c:set var="bootswatch" value="${root}template/bootswatch/" />
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -15,14 +16,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
 	
-	<!-- Favicons -->
-  <link href="${photoFolio}img/favicon.png" rel="icon">
-	
 	<!-- Google Web Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
 	
+	<!-- Customized Bootstrap Stylesheet -->
+	<link href="${fruitables}css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Template Stylesheet -->
+	<link href="${fruitables}css/style.css" rel="stylesheet">
 	
 	<!-- bootswatch Stylesheet -->
 	<link href="${bootswatch}css/bootstrap.min.css" rel="stylesheet">	
@@ -30,6 +33,7 @@
 	<!-- jQuery 라이브러리 추가 (CDN 사용) -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<link rel="stylesheet" href="${root }css/login_join.css" type="text/css" />
+
 </head>
 <body>
 	<!-- top_menu 삽입 -->
@@ -43,13 +47,13 @@
 						<h1>회원가입</h1>
 						<div class="social-links">
 							<div>
-								<a href="https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fwebhp%3Fhl%3Dko%26ictx%3D2%26sa%3DX%26ved%3D0ahUKEwjl1Nqg06OIAxXodfUHHS8aHIAQPQgJ&ec=GAZAmgQ&hl=ko&ifkv=Ab5oB3pbIO112pvqEE01vqulSnZqhCWj-AIFqvsmoCbbpeIHznsmETbp5QPRrjyPOa_h0CAGjAPA&passive=true&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-2093252842%3A1725259182100357&ddm=1"><i class="fa-brands fa-google fa-xl"></i></a>
+								<a href="https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fwebhp%3Fhl%3Dko%26ictx%3D2%26sa%3DX%26ved%3D0ahUKEwjl1Nqg06OIAxXodfUHHS8aHIAQPQgJ&ec=GAZAmgQ&hl=ko&ifkv=Ab5oB3pbIO112pvqEE01vqulSnZqhCWj-AIFqvsmoCbbpeIHznsmETbp5QPRrjyPOa_h0CAGjAPA&passive=true&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-2093252842%3A1725259182100357&ddm=1"><i class="fa fa-google" aria-hidden="true"></i></a>
 							</div>
 							<div>
-								<a href="https://www.facebook.com/login.php?skip_api_login=1&api_key=195707104118397&kid_directed_site=0&app_id=195707104118397&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fv2.5%2Fdialog%2Foauth%3Fclient_id%3D195707104118397%26response_type%3Dcode%26scope%3Dpublic_profile%252Cuser_friends%252Cemail%26redirect_uri%3Dhttps%253A%252F%252Fauth.danawa.com%252Fsns%252Fcallback%253Ftype%253DFACEBOOK%26ret%3Dlogin%26fbapp_pres%3D0%26logger_id%3D8b87546d-d798-4d97-b45b-e532506bb9a1%26tp%3Dunspecified&cancel_url=https%3A%2F%2Fauth.danawa.com%2Fsns%2Fcallback%3Ftype%3DFACEBOOK%26error%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied%23_%3D_&display=page&locale=ko_KR&pl_dbl=0"><i class="fa-brands fa-facebook fa-xl"></i></a> 
+								<a href="https://www.facebook.com/login.php?skip_api_login=1&api_key=195707104118397&kid_directed_site=0&app_id=195707104118397&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fv2.5%2Fdialog%2Foauth%3Fclient_id%3D195707104118397%26response_type%3Dcode%26scope%3Dpublic_profile%252Cuser_friends%252Cemail%26redirect_uri%3Dhttps%253A%252F%252Fauth.danawa.com%252Fsns%252Fcallback%253Ftype%253DFACEBOOK%26ret%3Dlogin%26fbapp_pres%3D0%26logger_id%3D8b87546d-d798-4d97-b45b-e532506bb9a1%26tp%3Dunspecified&cancel_url=https%3A%2F%2Fauth.danawa.com%2Fsns%2Fcallback%3Ftype%3DFACEBOOK%26error%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied%23_%3D_&display=page&locale=ko_KR&pl_dbl=0"><i class="fa fa-facebook" aria-hidden="true"></i></a> 
 							</div>
 							<div>
-								<a href="https://www.instagram.com/accounts/login/"><i class="fa-brands fa-instagram fa-xl"></i></a>
+								<a href="https://www.instagram.com/accounts/login/"><i class="fa fa-instagram" aria-hidden="true"></i></a>
 							</div>
 						</div>
 						<span>또는 새로운 계정으로 회원가입</span> 
@@ -108,13 +112,13 @@
 					</c:if>
 					<div class="social-links">
 						<div>
-							<a href="https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fwebhp%3Fhl%3Dko%26ictx%3D2%26sa%3DX%26ved%3D0ahUKEwjl1Nqg06OIAxXodfUHHS8aHIAQPQgJ&ec=GAZAmgQ&hl=ko&ifkv=Ab5oB3pbIO112pvqEE01vqulSnZqhCWj-AIFqvsmoCbbpeIHznsmETbp5QPRrjyPOa_h0CAGjAPA&passive=true&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-2093252842%3A1725259182100357&ddm=1"><i class="fa-brands fa-google fa-xl"></i></a>
+							<a href="https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fwebhp%3Fhl%3Dko%26ictx%3D2%26sa%3DX%26ved%3D0ahUKEwjl1Nqg06OIAxXodfUHHS8aHIAQPQgJ&ec=GAZAmgQ&hl=ko&ifkv=Ab5oB3pbIO112pvqEE01vqulSnZqhCWj-AIFqvsmoCbbpeIHznsmETbp5QPRrjyPOa_h0CAGjAPA&passive=true&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-2093252842%3A1725259182100357&ddm=1"><i class="fa fa-google" aria-hidden="true"></i></a>
 						</div>
 						<div>
-							<a href="https://www.facebook.com/login.php?skip_api_login=1&api_key=195707104118397&kid_directed_site=0&app_id=195707104118397&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fv2.5%2Fdialog%2Foauth%3Fclient_id%3D195707104118397%26response_type%3Dcode%26scope%3Dpublic_profile%252Cuser_friends%252Cemail%26redirect_uri%3Dhttps%253A%252F%252Fauth.danawa.com%252Fsns%252Fcallback%253Ftype%253DFACEBOOK%26ret%3Dlogin%26fbapp_pres%3D0%26logger_id%3D8b87546d-d798-4d97-b45b-e532506bb9a1%26tp%3Dunspecified&cancel_url=https%3A%2F%2Fauth.danawa.com%2Fsns%2Fcallback%3Ftype%3DFACEBOOK%26error%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied%23_%3D_&display=page&locale=ko_KR&pl_dbl=0"><i class="fa-brands fa-facebook fa-xl"></i></a>
+							<a href="https://www.facebook.com/login.php?skip_api_login=1&api_key=195707104118397&kid_directed_site=0&app_id=195707104118397&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fv2.5%2Fdialog%2Foauth%3Fclient_id%3D195707104118397%26response_type%3Dcode%26scope%3Dpublic_profile%252Cuser_friends%252Cemail%26redirect_uri%3Dhttps%253A%252F%252Fauth.danawa.com%252Fsns%252Fcallback%253Ftype%253DFACEBOOK%26ret%3Dlogin%26fbapp_pres%3D0%26logger_id%3D8b87546d-d798-4d97-b45b-e532506bb9a1%26tp%3Dunspecified&cancel_url=https%3A%2F%2Fauth.danawa.com%2Fsns%2Fcallback%3Ftype%3DFACEBOOK%26error%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied%23_%3D_&display=page&locale=ko_KR&pl_dbl=0"><i class="fa fa-facebook" aria-hidden="true"></i></a>
 						</div>
 						<div>
-							<a href="https://www.instagram.com/accounts/login/"><i class="fa-brands fa-instagram fa-xl"></i></a>
+							<a href="https://www.instagram.com/accounts/login/"><i class="fa fa-instagram" aria-hidden="true"></i></a>
 						</div>
 					</div>
 					<span>또는 계정으로 로그인</span> 
