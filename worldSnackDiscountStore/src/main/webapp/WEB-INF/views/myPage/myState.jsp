@@ -100,11 +100,11 @@
 										<input type="hidden" name="page" value="${page }">
 										<table class="table table-hover" id='board_list'>
 											<colgroup>
-												<col width="5%">
-												<col width="15%">
-												<col width="">
-												<col width="20%">
-												<col width="15%">
+												<col class="col1" width="5%">
+												<col class="col2" width="20%">
+												<col class="col3" width="">
+												<col class="col4" width="20%">
+												<col class="col5" width="15%">
 											</colgroup>
 											<thead>
 												<tr>
@@ -190,10 +190,10 @@
 										<input type="hidden" name="content" value="content2">
 										<table class="table table-hover" id='board_list'>
 											<colgroup>
-												<col width="5%">
-												<col width="15%">
-												<col width="">
-												<col width="20%">
+												<col class="col1" width="5%">
+												<col class="col2" width="15%">
+												<col class="col3" width="">
+												<col class="col4" width="20%">
 											</colgroup>
 											<thead>
 												<tr>

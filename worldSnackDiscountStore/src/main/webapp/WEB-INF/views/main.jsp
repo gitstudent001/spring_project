@@ -57,6 +57,9 @@
 	<!-- Template Stylesheet -->
 	<link href="${fruitables}css/style.css" rel="stylesheet">
 	
+	<!-- 이미지, 컨테이너 사이즈 custom css(희만) -->
+	<link href="${root }css/mainCustom.css" rel="stylesheet" />
+	
 	
 	
 	<style>
