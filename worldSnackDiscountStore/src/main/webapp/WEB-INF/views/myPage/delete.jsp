@@ -3,22 +3,27 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}/" />
+<c:set var="photoFolio" value="${root}template/photoFolio/" /> 
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>myPage</title>
-<!-- Google fonts-->
-<link
-	href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700"
-	rel="stylesheet" type="text/css" />
-<link
-	href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i"
-	rel="stylesheet" type="text/css" />
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="${root }css/mypage.css" rel="stylesheet" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>myPage</title>
+	
+  <!-- Favicons -->
+  <link href="${photoFolio}img/favicon.png" rel="icon">
+  	
+	<!-- Google fonts-->
+	<link
+		href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700"
+		rel="stylesheet" type="text/css" />
+	<link
+		href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i"
+		rel="stylesheet" type="text/css" />
+	<!-- Core theme CSS (includes Bootstrap)-->
+	<link href="${root }css/mypage.css" rel="stylesheet" />
 
 </head>
 <body id="page-top">
