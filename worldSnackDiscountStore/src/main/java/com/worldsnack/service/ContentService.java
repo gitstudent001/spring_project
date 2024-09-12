@@ -90,7 +90,7 @@ public class ContentService {
 			int tempRemainder = (countOftotalContent % limit);
 			
 			if(tempRemainder >= countPerPage) {
-				tempRemainder = tempRemainder / countPerPage;
+				tempRemainder = tempRemainder % countPerPage;
 			}
 			countOftotalContent = (tempQuotient * countPerPage) + tempRemainder;
 		}
