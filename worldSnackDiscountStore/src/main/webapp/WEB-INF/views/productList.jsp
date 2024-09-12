@@ -6,7 +6,7 @@
 <c:set var="fruitables" value="${root}template/fruitables/" />
 
 <c:forEach var="dataInfo" items="${contentDTO}">
-	<div class="col-md-6 col-lg-4 col-xl-3 customContainerSet">
+	<div class="col-md-6 col-lg-4 col-xl-3 customContainerSet" style="height:300px; !important">
 	    <div class="rounded position-relative fruite-item">
 	        <div class="fruite-img customImgSet">
 	            <img src="${root}upload/${dataInfo.content_file}" 
@@ -19,7 +19,7 @@
 							<input type="hidden" name="category_idx" value="${dataInfo.category_idx }">
 							<a href="#" onclick="document.getElementById('postForm_${dataInfo.content_idx}').submit();">
 								<h4>${dataInfo.content_subject}</h4>
-	            	<p>
+	            	<%-- <p>
 	            		<c:choose> 
 										<c:when test="${dataInfo.content_text.length() <= 20}">
 											${dataInfo.content_text}			
@@ -28,7 +28,7 @@
 											${dataInfo.content_text.substring(0, 20)}...
 										</c:otherwise> 
 									</c:choose> 
-	            	</p>
+	            	</p> --%>
 			        </a>
 		        </form>
 	        </div>

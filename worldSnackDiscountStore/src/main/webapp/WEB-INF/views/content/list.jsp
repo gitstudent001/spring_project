@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="root" value="${pageContext.request.contextPath }/"/>
 <c:set var="photoFolio" value="${root}template/photoFolio/" />  
 <c:set var="fruitables" value="${root}template/fruitables/" />
@@ -121,10 +122,10 @@
 								<td>${dataInfo.content_writer_idx }</td>
 								<td>${dataInfo.content_make }</td>
 								<td>${dataInfo.content_country }</td>
-								<td>${dataInfo.content_prodno }</td>
-								<td>${dataInfo.content_prodprice }</td>
+								<td>${dataInfo.content_prodno }</td>								
+								<td><fmt:formatNumber value="${dataInfo.content_prodprice }" pattern="#,###" /></td>
                 <td>${dataInfo.content_view}</td>
-                <td>${dataInfo.content_date}</td> 
+                <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${dataInfo.content_date }" /></td>
             </tr>
         </c:forEach>
     </tbody>
