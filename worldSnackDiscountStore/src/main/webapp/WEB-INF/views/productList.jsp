@@ -6,14 +6,14 @@
 <c:set var="fruitables" value="${root}template/fruitables/" />
 
 <c:forEach var="dataInfo" items="${contentDTO}">
-	<div class="col-md-6 col-lg-4 col-xl-3">
+	<div class="col-md-6 col-lg-4 col-xl-3 customContainerSet">
 	    <div class="rounded position-relative fruite-item">
-	        <div class="fruite-img">
+	        <div class="fruite-img customImgSet">
 	            <img src="${root}upload/${dataInfo.content_file}" 
 	            class="img-fluid w-100 rounded-top" alt=""
 	            onerror="this.onerror=null; this.src='${fruitables}img/fruite-item-5.jpg';">
 	        </div>
-	        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+	        <div class="p-4 border border-secondary border-top-0 rounded-bottom customBottomSet">
 		        <form action="${root }content/detail" method="post" id="postForm_${dataInfo.content_idx }">
 							<input type="hidden" name="content_idx" value="${dataInfo.content_idx }">
 							<input type="hidden" name="category_idx" value="${dataInfo.category_idx }">

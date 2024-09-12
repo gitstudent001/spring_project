@@ -3,13 +3,18 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <c:set var="root" value="${pageContext.request.contextPath}/" />
+<c:set var="photoFolio" value="${root}template/photoFolio/" /> 
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>scrap</title>
+    
+  <!-- Favicons -->
+  <link href="${photoFolio}img/favicon.png" rel="icon">
+      
 </head>
 <body>
 	<form action="${root}content/detail" id="detailForm" method="post">

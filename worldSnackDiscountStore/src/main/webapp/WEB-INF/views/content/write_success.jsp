@@ -3,6 +3,7 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <c:set var="root" value="${pageContext.request.contextPath}/" />
+<c:set var="photoFolio" value="${root}template/photoFolio/" /> 
 
 <!DOCTYPE html>
 <html>
@@ -11,6 +12,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>제품글쓰기</title>
 
+  <!-- Favicons -->
+  <link href="${photoFolio}img/favicon.png" rel="icon">
+  
 </head>
 <body>
 	<form action="${root}content/detail" id="detailForm" method="post">

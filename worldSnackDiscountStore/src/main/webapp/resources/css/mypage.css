@@ -11240,6 +11240,69 @@ form.lead.mb-5 input[readonly] {
 	#myState .truncate {
 		width: 100px;
 	}
+	#myState .row {
+		flex-direction: column;
+		align-items: center;
+	}
+	#myState .right-box {
+		width: 80%;
+	}
+	
+	#myState .left-box {
+		width: 80%;
+		max-width: none;
+	}
+	#myState .col4, #myState .col5 {
+		width: 1%;
+	}
+}
+
+@media (max-width: 600px) {
+	#myState .content-box-title, .content-box-title p {
+		text-align: center !important;
+	}	
+	#myState .navbar-nav div {
+		height: auto !important;
+	}
+	.orange-box .content-box-title{
+		font-size: clamp(3px, 2.5vw, 16px) !important;
+	}
+	.orange-box .nav-link {
+		margin-right: unset;
+	}
+	
+	.orange-box .card-body {
+		font-size: clamp(3px, 2.8vw, 16px) !important;
+	}
+	
+	#myState .col2 {
+		width: 40%;
+	}
+	#myState .col3 {
+		width: 60%;
+	}
+	
+	#modify .resume-section-content {
+		max-width: 100%;
+	}
+}
+
+@media (max-width: 500px) {
+	#myState .right-box {
+		width: 100%;
+	}
+	
+	#myState .left-box {
+		width: 100%;
+	}
+	
+	#myState .navbar-nav .nav-item{
+		font-size: clamp(6px, 2.5vw, 15px) !important;
+	}	
+	
+	#myState .btn {
+		font-size: clamp(2px, 1.5vw, 15px) !important;
+	}
 }
 
 .content-box-body-right a {
