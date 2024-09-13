@@ -14,6 +14,8 @@ public class ContentDTO {
 
 	private int content_idx;
 	
+	private int category_idx;
+	
 	@NotBlank
 	@Size(min=2, max=50)
 	private String content_subject;
@@ -39,8 +41,7 @@ public class ContentDTO {
 	private int content_view;
 	private Date content_date;
 	
-	// CATEGORY_SELECT_TABLE
-	private int category_info_idx;
-	private String category_select_name;
 	
+	// 카테고리명
+	private String category_name;
 }

@@ -14,18 +14,17 @@
                 <span class="navbar-toggler-icon"></span>
               </button>
 
-              <div class="collapse navbar-collapse" id="navbarColor04">
-                <ul class="navbar-nav me-auto">
+              <div class="collapse bg-body-tertiary navbar-collapse" id="navbarColor04" style="margin-top:10px; z-index:8; ">
+                <ul class="navbar-nav" style="margin-right: auto;">
                   <li class="nav-item">
-                    <a class="nav-link active"  style="color:black;" href="${root}">Home
-                      <span class="visually-hidden">(current)</span>
-                    </a>
+                    <a class="nav-link active"  style="color:black;" href="${root}"><i class="fa-solid fa-house"></i>메인으로</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" style="color:black;" href="${root}content/list">제품</a>
+                    <a class="nav-link" style="color:black;" href="${root}content/list"><i class="fa-solid fa-cookie-bite"></i>제품</a>
                   </li>
+                  <!-- 
                   <li class="nav-item">
-                    <a class="nav-link" style="color:black;" href="${root}user/test">테스트</a>
+                    <a class="nav-link" style="color:black;" href="${root}test">테스트</a>
                   </li>
                   
                   <li class="nav-item">
@@ -34,15 +33,70 @@
                   <li class="nav-item">
                     <a class="nav-link" style="color:black;" href="${root}content/modify?content_idx=42">제품글수정</a>
                   </li>
+                   -->
+                  <li class="nav-item">
+                    <a class="nav-link" style="color:black;" href="${root}board/community"><i class="fa-solid fa-comments"></i>커뮤니티</a>
+                  </li>
                 </ul>
-                <ul class="navbar-nav me-auto" style="float:right;">
-				          <li class="nav-item">
-				          	<a class="nav-link" style="color:black;" href="${root}user/login" class="active">로그인</a>
-				          </li>
-				          <li class="nav-item">
-				          	<a class="nav-link" style="color:black;" href="${root}user/join">회원가입</a>
-				          </li>
-				        </ul>
+                <c:choose>
+                	<c:when test= "${loginUserDTO.userIsLogin == true }" >
+                		<ul class="navbar-nav" style="margin-left: auto;">
+	                		<li class="nav-item">
+	                			<!-- 로그아웃 -->
+						          	<a class="nav-link" style="color:black;" href="${root}user/logout" class="active" ><i class="fa-solid fa-right-from-bracket"></i>로그아웃</a>
+						          </li>
+						          
+						          <!-- 마이페이지 -->
+						          <li class="nav-item">
+						          	<!-- 버튼 수평 정렬을 위해 div 추가 -->
+						          	<div class="d-flex justify-content-end align-items-center">
+							          	<a class="nav-link" style="color:black;" href="${root}mypage/main" class="active"><i class="fa-solid fa-user"></i>마이페이지</a>
+							          	<c:if test="${mypageNav == true }">
+							          		<button class="navbar-toggler custom-navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
+															aria-expanded="false" aria-label="Toggle navigation">
+															<span class="navbar-toggler-icon"></span>
+														</button>							          	
+							          	</c:if>
+						          	</div>
+					          		<!-- 마이페이지 용 네비게이션 추가 -->
+					          		<c:if test="${mypageNav == true }">
+						          		<div class="d-lg-none">
+														<div class="collapse navbar-collapse" id="navbarResponsive">
+															<ul class="navbar-nav">
+																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/main">내 정보 수정</a></li>
+																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/myContent">내가 쓴 게시글</a></li>
+																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/myScrap">스크랩 한 게시글</a></li>
+																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/myState">나의 활동</a></li>
+													
+																<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${root }mypage/delete">회원탈퇴</a></li>
+															</ul>
+														</div>							          		
+						          		</div>
+					          		</c:if>
+						          </li>
+						          
+						          <li class="nav-item">
+						          	<div class="nav-link" > 
+						          		${loginUserDTO.user_name} <span style="color:#000;">님 환영합니다</span>
+						          		<c:if test="${mypageNav == true }">
+							          		<p>
+							          			당신은 <span class="${loginUserDTO.user_gradeNameAndClass[1] }">${loginUserDTO.user_gradeNameAndClass[0] } </span>등급 입니다~!
+														</p>
+						          		</c:if>
+						          	</div>  
+						          </li>
+                		</ul>
+                	</c:when>
+                	<c:otherwise>
+                		<ul class="navbar-nav" style="margin-left: auto;">
+                			<!-- 로그인 / 회원가입 -->
+                			<li class="nav-item">
+						          	<a class="nav-link" style="color:black;" href="${root}user/login_join" class="active"><i class="fa-solid fa-right-to-bracket"></i>로그인/회원가입</a>
+						          </li>
+                		</ul>
+                	</c:otherwise>
+                </c:choose>
+		
 				        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
               </div>
             </div>

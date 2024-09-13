@@ -15,7 +15,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>제품글쓰기</title>
-  
+
+  <!-- Favicons -->
+  <link href="${photoFolio}img/favicon.png" rel="icon">
+    
   <!-- Google Web Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,6 +32,9 @@
 	
 	<!-- bootswatch Stylesheet -->
 	<link href="${bootswatch}css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Froala Editor -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.7/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -49,17 +55,17 @@
 	    </colgroup>
 	    <tr>
 				<td style="text-align:right;padding-right:10px;">
-					<form:label class="col-form-label mt-4" path="category_info_idx">카테고리</form:label>
+					<form:label class="col-form-label mt-4" path="category_idx">카테고리</form:label>
 				</td>
 				<td>
 					<div class="row" style="padding-left:12px;">
-						<form:select class="form-select" path="category_info_idx" style="width:29%;" title="카테고리종류" onchange="selectCategory(this)">
+						<form:select class="form-select" path="category_idx" style="width:29%;" title="카테고리종류">
 							<c:forEach var="item" items="${categoryDTO }">
-								<form:option value="${item.category_info_idx }" title="${categoryDTO }">${item.category_info_name }</form:option>
+								<option value="${item.category_idx }" <c:if test ="${category_idx eq item.category_idx}">selected="true"</c:if>>${item.category_name }</option>
 							</c:forEach>
 						</form:select>
 						
-						<form:input type="text" class="form-control" path="category_select_name" style="width:70%;display:none;" placeholder="카테고리를 입력하세요" />
+						<%-- <form:input type="text" class="form-control" path="category_select_name" style="width:70%;display:none;" placeholder="카테고리를 입력하세요" /> --%>
 					</div>
 				</td>
 			</tr>
@@ -77,7 +83,7 @@
 					<form:label path="content_text" class="form-label mt-4">내용</form:label>
 				</td>
 				<td>
-					<form:textarea class="form-control" path="content_text" rows="10" />
+					<form:textarea id="froala-editor" class="form-control" path="content_text" rows="10" />
 				</td>
 			</tr>
 			<tr>
@@ -137,10 +143,24 @@
   <script src="${photoFolio}vendor/aos/aos.js"></script>
   <script src="${photoFolio}vendor/glightbox/js/glightbox.min.js"></script>
   <script src="${photoFolio}vendor/swiper/swiper-bundle.min.js"></script>	
+  
+  <!-- Froala Editor js -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/3.2.7/js/froala_editor.pkgd.min.js"></script>
 
 
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script>
+		var editor = new FroalaEditor('#froala-editor');
+		// froala 에디터 실행 jquery
+		$(function() {
+			$('#froala-editor').foralaEditor({
+				toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'formatOL', 'formatUL', '|', 'insertImage', 'insertLink'],
+				heightMin: 300
+				
+			});
+		});
+	
+		/*
 		function selectCategory(obj){
 			//console.log(obj.id);
 			let id = obj.id;
@@ -154,8 +174,8 @@
 			else{
 				$("#category_select_name").hide();
 			}
-			
 		}
+		*/
 	</script>
 
 </body>

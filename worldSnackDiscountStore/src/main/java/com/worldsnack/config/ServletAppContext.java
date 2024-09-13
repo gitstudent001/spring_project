@@ -4,6 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,14 +14,23 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.worldsnack.dto.UserDTO;
+import com.worldsnack.interceptor.CheckWriterInterceptor;
+import com.worldsnack.interceptor.LoginCheckInterceptor;
+import com.worldsnack.interceptor.TopMenuInterceptor;
 import com.worldsnack.mapper.CategoryMapper;
+import com.worldsnack.mapper.CommMapper;
+import com.worldsnack.mapper.CommentMapper;
 import com.worldsnack.mapper.ContentMapper;
+import com.worldsnack.mapper.MypageMapper;
 import com.worldsnack.mapper.UserMapper;
+import com.worldsnack.service.ContentService;
 
 
 // Spring MVC 프로젝트에 관련된 설정을 하는 클래스
@@ -34,6 +44,7 @@ import com.worldsnack.mapper.UserMapper;
 @ComponentScan("com.worldsnack.controller")
 @ComponentScan("com.worldsnack.service")
 @ComponentScan("com.worldsnack.dao")
+@ComponentScan("com.worldsnack.config")
 @PropertySource("/WEB-INF/properties/database.properties")
 public class ServletAppContext implements WebMvcConfigurer{
 	
@@ -48,6 +59,25 @@ public class ServletAppContext implements WebMvcConfigurer{
 	
 	@Value("${oracle.password}")
 	private String oraclePassword;
+	
+	@Value("${path.upload.community}")
+  	private String communityUploadPath;
+	
+	@Value("${path.upload.thumbnails}")
+  	private String thumbnailUploadPath;
+	
+	@Autowired
+	private UserDTO loginUserDTO;
+	
+	@Autowired
+	private ContentService contentService;
+	
+	@Value("${path.upload}")
+	private String uploadPath;
+	
+	@Value("${path.imgUpload}")
+	private String imgUploadPath;
+	
 
 	// Controller 의 메소드가 반환하는 jsp(view) 이름 앞뒤로
 	// 있는 경로의 접두사, 접미사 설정하기
@@ -60,8 +90,17 @@ public class ServletAppContext implements WebMvcConfigurer{
 	// 이미지, 음악파일, js, css 파일 등을 저장하는 경로 지정하기
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		
+		// 외부 파일 시스템에 저장된 커뮤니티 이미지 파일 핸들러 설정(hs_comm)
+		registry.addResourceHandler("/uploads/community/**")
+    .addResourceLocations("file:///" + communityUploadPath);
+		
+		registry.addResourceHandler("/uploads/thumbnails/**")
+    .addResourceLocations("file:///" + thumbnailUploadPath);
+		
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/**").addResourceLocations("/resources/");
+		registry.addResourceHandler(imgUploadPath).addResourceLocations(uploadPath);
 	}
 	
 	// database 접속 정보 관리
@@ -111,6 +150,29 @@ public class ServletAppContext implements WebMvcConfigurer{
 		return factoryBean;
 	}
 	
+	@Bean
+	public MapperFactoryBean<MypageMapper> getMypageMapper(SqlSessionFactory factory) throws Exception{
+		MapperFactoryBean<MypageMapper> factoryBean = 
+				new MapperFactoryBean<>(MypageMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+	}		
+	
+	@Bean
+	public MapperFactoryBean<CommMapper> getCommMapper(SqlSessionFactory factory) throws Exception{
+		MapperFactoryBean<CommMapper> factoryBean = 
+				new MapperFactoryBean<>(CommMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+	}
+	
+	@Bean
+	public MapperFactoryBean<CommentMapper> getCommentMapper(SqlSessionFactory factory) throws Exception{
+		MapperFactoryBean<CommentMapper> factoryBean = 
+				new MapperFactoryBean<>(CommentMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+	}
 
 	/*
   // Interceptor 등록하기
@@ -127,7 +189,28 @@ public class ServletAppContext implements WebMvcConfigurer{
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-			  
+		WebMvcConfigurer.super.addInterceptors(registry);
+		
+		/* TopMenu에서 세션스코프에 있는 loginUserDTO의 정보를 가져옴 */
+		TopMenuInterceptor topMenuInterceptor = 
+				new TopMenuInterceptor(loginUserDTO);
+		InterceptorRegistration regi1 = registry.addInterceptor(topMenuInterceptor);
+		regi1.addPathPatterns("/**");
+		
+		/* 로그인 여부 확인하여 접근 가능 url 지정 */
+		LoginCheckInterceptor loginCheckInterceptor = 
+				new LoginCheckInterceptor(loginUserDTO);
+		InterceptorRegistration regi2 = registry.addInterceptor(loginCheckInterceptor);
+	  // 로그인하지 않았을 때 접근 못하게 하는 Url Pattern 을 지정함
+		regi2.addPathPatterns("/mypage/*", "/user/logout", "/content/*");
+		// 로그인하지 않아도 접근할 수 있는 url pattern  
+		regi2.excludePathPatterns("/content/list", "/content/detail");
+		
+		/* 작성자 확인하여 작성자가 아닐경우 수정 / 삭제 불가 */
+		CheckWriterInterceptor checkWriterInterceptor = 
+				new CheckWriterInterceptor(loginUserDTO, contentService);
+		InterceptorRegistration regi3 = registry.addInterceptor(checkWriterInterceptor);
+		regi3.addPathPatterns("/content/modify", "/content/delete");
 	}
 	
 	// errors.properties 파일과 database.properties 파일이 충돌되지 않도록 함

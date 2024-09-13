@@ -2,6 +2,7 @@ package com.worldsnack.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.worldsnack.dto.CategoryInfoDTO;
-import com.worldsnack.dto.CategorySelectDTO;
+import com.worldsnack.dto.CategoryDTO;
 import com.worldsnack.dto.ContentDTO;
+import com.worldsnack.dto.PageDTO;
+import com.worldsnack.dto.UserDTO;
 import com.worldsnack.service.CategoryService;
 import com.worldsnack.service.ContentService;
+import com.worldsnack.service.UserService;
 
 @Controller
 @RequestMapping("content")
@@ -30,11 +33,88 @@ public class ContentController {
 	@Autowired
 	private ContentService contentService;
 	
-	@GetMapping("/write")
-	public String write(@ModelAttribute("writeContentDTO") ContentDTO writeContentDTO, Model model) {
-		List<CategoryInfoDTO> categoryDTO = categoryService.selectInfoAll(); 
-		model.addAttribute("categoryDTO", categoryDTO);
+	@Autowired 
+	private UserService userService;
+	
+	@Resource(name="loginUserDTO")
+	private UserDTO loginUserDTO;
+	
+	@GetMapping("/list")
+	public String list(@RequestParam(value="limit", defaultValue="10") int limit,
+              			 @RequestParam(value="category_idx", defaultValue="0") int category_idx,
+              			 @RequestParam(value = "page", defaultValue = "1") int page,
+              			 Model model) {
 		
+		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
+		model.addAttribute("categoryDTO", categoryDTO);
+				
+		List<ContentDTO> contentDTO = null;
+		/* 페이지네이션을 위한 PageDTO 선언 */
+		PageDTO pageDTO = null;
+		boolean flag = false;
+		
+		if(category_idx > 0) {
+			flag = true;
+			contentDTO = contentService.selectListForLimit(category_idx, limit, page);
+			
+			pageDTO = contentService.getCountOfTotalContent(category_idx, page, flag, limit);
+		}else {
+			flag = false;
+  		contentDTO = contentService.selectAllForLimit(limit, page); 
+  		
+  		pageDTO = contentService.getCountOfTotalContent(category_idx, page, flag, limit);
+		}
+		model.addAttribute("category_idx", category_idx);
+		model.addAttribute("contentDTO", contentDTO);
+		model.addAttribute("limit", limit);
+		model.addAttribute("pageDTO", pageDTO);
+		
+		// 페이지의 정보를 전달해줌
+		if(page > pageDTO.getMax()) {
+			page = pageDTO.getMax();
+			model.addAttribute("page", page);
+			return "redirect:/content/list";
+		} 
+		else { 
+			model.addAttribute("page", page); 
+		}
+		return "content/list";
+	}
+	
+
+	@PostMapping("/detail")
+	//@RequestMapping(value="/detail", method={RequestMethod.GET, RequestMethod.POST})
+	public String detail(@RequestParam("content_idx") int content_idx,
+											 @RequestParam(value="limit", defaultValue="10") int limit,
+											 @RequestParam(value="category_idx", defaultValue="0") int category_idx,
+											 @RequestParam(value = "page", defaultValue = "1") int page,
+											 Model model) {
+		
+		int user_idx = loginUserDTO.getUser_idx();
+		ContentDTO detailContentDTO = contentService.getContentDetail(content_idx);
+		// 스크랩 유무 확인
+		boolean alreadyScrap = contentService.checkScrap(user_idx, content_idx);
+		
+		// 조회수 증가
+		contentService.increaseView(content_idx);
+		
+		model.addAttribute("content_idx", content_idx);
+		model.addAttribute("detailContentDTO", detailContentDTO);
+		model.addAttribute("limit", limit);
+		model.addAttribute("page", page);
+		model.addAttribute("category_idx", category_idx);
+		model.addAttribute("alreadyScrap", alreadyScrap);
+		model.addAttribute("user_idx", user_idx);
+		return "content/detail";
+	}
+	
+	@GetMapping("/write")
+	public String write(@ModelAttribute("writeContentDTO") ContentDTO writeContentDTO,
+											@RequestParam(value="category_idx", defaultValue="0") int category_idx, 
+											Model model) {
+		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
+		model.addAttribute("categoryDTO", categoryDTO);
+		model.addAttribute("category_idx", category_idx);
 		return "content/write";
 	}
 	
@@ -43,38 +123,44 @@ public class ContentController {
 															 BindingResult result,
 															 Model model) {
 		
-		List<CategoryInfoDTO> categoryDTO = categoryService.selectInfoAll(); 
+		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
 		
 		if(result.hasErrors()) {
 			return "content/write"; 
 		}
 		
+		// System.out.println("writeContentDTO : " + writeContentDTO);
+		
 		contentService.addContent(writeContentDTO);
-		int content_idx = writeContentDTO.getContent_idx();
-		model.addAttribute("content_idx", content_idx);
 		
-		//System.out.println("content_idx : " + content_idx);
+		// 게시글 등록시 해당 유저의 user_content_count 증가 (희만)
+		userService.increaseContentCountForGrade(writeContentDTO.getContent_writer_idx());
 		
-		CategorySelectDTO categorySelectDTO = new CategorySelectDTO();
-		categorySelectDTO.setContent_idx(content_idx);
-		categorySelectDTO.setCategory_info_idx(writeContentDTO.getCategory_info_idx());
-		categorySelectDTO.setCategory_select_name(writeContentDTO.getCategory_select_name());
-		
-		categoryService.addCategorySelect(categorySelectDTO);
+		model.addAttribute("content_idx", writeContentDTO.getContent_idx());
+		model.addAttribute("category_idx", writeContentDTO.getCategory_idx());
 		
 		return "content/write_success";
 	}
 	
 	@GetMapping("/modify")
 	public String modify(@RequestParam(value="content_idx", defaultValue="0") int content_idx,
+                			 @RequestParam(value="limit", defaultValue="10") int limit,
+                			 @RequestParam(value="category_idx", defaultValue="0") int category_idx,
+                			 @RequestParam(value = "page", defaultValue = "1") int page,
                        @ModelAttribute("modifyContentDTO") ContentDTO modifyContentDTO, 
                        Model model) {
-		List<CategoryInfoDTO> categoryDTO = categoryService.selectInfoAll(); 
+		
+		model.addAttribute("limit", limit);
+		model.addAttribute("page", page);
+		model.addAttribute("category_idx", category_idx);
+		
+		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
 
 		ContentDTO contentDTO = contentService.getContentDetail(content_idx);
 		modifyContentDTO.setContent_idx(contentDTO.getContent_idx());
+		modifyContentDTO.setCategory_idx(contentDTO.getCategory_idx());
 		modifyContentDTO.setContent_subject(contentDTO.getContent_subject());
 		modifyContentDTO.setContent_text(contentDTO.getContent_text());
 		modifyContentDTO.setContent_file(contentDTO.getContent_file());
@@ -85,8 +171,6 @@ public class ContentController {
 		modifyContentDTO.setContent_prodprice(contentDTO.getContent_prodprice());
 		modifyContentDTO.setContent_view(contentDTO.getContent_view());
 		modifyContentDTO.setContent_date(contentDTO.getContent_date());
-		modifyContentDTO.setCategory_info_idx(contentDTO.getCategory_info_idx());
-		modifyContentDTO.setCategory_select_name(contentDTO.getCategory_select_name());
 
 		return "content/modify";
 	}
@@ -95,7 +179,7 @@ public class ContentController {
 	public String modifyProcedure(@Valid @ModelAttribute("modifyContentDTO") ContentDTO modifyContentDTO, 
                                 BindingResult result,
                                 Model model) {
-		List<CategoryInfoDTO> categoryDTO = categoryService.selectInfoAll(); 
+		List<CategoryDTO> categoryDTO = categoryService.selectAll(); 
 		model.addAttribute("categoryDTO", categoryDTO);
 		
 		int content_idx = modifyContentDTO.getContent_idx();
@@ -107,23 +191,57 @@ public class ContentController {
 		
 		contentService.editContent(modifyContentDTO);
 		
-		CategorySelectDTO categorySelectDTO = categoryService.getCategorySelect(content_idx);
-		categorySelectDTO.setCategory_info_idx(modifyContentDTO.getCategory_info_idx());
-		if(modifyContentDTO.getCategory_info_idx() == 5) {
-			if(modifyContentDTO.getCategory_select_name() != null && !modifyContentDTO.getCategory_select_name().trim().equals("")) {
-				categorySelectDTO.setCategory_select_name(modifyContentDTO.getCategory_select_name());
-			}
-			else {
-				categorySelectDTO.setCategory_select_name("");
-			}
-		}
-		else {
-			categorySelectDTO.setCategory_select_name("");
-		}
-		
-		categoryService.updateCategorySelect(categorySelectDTO);
+		model.addAttribute("category_idx", modifyContentDTO.getCategory_idx());
 		
 		return "content/modify_success";
 	}
+	
+	@GetMapping("/cant_modify_delete")
+	public void cant_modify_delete() { }
+	
+	@PostMapping("/scrap")
+	public String scrap(@RequestParam("user_idx") int user_idx,
+											@RequestParam("content_idx") int content_idx,
+											@RequestParam(value="limit", defaultValue="10") int limit,
+											@RequestParam(value="category_idx", defaultValue="0") int category_idx,
+											@RequestParam(value = "page", defaultValue = "1") int page,
+											@RequestParam(value="scrapCheck", defaultValue="false") boolean scrapCheck,
+											Model model) {
+		
+		model.addAttribute("content_idx", content_idx);
+		model.addAttribute("limit", limit);
+		model.addAttribute("page", page);
+		model.addAttribute("category_idx", category_idx);
+		
+		/*
+		System.out.println("user_idx : " + user_idx);
+		System.out.println("content_idx : " + content_idx);
+		System.out.println("limit : " + limit);
+		System.out.println("category_idx : " + category_idx);
+		*/
+		if(scrapCheck != true) { // scrap을 안 했다면
+			// 스크랩 하기
+			contentService.insertScrap(user_idx, content_idx);
+			return "content/scrap_success";
+		}
+		else { // 이미 scrap을 했다면
+			contentService.deleteScrap(user_idx, content_idx);
+			return "content/scrap_delete";
+		}
+	}
+	
+	@GetMapping("/delete") 
+  public String delete(@RequestParam("content_idx") int content_idx)  { 
+	  
+	  try {
+  contentService.deleteContent(content_idx); 
+  } catch(Exception e) {
+  e.printStackTrace(); 
+  return "content/delete_fail"; 
+  }
+  // 정상적으로 삭제 되었을 때 삭제완료 페이지 반환
+  return "content/delete"; 
+  }
+ 
 	
 }

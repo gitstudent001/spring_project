@@ -15,4 +15,7 @@
 	   </div>
 	
 	</footer>
+	
+	<!-- 아이콘 추가 -->
+	<script src="https://kit.fontawesome.com/223007111f.js" crossorigin="anonymous"></script>
     

@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+.customContainerSet {
+	height: 400px;
+}
+
+.fruite .fruite-item .customImgSet {
+	height: 60%;
+}
+
+.fruite .fruite-item .customImgSet img {
+  height: 100%;
+}
+
+.customBottomSet {
+	height: 40%;
+}
