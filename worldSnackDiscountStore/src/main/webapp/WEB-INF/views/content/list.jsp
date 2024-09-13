@@ -16,8 +16,8 @@
     <title>제품 목록</title>
     
     <!-- Favicons -->
-  <link href="${photoFolio}img/favicon.png" rel="icon">
-  <link href="${photoFolio}img/apple-touch-icon.png" rel="apple-touch-icon">
+  <%-- <link href="${photoFolio}img/favicon.png" rel="icon">
+  <link href="${photoFolio}img/apple-touch-icon.png" rel="apple-touch-icon"> --%>
     
    
     
@@ -47,8 +47,14 @@
 	 <link href="${bootswatch}css/bootstrap.min.css" rel="stylesheet"> 
 	
 	<!-- 게시글 수 지정 -->
-	 <link href="${root }css/list.css" rel="stylesheet" />
-	 
+  <link href="${root }css/list.css" rel="stylesheet" />
+	
+	
+	<style>
+		.fruite .tab-class .nav-item a.active {
+		    background: #FFB524 !important;
+		}
+	</style> 
 	 
 </head>
 <body>
@@ -60,17 +66,31 @@
 <div style="width:96%;margin:auto;">
 	<br>
 	<h2>${categoryName }</h2>
+	<input type="hidden" value="${category_idx}" id="hdCategoryIdx" />
 	
-	<div>
-		<!-- 카테고리 -->
-		<input type="button" onclick="location.href='list'" value="전체" class ="btnCategory"
-		 		 style="display: inline-flex; align-items: center; justify-content: center; margin: 10px; padding: 10px 20px; background-color: #f8f9fa; border: none; border-radius: 50px; color: #000; width: 130px; cursor: pointer;"/>
-		<c:forEach var="ctgInfo" items="${categoryDTO}"> 
-			<input type="button" onclick="location.href='list?category_idx=${ctgInfo.category_idx }'" 
-						 value="${ctgInfo.category_name }" class ="btnCategory"
-						 style="display: inline-flex; align-items: center; justify-content: center; margin: 10px; padding: 10px 20px; background-color: #f8f9fa; border: none; border-radius: 50px; color: #000; width: 130px; cursor: pointer;"/>
-		</c:forEach>
-	</div>		 
+	
+	<div class="fruite">
+		<div class="tab-class">
+			<ul class="nav">
+				<!-- 카테고리 -->
+				<li class="nav-item">
+					<a onclick="location.href='list'" class="btnCategoryAll"
+				 		 style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; margin: 10px; padding: 10px 20px; background-color: #f8f9fa; border: none; border-radius: 50px; color: #000; width: 130px; cursor: pointer;">
+					<span>전체</span></a>
+				</li> 
+				 		 
+				<c:forEach var="ctgInfo" items="${categoryDTO}"> 
+					<li class="nav-item">
+						<a  onclick="location.href='list?category_idx=${ctgInfo.category_idx }'" 
+								class ="btnCategory"
+								id="btnCategory_${ctgInfo.category_idx}"
+								style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; margin: 10px; padding: 10px 20px; background-color: #f8f9fa; border: none; border-radius: 50px; color: #000; width: 130px; cursor: pointer;">						 
+						<span>${ctgInfo.category_name }</span></a>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
+	</div> 
 
 	<div style=" float:right;">
 	<form method="get" action="${root }content/list" class="dropdown">
@@ -187,11 +207,12 @@
 
 
   <!-- Vendor JS Files -->
-  <script src="${photoFolio}vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="${photoFolio}vendor/php-email-form/validate.js"></script>
-  <script src="${photoFolio}vendor/aos/aos.js"></script>
-  <script src="${photoFolio}vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="${photoFolio}vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="${fruitables}lib/easing/easing.min.js"></script>
+  <script src="${fruitables}lib/waypoints/waypoints.min.js"></script>
+  <script src="${fruitables}lib/lightbox/js/lightbox.min.js"></script>
+  <script src="${fruitables}lib/owlcarousel/owl.carousel.min.js"></script>
 	
 	<!-- 이미지가 로드되지 않을 경우 안보이도록 display:none 처리 -->
 	<script type="text/javascript">
@@ -203,6 +224,20 @@
 		            this.style.display = 'none'; // 이미지 로드 실패 시 숨김
 		        };
 		    });
+		});
+		
+		
+		$(window).on("load", function () { 
+			
+			let categoryIdx = $("#hdCategoryIdx").val();
+			
+			if(categoryIdx == 0) {
+				$(".btnCategoryAll").addClass("active");
+			}
+			else{
+				$("#btnCategory_" + categoryIdx).addClass("active");
+			}
+			
 		});
 	</script>
 	
