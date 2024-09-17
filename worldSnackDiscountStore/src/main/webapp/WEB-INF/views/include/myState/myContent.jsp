@@ -2,6 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}/" />
+
+<!-- 날짜 형식 변환 태그 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 								<div id="content1">
 									<form action="${root}mypage/deletePost" method="post">
 										<input type="hidden" name="page" value="${page }">
@@ -15,7 +19,7 @@
 											</colgroup>
 											<thead>
 												<tr>
-													<th><input type="checkbox" class="chkboxAll"></th>
+													<th><input type="checkbox" class="chkboxAll" name="checkboxAll"></th>
 													<th class="text-center">글번호</th>
 													<th>제목</th>
 													<th class="text-center d-none d-xl-table-cell">작성일</th>

@@ -16,8 +16,8 @@
     <title>제품 목록</title>
     
     <!-- Favicons -->
-  <%-- <link href="${photoFolio}img/favicon.png" rel="icon">
-  <link href="${photoFolio}img/apple-touch-icon.png" rel="apple-touch-icon"> --%>
+	<link href="${photoFolio}img/favicon.png" rel="icon">
+  <!-- <link href="${photoFolio}img/apple-touch-icon.png" rel="apple-touch-icon"> --%>
     
    
     
