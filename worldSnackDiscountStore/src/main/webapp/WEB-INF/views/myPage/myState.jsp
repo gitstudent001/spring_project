@@ -85,7 +85,7 @@
 										<li class="nav-item"><span>${visitCount }회</span></li>
 										<li class="nav-item"><a href="?content=content1" onclick="showContent('content1')">${myCommunityContentCount }개</a></li>
 										<li class="nav-item"><a href="?content=content2" onclick="showContent('content2')">${myCommunityCommentCount }개</a></li>
-										<li class="nav-item"><a href="?content=content3" onclick="showContent('content3')">??개</a></li>
+										<li class="nav-item"><a href="?content=content3" onclick="showContent('content3')">${likeCount }</a></li>
 										<li class="nav-item"><span>총 ${activityTime }시간</span></li>
 									</ul>
 								</div>
@@ -185,6 +185,30 @@
 			document.getElementById(contentId).style.display = 'block';
 			*/
 		};
+		
+		// 나의활동 -> 관심 받은 글 스크립트
+		$(document).ready(function() {
+			$('.submit-link').on('click', function(event) {
+				event.preventDefault(); // a 태그 동작 방지
+				
+				var contentIdx = $(this).data('content-idx');
+				
+				var form = $('<form>', {
+					'method' : 'post',
+					'action' : '${root}content/detail'
+				});
+				
+				$('<input>', {
+					'type' : 'hidden',
+					'name' : 'content_idx',
+					'value' : contentIdx
+				}).appendTo(form);
+				
+				form.appendTo('body');
+				
+				form.submit();
+			});
+		});
 		
 	</script>
 </body>

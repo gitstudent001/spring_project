@@ -157,4 +157,21 @@ public interface MypageMapper {
 					"ORDER BY COMMUNITY_DATE DESC")
 	List<CommDTO> getMyAllCommunityContentList(int user_idx, RowBounds rowBounds);
 	
+	// 내가 작성한 글 중 스크랩 받은 게시글 조회 (제품용)
+	@Select("SELECT CT.CONTENT_IDX, CT.CONTENT_SUBJECT, COUNT(ST.USER_IDX) AS SCRAP_COUNT " +
+					"FROM CONTENT_TABLE CT INNER JOIN SCRAP_TABLE ST " +
+					"ON CT.CONTENT_IDX = ST.CONTENT_IDX " +
+					"WHERE NOT ST.USER_IDX = #{user_idx} " +
+					"AND CT.CONTENT_WRITER_IDX = #{user_idx} " +
+					"GROUP BY CT.CONTENT_IDX, CT.CONTENT_SUBJECT " +
+					"ORDER BY CT.CONTENT_IDX DESC")
+	List<ContentDTO> getReceivedScrapList(int user_idx, RowBounds rowBounds);
+	
+	// 내가 작성한 글 중 스크랩 받은 게시글 수 조회 (제품용)
+	@Select("SELECT COUNT(*) " +
+					"FROM CONTENT_TABLE CT INNER JOIN SCRAP_TABLE ST " +
+					"ON CT.CONTENT_IDX = ST.CONTENT_IDX " +
+					"WHERE NOT ST.USER_IDX = #{user_idx} " +
+					"AND CT.CONTENT_WRITER_IDX = #{user_idx}")
+	int getReceivedScrapCount(int user_idx);
 }

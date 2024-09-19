@@ -105,4 +105,9 @@ public class ContentDAO {
 	public void deleteContent(int content_idx){
 		 contentMapper.deleteContent(content_idx);
 	}
+	
+	// 게시글 작성자 닉네임 조회 (희만)
+	public String getWriterNickname(int content_writer_idx) {
+		return contentMapper.getWriterNickname(content_writer_idx);
+	}
 }
