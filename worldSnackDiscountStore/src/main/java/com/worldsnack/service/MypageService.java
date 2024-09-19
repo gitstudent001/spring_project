@@ -240,4 +240,37 @@ public class MypageService {
 		
 		return pageDTO;
 	}
+	
+	// 내가 작성한 글 중 스크랩 받은 게시글 조회 (제품용)
+	public List<ContentDTO> getReceivedScrapList(int user_idx, int page) {
+		int startPage = (page - 1) * countPerPageInMypage;
+		RowBounds rowBounds = new RowBounds(startPage, countPerPageInMypage);
+		
+		return mypageDAO.getReceivedScrapList(user_idx, rowBounds);
+	}
+	/* 게시글의 페이지네이션을 위한 pageDTO 선언*/
+	public PageDTO getReceivedScrapForPage(int user_idx, int currentPage) {
+		int countOftotalContent = mypageDAO.getReceivedScrapCount(user_idx);
+		
+		// 페이지 번호가 더 많이 생기는 오류를 막기위한 계산식
+		// 몫
+		int tempQuotient = countOftotalContent / countPerPageInMypage;
+		// 나머지
+		int tempRemainder = (countOftotalContent % countPerPageInMypage);
+		
+		if(tempRemainder >= countPerPage) {
+			tempRemainder = tempRemainder % countPerPage;
+		}
+		countOftotalContent = (tempQuotient * countPerPage) + tempRemainder;
+		
+		PageDTO pageDTO = 
+				new PageDTO(countOftotalContent, currentPage, countOfPagination, countPerPage);
+		
+		return pageDTO;
+	}
+	
+	// 내가 작성한 글 중 스크랩 받은 게시글 수 조회 (제품용)
+	public int getReceivedScrapCount(int user_idx) {
+		return mypageDAO.getReceivedScrapCount(user_idx);
+	}
 }

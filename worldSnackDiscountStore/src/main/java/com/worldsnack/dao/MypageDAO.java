@@ -118,4 +118,14 @@ public class MypageDAO {
 	public List<CommDTO> getMyAllCommunityContentList(int user_idx, RowBounds rowBounds) {
 		return mypageMapper.getMyAllCommunityContentList(user_idx, rowBounds);
 	}
+	
+	// 내가 작성한 글 중 스크랩 받은 게시글 조회 (제품용)
+	public List<ContentDTO> getReceivedScrapList(int user_idx, RowBounds rowBounds) {
+		return mypageMapper.getReceivedScrapList(user_idx, rowBounds);
+	}
+	
+	// 내가 작성한 글 중 스크랩 받은 게시글 수 조회 (제품용)
+	public int getReceivedScrapCount(int user_idx) {
+		return mypageMapper.getReceivedScrapCount(user_idx);
+	}
 }

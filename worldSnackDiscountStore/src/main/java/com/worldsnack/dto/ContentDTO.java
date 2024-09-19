@@ -47,4 +47,6 @@ public class ContentDTO {
 	
 	// 작성자 닉네임
 	private String content_writer_nickname;
+	// 스크랩 수
+	private int scrap_count;
 }
