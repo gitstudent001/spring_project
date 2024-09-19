@@ -61,10 +61,10 @@ public class ServletAppContext implements WebMvcConfigurer{
 	private String oraclePassword;
 	
 	@Value("${path.upload.community}")
-  	private String communityUploadPath;
-	
-	@Value("${path.upload.thumbnails}")
-  	private String thumbnailUploadPath;
+  private String communityUploadPath;
+  
+  @Value("${path.upload.thumbnails}")
+	private String thumbnailUploadPath;
 	
 	@Autowired
 	private UserDTO loginUserDTO;

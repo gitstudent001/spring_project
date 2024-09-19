@@ -3,7 +3,9 @@
 <c:set var="root" value="${pageContext.request.contextPath}/" />
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:set var="photoFolio" value="${root}template/photoFolio/" /> 
+<c:set var="photoFolio" value="${root}template/photoFolio/" />
+<c:set var="fruitables" value="${root}template/fruitables/" />
+<c:set var="bootswatch" value="${root}template/bootswatch/" />
 
 <!DOCTYPE html>
 <html>
@@ -11,24 +13,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시글 수정하기</title>
-  
-  <!-- Favicons -->
-  <link href="${photoFolio}img/favicon.png" rel="icon">
-   
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Toast UI Editor 관련 스타일 추가 -->
-  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-  <!-- jQuery 및 jQuery UI 라이브러리 추가 -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-  <!-- Toast UI Editor 관련 JS 추가 -->
-  <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
   
-  <link rel="stylesheet" href="${root}css/newPost.css" type="text/css" />
+	<!-- Customized Bootstrap, Template, bootswatch -->
+	<link href="${fruitables}css/bootstrap.min.css" rel="stylesheet">
+	<link href="${fruitables}css/style.css" rel="stylesheet">
+	<link href="${bootswatch}css/bootstrap.min.css" rel="stylesheet">
+  <link href="${photoFolio}img/favicon.png" rel="icon">
+	<link rel="stylesheet" href="${root}css/newPost.css" type="text/css" />
+	
+	<!-- JavaScript Libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/ko.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>	
+
+  <script src="${fruitables}lib/easing/easing.min.js"></script>
+  <script src="${fruitables}lib/waypoints/waypoints.min.js"></script>
+  <script src="${fruitables}lib/lightbox/js/lightbox.min.js"></script>
+  <script src="${fruitables}lib/owlcarousel/owl.carousel.min.js"></script>
+  
+  <script>
+  	// 서버에서 전달된 데이터를 JavaScript 변수로 넘김
+	  const communityText = "${post.community_text}";
+	  const postCategory = "${post.community_category}";
+	  const postType = "${post.community_type}";
+	</script>
+  
+  <script src="${root}js/editor-init.js" type="text/javascript"></script>
   <script src="${root}js/newPost.js" type="text/javascript"></script>
   <script src="${root}js/editPost.js" type="text/javascript"></script>
 
@@ -41,40 +60,46 @@
     <h1 class="mb-4">게시글 수정하기</h1>
     
     <!-- 탭 내비게이션 -->
-		<ul class="nav nav-tabs" id="postTypeTabs" role="tablist">
-		  <li class="nav-item">
-		    <a class="nav-link ${post.community_category == 'TEXT' ? 'active' : ''}" id="text-tab" data-toggle="tab" href="#text" role="tab" aria-controls="text" aria-selected="${post.community_category == 'TEXT'}">텍스트</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link ${post.community_category == 'IMAGE' ? 'active' : ''}" id="image-tab" data-toggle="tab" href="#image" role="tab" aria-controls="image" aria-selected="${post.community_category == 'IMAGE'}">이미지 및 비디오</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link ${post.community_category == 'RANKING' ? 'active' : ''}" id="ranking-tab" data-toggle="tab" href="#ranking" role="tab" aria-controls="ranking" aria-selected="${post.community_category == 'RANKING'}">랭킹</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link ${post.community_category == 'PROMOTION' ? 'active' : ''}" id="promotion-tab" data-toggle="tab" href="#promotion" role="tab" aria-controls="promotion" aria-selected="${post.community_category == 'PROMOTION'}">프로모션</a>
-		  </li>
-		</ul>
+    <ul class="nav nav-tabs" id="postTypeTabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link ${post.community_type == 'TEXT' ? 'active' : ''}" id="text-tab" data-toggle="tab" href="#text" role="tab" aria-controls="text" aria-selected="${post.community_type == 'TEXT'}">텍스트</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link ${post.community_type == 'IMAGE' ? 'active' : ''}" id="image-tab" data-toggle="tab" href="#image" role="tab" aria-controls="image" aria-selected="${post.community_type == 'IMAGE'}">이미지 및 비디오</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link ${post.community_type == 'RANKING' ? 'active' : ''}" id="ranking-tab" data-toggle="tab" href="#ranking" role="tab" aria-controls="ranking" aria-selected="${post.community_type == 'RANKING'}">랭킹</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link ${post.community_type == 'PROMOTION' ? 'active' : ''}" id="promotion-tab" data-toggle="tab" href="#promotion" role="tab" aria-controls="promotion" aria-selected="${post.community_type == 'PROMOTION'}">프로모션</a>
+      </li>
+    </ul>
 
     <!-- 탭 콘텐츠 -->
     <div class="tab-content" id="postTypeContent">
       <!-- 텍스트 게시물 폼 -->
-      <div class="tab-pane fade <c:if test="${post.community_category == 'TEXT'}">show active</c:if>" id="text" role="tabpanel" aria-labelledby="text-tab">
+      <div class="tab-pane fade <c:if test="${post.community_type == 'TEXT'}">show active</c:if>" id="text" role="tabpanel" aria-labelledby="text-tab">
         <form:form action="${root}board/editPost/${post.community_idx}" modelAttribute="post" method="post" onsubmit="return handleFormSubmit();">
           <form:hidden path="community_idx" />
           <form:hidden path="community_text" id="hidden_text" />
           <div class="form-group mt-3 d-flex align-items-center">
             <!-- 카테고리 드롭다운 -->
             <div class="category-dropdown mr-3">
-              <span class="selectedCategory">${post.community_category == 'free' ? '자유' : '질문'}</span>
+              <span class="selectedCategory">
+                <c:choose>
+                  <c:when test="${post.community_category == 'free'}">자유</c:when>
+                  <c:when test="${post.community_category == 'question'}">질문</c:when>
+                </c:choose>
+              </span>
               <i class="fas fa-chevron-down"></i>
               <!-- 드롭다운 리스트 -->
               <ul class="dropdown-menu">
-                <li data-value="free">자유</li>
-                <li data-value="question">질문</li>
+                <li data-value="free" ${post.community_category == 'free' ? 'class="selected"' : ''}>자유</li>
+                <li data-value="question" ${post.community_category == 'question' ? 'class="selected"' : ''}>질문</li>
               </ul>
             </div>
             <!-- 텍스트 입력 필드 -->
+            <form:hidden path="community_type" id="hidden_type_text" />
             <form:hidden path="community_category" value="${post.community_category}" />
             <form:input path="community_subject" id="community_subject" class="form-control" placeholder="제목" value="${post.community_subject}" required="true" />
           </div>
@@ -83,28 +108,35 @@
             <div id="editor" class="form-control" style="height: 400px;"></div>
           </div>
           <div class="d-flex justify-content-end mt-3">
-            <button type="button" class="btn btn-secondary mr-2" onclick="window.history.back();">취소</button>
+            <button type="button" class="btn btn-secondary mr-2" onclick="location.href='${root}board/post/${post.community_idx}';">취소</button>
             <button type="submit" class="btn btn-primary">수정 완료</button>
           </div>
         </form:form>
       </div>
       
       <!-- 이미지 게시물 폼 -->
-      <div class="tab-pane fade <c:if test="${post.community_category == 'IMAGE'}">show active</c:if>" id="image" role="tabpanel" aria-labelledby="image-tab">
+      <div class="tab-pane fade <c:if test="${post.community_type == 'IMAGE'}">show active</c:if>" id="image" role="tabpanel" aria-labelledby="image-tab">
         <form:form action="${root}board/editPost/${post.community_idx}" modelAttribute="post" method="post" enctype="multipart/form-data">
           <form:hidden path="community_idx" />
           <div class="form-group mt-3 d-flex align-items-center">
             <!-- 카테고리 드롭다운 -->
             <div class="category-dropdown mr-3">
-              <span class="selectedCategory">리뷰</span>
+              <span class="selectedCategory">
+                <c:choose>
+                  <c:when test="${post.community_category == 'free'}">자유</c:when>
+                  <c:when test="${post.community_category == 'question'}">질문</c:when>
+                  <c:when test="${post.community_category == 'review'}">리뷰</c:when>
+                </c:choose>
+              </span>
               <i class="fas fa-chevron-down"></i>
               <!-- 드롭다운 리스트 -->
               <ul class="dropdown-menu">
-                <li data-value="free">자유</li>
-                <li data-value="question">질문</li>
-                <li data-value="review">리뷰</li>
+                <li data-value="free" ${post.community_category == 'free' ? 'class="selected"' : ''}>자유</li>
+                <li data-value="question" ${post.community_category == 'question' ? 'class="selected"' : ''}>질문</li>
+                <li data-value="review" ${post.community_category == 'review' ? 'class="selected"' : ''}>리뷰</li>
               </ul>
             </div>
+            <form:hidden path="community_type" id="hidden_type_image" />
             <form:hidden path="community_category" value="${post.community_category}" />
             <form:input path="community_subject" id="community_subject" class="form-control" placeholder="제목" value="${post.community_subject}" required="true" />
           </div>
@@ -117,14 +149,14 @@
             </div>
           </div>
           <div class="d-flex justify-content-end mt-3">
-            <button type="button" class="btn btn-secondary mr-2" onclick="window.history.back();">취소</button>
+            <button type="button" class="btn btn-secondary mr-2" onclick="location.href='${root}board/post/${post.community_idx}';">취소</button>
             <button type="submit" class="btn btn-primary">수정 완료</button>
           </div>
         </form:form>
       </div>
       
       <!-- 랭킹 게시물 폼 -->
-      <div class="tab-pane fade <c:if test="${post.community_category == 'RANKING'}">show active</c:if>" id="ranking" role="tabpanel" aria-labelledby="ranking-tab">
+      <div class="tab-pane fade <c:if test="${post.community_type == 'RANKING'}">show active</c:if>" id="ranking" role="tabpanel" aria-labelledby="ranking-tab">
         <form:form action="${root}board/editPost/${post.community_idx}" modelAttribute="post" method="post">
           <form:hidden path="community_idx" />
           <div class="form-group mt-3 d-flex align-items-center">
@@ -137,6 +169,7 @@
                 <li data-value="my_ranking">마이랭킹</li>
               </ul>
             </div>
+            <form:hidden path="community_type" id="hidden_type_ranking" />
             <form:hidden path="community_category" value="${post.community_category}" />
             <form:input path="community_subject" id="community_subject" class="form-control" placeholder="제목" value="${post.community_subject}" required="true" />
           </div>
@@ -154,14 +187,14 @@
           </ul>
           <button type="button" class="btn btn-link" id="add-option">Add Option</button>
           <div class="d-flex justify-content-end mt-3">
-            <button type="button" class="btn btn-secondary mr-2" onclick="window.history.back();">취소</button>
+            <button type="button" class="btn btn-secondary mr-2" onclick="location.href='${root}board/post/${post.community_idx}';">취소</button>
             <button type="submit" class="btn btn-primary">수정 완료</button>
           </div>
         </form:form>
       </div>
       
       <!-- 프로모션 게시물 폼 -->
-      <div class="tab-pane fade <c:if test="${post.community_category == 'PROMOTION'}">show active</c:if>" id="promotion" role="tabpanel" aria-labelledby="promotion-tab">
+      <div class="tab-pane fade <c:if test="${post.community_type == 'PROMOTION'}">show active</c:if>" id="promotion" role="tabpanel" aria-labelledby="promotion-tab">
         <form:form action="${root}board/editPost/${post.community_idx}" modelAttribute="post" method="post" enctype="multipart/form-data">
           <form:hidden path="community_idx" />
           <div class="form-group mt-3 d-flex align-items-center">
@@ -174,6 +207,7 @@
                 <li data-value="promotion">가게홍보</li>
               </ul>
             </div>
+            <form:hidden path="community_type" id="hidden_type_promotion" />
             <form:hidden path="community_category" value="${post.community_category}" />
             <form:input path="community_subject" id="community_subject" class="form-control" placeholder="제목" value="${post.community_subject}" required="true" />
           </div>
@@ -189,14 +223,19 @@
             </div>
           </div>
           <div class="d-flex justify-content-end mt-3">
-            <button type="button" class="btn btn-secondary mr-2" onclick="window.history.back();">취소</button>
+            <button type="button" class="btn btn-secondary mr-2" onclick="location.href='${root}board/post/${post.community_idx}';">취소</button>
             <button type="submit" class="btn btn-primary">수정 완료</button>
           </div>
         </form:form>
       </div>
     </div>
   </div>
-
+  
+  <c:import url="/WEB-INF/views/include/bottom_menu.jsp" />
+  
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+	
   
   
 </body>

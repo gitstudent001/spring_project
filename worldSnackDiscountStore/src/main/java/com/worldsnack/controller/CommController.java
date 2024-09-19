@@ -1,6 +1,5 @@
 package com.worldsnack.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,17 +35,30 @@ public class CommController {
       @RequestParam(value = "category", required = false) String category,
       @RequestParam(value = "sortOrder", defaultValue = "latest") String sortOrder,
       @RequestParam(value = "viewType", defaultValue = "compact") String viewType,
-      Model model) {
-        
-      List<CommDTO> posts = commService.getPostsByCategoryAndSortOrder(category, sortOrder, viewType);
+      Model model,
+      HttpServletRequest request) {
 
+    	String defaultThumbnailUrl = request.getContextPath() + "/images/default-thumbnail.png";
+    	// 게시글 리스트
+      List<CommDTO> posts;
+
+      // 카테고리가 'best'이면 가중치 기반으로 게시물 정렬
+    	if ("hot".equals(sortOrder)) {
+        posts = commService.getHotPosts(category, viewType);
+    	} else if ("best".equals(category)) {
+        posts = commService.getAllPostsSortedByWeightedScore();
+    		} else {
+        posts = commService.getPostsByCategoryAndSortOrder(category, sortOrder, viewType);
+      		}
+      
       model.addAttribute("posts", posts);
       model.addAttribute("sortOrder", sortOrder);
       model.addAttribute("viewType", viewType);
+      model.addAttribute("defaultThumbnailUrl", defaultThumbnailUrl);
       
       return "board/community";
     }
-
+    
     @GetMapping("/post/{id}")
     public String showPostDetail(@PathVariable int id, HttpServletRequest request,Model model) {
        // 사용자 정보를 세션에서 가져옵니다.
@@ -58,13 +70,8 @@ public class CommController {
         
         // 서비스 메서드 호출 시 필요한 매개변수들을 모두 전달합니다.
         CommDTO post = articleService.getArticleById(id, request, user);
-        
-        // Date타입 날짜데이터를 String타입으로 변환 (희만)
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String community_date = dateFormat.format(post.getCommunity_date());
-
+      
         model.addAttribute("post", post);
-        model.addAttribute("community_date", community_date);
         return "board/postDetail";
     }
 

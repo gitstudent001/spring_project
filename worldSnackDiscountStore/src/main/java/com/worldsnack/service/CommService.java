@@ -2,8 +2,6 @@ package com.worldsnack.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -55,46 +53,17 @@ public class CommService {
      return contentType != null && contentType.startsWith("image/");
    }
 
-  // 카테고리와 정렬 기준에 따른 게시글 목록 조회 (희만 수정)
+  // 카테고리와 정렬 기준에 따른 게시글 목록 조회
   public List<CommDTO> getPostsByCategoryAndSortOrder(String category, String sortOrder, String viewType) {
-  	// Date타입 community_date를 String타입으로 변환 및 Moment.js에서 사용할 수 있도록 형식 맞춤
-  	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-  	List<CommDTO> tmpPosts = commDAO.findPostsByCategoryAndSortOrder(category, sortOrder, viewType);
-  	
-  	List<CommDTO> posts = new ArrayList<>();
-  	for(CommDTO dto : tmpPosts) {
-  		// 각 객체에 있는 Date타입 community_date 를 String 타입으로 변환
-  		String formattedDate = dateFormat.format(dto.getCommunity_date());
-  		
-  		// 사용할 CommDTO에 기존 데이터 복사 및 formattedDate 추가
-  		CommDTO newDto = new CommDTO();
-      newDto.setCommunity_idx(dto.getCommunity_idx());
-      newDto.setCommunity_subject(dto.getCommunity_subject());
-      newDto.setCommunity_text(dto.getCommunity_text());
-      newDto.setCommunity_file(dto.getCommunity_file());
-      newDto.setFile_upload(dto.getFile_upload());
-      newDto.setCommunity_writer_idx(dto.getCommunity_writer_idx());
-      newDto.setCommunity_nickname(dto.getCommunity_nickname());
-      
-      // community_date 대신 변환된 String 값을 설정
-      newDto.setCommunity_formattedDate(formattedDate);
-      
-      // 나머지 필드 복사
-      newDto.setCommunity_category(dto.getCommunity_category());
-      newDto.setCommunity_url(dto.getCommunity_url());
-      newDto.setCommunity_sort_order(dto.getCommunity_sort_order());
-      newDto.setCommunity_view_type(dto.getCommunity_view_type());
-      newDto.setCommunity_view(dto.getCommunity_view());
-      newDto.setCommunity_comment(dto.getCommunity_comment());
-      newDto.setCommunity_thumb(dto.getCommunity_thumb());
-      newDto.setCommunity_upvotes(dto.getCommunity_upvotes());
-      newDto.setCommunity_downvotes(dto.getCommunity_downvotes());
-      newDto.setWilsonScore(dto.getWilsonScore());
-
-      // 변환된 DTO를 posts 리스트에 추가
-      posts.add(newDto);
-  	}
-    return posts;
+    return commDAO.findPostsByCategoryAndSortOrder(category, sortOrder, viewType);
+  }
+  
+  public List<CommDTO> getAllPostsSortedByWeightedScore() {
+    return commDAO.getAllPostsByWeightedScore();
+  }
+  
+  public List<CommDTO> getHotPosts(String category, String viewType) {
+    return commDAO.findHotPosts(category, viewType);
   }
 
   // 게시글 ID에 따른 게시글 조회
@@ -145,7 +114,8 @@ public class CommService {
 
         // 썸네일 생성
         Thumbnails.of(destFile)
-                  .size(60, 60)
+                  .size(200, 200)
+                  .outputQuality(1.0)
                   .toFile(thumbnailFile);
 
         // 썸네일 경로 설정
@@ -241,8 +211,8 @@ public class CommService {
   }
 
   // 게시글 삭제
-  public void deletePost(int community_idx) {
-    commDAO.deletePost(community_idx);
+  public void deletePost(int id) {
+    commDAO.deletePost(id);
   }
 
   // 게시글 업데이트

@@ -1,3 +1,12 @@
+body{
+    		margin: auto;	
+    	}
+    	
+.d-flex {
+	display: flex !important;
+	flex-direction: row;
+}
+
 .card {
   margin-bottom: 15px;
   border: none;
@@ -64,4 +73,18 @@
 #btn-expand:hover {
   background-color: #007bff;
   color: white;
+}
+.loader {
+  position: fixed;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+select {
+  text-align: center;
+  text-align-last: center;
+}
+
+option {
+  text-align: left;
 }

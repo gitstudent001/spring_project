@@ -3,7 +3,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="root" value="${pageContext.request.contextPath}/" />
-<c:set var="photoFolio" value="${root}template/photoFolio/" /> 
+<c:set var="photoFolio" value="${root}template/photoFolio/" />     
+<c:set var="fruitables" value="${root}template/fruitables/" />
+<c:set var="bootswatch" value="${root}template/bootswatch/" />
 
 <!DOCTYPE html>
 <html>
@@ -11,33 +13,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시글 상세보기</title>
-  
-  <!-- Favicons -->
-  <link href="${photoFolio}img/favicon.png" rel="icon">
-    
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="${root}css/postDetail.css" type="text/css" />
   <c:if test="${post.community_category == 'TEXT'}">
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.css" />
   </c:if>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  
+  <!-- Customized Bootstrap, Template, bootswatch -->
+<%-- 	<link href="${fruitables}css/bootstrap.min.css" rel="stylesheet"> --%>
+<%-- 	<link href="${fruitables}css/style.css" rel="stylesheet"> --%>
+<%-- 	<link href="${bootswatch}css/bootstrap.min.css" rel="stylesheet"> --%>
+	<link href="${photoFolio}img/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="${root}css/postDetail.css" type="text/css" />
+  
+ 	<!-- JavaScript Libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/ko.min.js"></script>
-  <c:if test="${post.community_category == 'TEXT'}">
+	<script src="https://cdn.tiny.cloud/1/lj6fsht0vl3f2csgel7g6ejztfio3wa02ytlfro86i33mec1/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+	<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+	<c:if test="${post.community_category == 'TEXT'}">
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.js"></script>
   </c:if>
   
+  <script src="${fruitables}lib/easing/easing.min.js"></script>
+  <script src="${fruitables}lib/waypoints/waypoints.min.js"></script>
+  <script src="${fruitables}lib/lightbox/js/lightbox.min.js"></script>
+  <script src="${fruitables}lib/owlcarousel/owl.carousel.min.js"></script>
+  
   <script>
-  		var post = {
+  		let post = {
   				community_idx: "${post.community_idx}",
+  				community_nickname: "${post.community_nickname}",
  			    user_idx: "${loginUserDTO.user_idx}"
 		  };
-		  var root = "${root}";
+		  let rootPath = "${root}";
   </script>
+  
   <script src="${root}js/postDetail.js"></script>
+  
 </head>
 <body>
 	<!-- top_menu 삽입 -->
@@ -51,16 +68,16 @@
 		    <h3 class="d-inline">${post.community_subject}</h3>
 		    <div class="d-inline">
 		      <span id="timeAgo"></span>
-		      <span id="postDate" data-date="${community_date}" style="display:none;"></span>
+		      <span id="postDate" data-date="${post.community_date}" style="display:none;"></span>
 		    </div>
 		  </div>
 		
 		  <div class="card-header d-flex justify-content-between align-items-center">
 		    <span class="text-muted"><a href="#" style="color: black;">${post.community_nickname}</a></span>
 		    <div>
-		      <small class="text-muted mr-3">조회 수: ${post.community_view}</small>
-		      <small class="text-muted mr-3">추천 수: ${post.community_upvotes - post.community_downvotes}</small>
-		      <small class="text-muted">댓글 수: ${post.community_comment}</small>
+		      <small class="text-muted mr-3 ">조회 수: ${post.community_view}</small>
+		      <small id="top-vote-count" class="text-muted mr-3">추천 수: ${post.community_upvotes - post.community_downvotes}</small>
+	      	<a href="#comments-section" class="comment-count" style="color: black; font-size:14px;">댓글 수: ${post.community_comment}</a>
 		    </div>
 		  </div>
             
@@ -129,7 +146,7 @@
           <!-- 조회수 -->
           <span class="mr-3 text-muted">조회수: ${post.community_view}</span>
           <!-- 댓글 수 -->
-          <span class="mr-3 text-muted">댓글수: ${post.community_comment}</span>
+          <span class="mr-3 text-muted comment-count">댓글수: ${post.community_comment}</span>
           <!-- 공유 버튼 -->
           <button type="button" class="btn btn-custom btn-sm mr-2">
             <i class="fas fa-share"></i> 공유
@@ -153,12 +170,20 @@
     </div>
     <!-- 댓글 섹션 추가 -->
 		<div id="comments-section" class="mt-1">
+			 <!-- 에러 메시지를 표시할 영역 -->
+  		<div id="error-message" class="d-none alert"></div>
+			
 		  <!-- 로그인 상태에 따라 표시되는 내용 변경 -->
 		  <div id="add-comment" class="mt-2">
 		    <c:choose>
 		      <c:when test="${isUserLoggedIn}">
-		        <textarea id="new-comment-text" class="form-control" placeholder="댓글을 입력해주세요."></textarea>
-		        <button class="btn btn-primary mt-1 float-right" onclick="addComment()">댓글 달기</button>
+		        <textarea id="new-comment-text" class="form-control"></textarea>
+			      <textarea id="comment-editor" style="display:none;"></textarea>
+			      <div id="comment-toolbar">
+					    <button id="text-editor-btn" type="button">T</button>
+					    <button id="image-editor-btn" type="button">이미지</button>
+			        <button class="btn btn-primary mt-1 float-right" onclick="addComment()">댓글 달기</button>
+					  </div>
 		      </c:when>
 		      <c:otherwise>
 		      	<div id="fake-textarea" class="form-control" onclick="location.href='${root}user/login_join'" 
@@ -177,5 +202,12 @@
 		  </div>
 		</div>
   </div>
+ 	<!-- 로딩 스피너 -->
+   <div class="loader" id="loader">
+     <img src="${root}images/loader.gif" alt="Loading..." />
+   </div>
+   <!-- Scroll Top -->
+ 	<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  
 </body>
 </html>

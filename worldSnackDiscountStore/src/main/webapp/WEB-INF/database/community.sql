@@ -18,12 +18,12 @@ CREATE TABLE COMMUNITY_TABLE(
     COMMUNITY_VIEW NUMBER DEFAULT 0,
     COMMUNITY_COMMENT NUMBER DEFAULT 0,
 	COMMUNITY_DATE DATE NOT NULL,
+    COMMUNITY_TYPE VARCHAR2(20) NOT NULL,     -- 게시판 타입 : TEXT, IMAGE, RANKING, PROMOTION
     COMMUNITY_CATEGORY VARCHAR2(20) NOT NULL, -- 게시판 유형: all, popular, free, question, my_ranking, review, promotion
     COMMUNITY_URL VARCHAR2(500),
     COMMUNITY_THUMB VARCHAR2(500),
     COMMUNITY_UPVOTES NUMBER DEFAULT 0,  -- 업보트 수를 저장하는 컬럼
-    COMMUNITY_DOWNVOTES NUMBER DEFAULT 0, -- 다운보트 수를 저장하는 컬럼
-    COMMUNITY_WILSON_SCORE NUMBER DEFAULT 0  -- 윌슨 신뢰구간 점수를 저장하는 컬럼
+    COMMUNITY_DOWNVOTES NUMBER DEFAULT 0 -- 다운보트 수를 저장하는 컬럼
 );
 
 DROP TRIGGER community_idx_trigger;
@@ -37,6 +37,7 @@ BEGIN
   END IF;
 END;
 /
+
 DROP TABLE VOTE_HISTORY PURGE;
 CREATE TABLE VOTE_HISTORY (
     ID NUMBER PRIMARY KEY,
@@ -54,48 +55,9 @@ DROP TABLE COMMUNITY_SORT_TABLE PURGE;
 --    COMMUNITY_VIEW_TYPE VARCHAR2(10) DEFAULT 'compact' NOT NULL -- 뷰 타입: text, compact, card
 --);
 
---INSERT INTO COMMUNITY_TABLE (community_idx, community_subject, community_text, community_file, community_writer_idx,
---                             community_category, community_url, community_date, community_thumb)
---        VALUES (#{community_idx}, #{community_subject}, #{community_text, jdbcType=VARCHAR}, #{community_file, jdbcType=VARCHAR},
---                #{community_writer_idx}, #{community_category}, #{community_url, jdbcType=VARCHAR}, SYSDATE, #{community_thumb, jdbcType=VARCHAR})
-
---@Update("UPDATE COMMUNITY_TABLE SET 
---    		COMMUNITY_SUBJECT = #{community_subject},
---            COMMUNITY_TEXT = #{community_text, jdbcType=VARCHAR},
---    		COMMUNITY_WRITER_IDX = #{community_writer_idx}, 
---            COMMUNITY_FILE = #{community_file, jdbcType=VARCHAR},
---    		COMMUNITY_DATE = SYSDATE, 
---            COMMUNITY_CATEGORY = #{community_category}, 
---            COMMUNITY_URL = #{community_url, jdbcType=VARCHAR},
---    		COMMUNITY_THUMB = #{community_thumb, jdbcType=VARCHAR}
---    		WHERE COMMUNITY_IDX = #{community_idx}
-            
-            
+  
 DESC COMMUNITY_TABLE;
 SELECT * FROM COMMUNITY_TABLE ORDER BY COMMUNITY_IDX;
-SELECT * FROM COMMUNITY_SORT_TABLE;
-SELECT * FROM USER_TABLE ORDER BY USER_IDX;
-DELETE FROM COMMUNITY_TABLE WHERE COMMUNITY_IDX BETWEEN 1 AND 33; 
-
 COMMIT;
-
-SELECT * FROM USER_TABLE WHERE USER_IDX = 1;
-
-ALTER TABLE COMMUNITY_TABLE 
-ADD COMMUNITY_UPVOTES NUMBER DEFAULT 0;
-
-ALTER TABLE COMMUNITY_TABLE 
-ADD COMMUNITY_DOWNVOTES NUMBER DEFAULT 0;
-
-ALTER TABLE COMMUNITY_TABLE 
-ADD COMMUNITY_WILSON_SCORE NUMBER DEFAULT 0;
-
-ALTER TABLE COMMUNITY_TABLE 
-ADD (COMMUNITY_COMMENT NUMBER DEFAULT 0);
-
-
-UPDATE COMMUNITY_TABLE SET COMMUNITY_VIEW = COMMUNITY_VIEW + 1 WHERE COMMUNITY_IDX = 1;
-
-
 
 
