@@ -44,4 +44,7 @@ public class ContentDTO {
 	
 	// 카테고리명
 	private String category_name;
+	
+	// 작성자 닉네임
+	private String content_writer_nickname;
 }

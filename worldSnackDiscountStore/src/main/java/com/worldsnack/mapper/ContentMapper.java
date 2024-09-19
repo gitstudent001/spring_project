@@ -158,9 +158,15 @@ public interface ContentMapper {
       	+ "WHERE CONTENT_IDX = #{content_idx}")
 	void increaseView(int content_idx);
 	
-//게시글 삭제하기 (용기)
+	//게시글 삭제하기 (용기)
 	@Delete("DELETE FROM CONTENT_TABLE "
 			+ "WHERE CONTENT_IDX=#{content_idx}")
 	void deleteContent(int content_idx);
+	
+	// 게시글 작성자 닉네임 조회 (희만)
+	@Select("SELECT USER_NICKNAME AS CONTENT_WRITER_NICKNAME " +
+					"FROM USER_TABLE " +
+					"WHERE USER_IDX = #{CONTENT_WRITER_IDX}")
+	String getWriterNickname(int content_writer_idx);
 	
 }

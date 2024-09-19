@@ -51,6 +51,11 @@ public class ContentService {
 		int startPage = (page - 1) * limit;
 		RowBounds rowBounds = new RowBounds(startPage, limit);
 		List<ContentDTO> contentDTO = contentDAO.selectAllForLimit(rowBounds);
+		
+		// 작성자 idx를 통해 작성자의 닉네임 조회 (희만)
+		for(ContentDTO tempContent : contentDTO) {
+			tempContent.setContent_writer_nickname(contentDAO.getWriterNickname(tempContent.getContent_writer_idx()));
+		}
 		return contentDTO;
 	}
 
@@ -65,6 +70,11 @@ public class ContentService {
 		int startPage = (page - 1) * limit;
 		RowBounds rowBounds = new RowBounds(startPage, limit);
 		List<ContentDTO> contentDTO = contentDAO.selectListForLimit(category_idx, rowBounds);
+
+		// 작성자 idx를 통해 작성자의 닉네임 조회 (희만)
+		for(ContentDTO tempContent : contentDTO) {
+			tempContent.setContent_writer_nickname(contentDAO.getWriterNickname(tempContent.getContent_writer_idx()));
+		}
 		return contentDTO;
 	}
 	
