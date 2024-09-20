@@ -16,6 +16,7 @@ public class ContentDAO {
 	@Autowired
 	private ContentMapper contentMapper;
 	
+	// 전체 검색
 	public List<ContentDTO> selectAll() {
 		List<ContentDTO> contentDTO = contentMapper.selectAll();
 		return contentDTO;
@@ -74,13 +75,16 @@ public class ContentDAO {
 		return contentMapper.getContentProdnoMax();
 	}
 	
+	// 게시글 등록
 	public void insertContent(ContentDTO writeContentDTO) {
 		contentMapper.insertContent(writeContentDTO);
 	}
 	
+	// 게시글 수정
 	public void updateContent(ContentDTO modifyContentDTO) {
 		contentMapper.updateContent(modifyContentDTO);
 	}
+	
 	// 게시글 스크랩 (희만)
 	public void insertScrap(int user_idx, int content_idx) {
 		contentMapper.insertScrap(user_idx, content_idx);

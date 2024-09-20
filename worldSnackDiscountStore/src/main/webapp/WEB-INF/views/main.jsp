@@ -265,11 +265,6 @@
   		});
   		
   		$(".btnCategoryAll").on("click", function() {
-  			/*
-  			console.log(this);
- 	  		console.log("id : " + this.id);
- 	  		console.log("className : " + this.className);
- 	  		*/
  	  		
  	  		$("#txtSearch").val("");
  	  		$(".btnCategory").removeClass("active");
@@ -285,12 +280,8 @@
   		});
   		
   		$(".btnCategory").on("click", function(obj) {
-  			/*
-  			console.log(this);
- 	  		console.log("id : " + this.id);
- 	  		console.log("className : " + this.className);
- 	  		*/
- 	  		let categoryIdx = $("#" + this.id).attr("data-categoryIdx");
+
+  			let categoryIdx = $("#" + this.id).attr("data-categoryIdx");
  	  		let categoryChkId = $("#hdCategoryClickChk_" + categoryIdx).attr("id");
  	  		
  	  		$("#txtSearch").val("");
@@ -318,11 +309,9 @@
 	 	  			categoryCnt = categoryCnt + 1;
 	 	  			
 	 	  			if($.trim(idxArr) == ""){
-	 	  				//idxArr = "'" + categoryIdx + "'";
 	 	  				idxArr = categoryIdx;
 	 	  			}
 	 	  			else{
-	 	  				//idxArr = idxArr + ",'" + categoryIdx + "'";
 	 	  				idxArr = idxArr + "," + categoryIdx;
 	 	  			}
 	 	  		}
@@ -345,10 +334,6 @@
   	
   	// 제품 데이터 리스트
   	function dataSearch(categoryIdx, categorys, categoryCnt, txtSearch){
-  		console.log(`categoryIdx : ` + categoryIdx);
-  		console.log(`categorys : ` + categorys);
-  		console.log(`categoryCnt : ` + categoryCnt);
-  		
   		
 			$.ajax({
 	        url : '${root}main',
@@ -365,17 +350,10 @@
 	            //$('#loading').removeClass('display-none');
 	        },
 	        success : function(data){
-	            //console.log(data);
-	            
 	            $("#rowProductList").html("");
             	$("#rowProductList").html(data);
 	        },
 	        error : function(request, status, error){
-	            //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	            var err=JSON.parse(request.responseText);
-
-	            //alert(err.resData[0].errorMsg);
-	                
 	            //$('#loading').addClass('display-none');
 	        },
 	        complete:function(){
@@ -384,7 +362,7 @@
 	 		});
   	}
   	
-  	// 카테고리 번호 리스트
+  	// 데이터 검색 조회 (카테고리 포함)
   	function categorySearch(txtSearch){
   		
 			$.ajax({
@@ -398,8 +376,6 @@
 	            //$('#loading').removeClass('display-none');
 	        },
 	        success : function(data){
-	            //console.log(data);
-	            
 	            $(".btnCategoryAll").removeClass("active");
 	            $(".btnCategory").removeClass("active");
 	            
@@ -415,14 +391,8 @@
 	            	$("#btnCategory_" + data).addClass("active");
 	            	$("#hdCategoryClickChk_" + data).val("Y");
 	            }
-	            
 	        },
 	        error : function(request, status, error){
-	            //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	            var err=JSON.parse(request.responseText);
-
-	            //alert(err.resData[0].errorMsg);
-	                
 	            //$('#loading').addClass('display-none');
 	        },
 	        complete:function(){

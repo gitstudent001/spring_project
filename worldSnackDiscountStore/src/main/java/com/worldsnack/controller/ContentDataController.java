@@ -23,7 +23,6 @@ public class ContentDataController {
 	public String main_categorys(@RequestParam(value="categorySearch", defaultValue="") String categorySearch,
 			 												 Model model) {
 		String result = "";
-		
 		List<ContentDTO> contentDTO = null;
 		
 		if(categorySearch != null && !categorySearch.equals("")) {
@@ -31,7 +30,6 @@ public class ContentDataController {
 		}
 				
 		if(contentDTO != null) {
-			
 			// category_idx 담기
 			List<Integer> list = new ArrayList<>();
 			for(ContentDTO item : contentDTO) {
@@ -51,7 +49,6 @@ public class ContentDataController {
 				}
 			}
 		}
-		
 		return result;
 	}
 }
