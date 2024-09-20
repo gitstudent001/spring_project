@@ -1,5 +1,7 @@
 package com.worldsnack.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -218,7 +220,23 @@ public class MypageService {
 		int startPage = (page - 1) * countPerPageInMypage;
 		RowBounds rowBounds = new RowBounds(startPage, countPerPageInMypage);
 		
-		return mypageDAO.getMyAllCommunityContentList(user_idx, rowBounds);
+		List<CommDTO> communityList = mypageDAO.getMyAllCommunityContentList(user_idx, rowBounds);
+		
+		// 날짜 형식 변환
+		SimpleDateFormat original = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		for (CommDTO comm : communityList) {
+			try {
+				Date date = original.parse(comm.getCommunity_date());
+				String formattedDate = targetFormat.format(date);
+				
+				comm.setCommunity_date(formattedDate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return communityList;
 	}
 	/* 게시글의 페이지네이션을 위한 pageDTO 선언*/
 	public PageDTO getContentCountForPage(int user_idx, int currentPage) {
