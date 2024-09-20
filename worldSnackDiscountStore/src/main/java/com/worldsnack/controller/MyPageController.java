@@ -286,12 +286,12 @@ public class MyPageController {
 	}
 	
 	@PostMapping("/deleteComment")
-	public String deleteComment(@RequestParam("comment_idx") List<Long> comment_idx,
+	public String deleteComment(@RequestParam("comment_idx") List<Integer> comment_idx,
 															@RequestParam(value = "page", defaultValue = "1") int page,
 															@RequestParam(value="content", defaultValue = "content1") String content,
 															RedirectAttributes redirectAttributes) {
 		
-		for(Long idx : comment_idx) {
+		for(int idx : comment_idx) {
 			commentService.deleteComment(idx);
 		}
 		
