@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}/" />
-<!-- 날짜 형식 변환 태그 -->
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 								<div id="content3">
 									<form action="${root}mypage/deleteContent" method="post">

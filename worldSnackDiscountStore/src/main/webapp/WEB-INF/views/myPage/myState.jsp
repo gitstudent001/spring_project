@@ -50,7 +50,7 @@
 		</h1>
 	</div>
 
-	<!-- 회원 탈퇴 -->
+	<!-- 나의 활동 -->
 	<section class="resume-section" id="myState">
 		<div class="resume-section-content">
 			<h3 class="mb-5">나의 활동</h3>
@@ -79,7 +79,7 @@
 									<ul class="navbar-nav">
 										<li class="nav-item" style="font-size:14px;">
 											<div style="height:24px;">
-												<fmt:formatDate pattern="yyyy.MM.dd.HH:mm:dd" value="${recentVisitTime }"/>
+												<fmt:formatDate pattern="yyyy.MM.dd.HH:mm:ss" value="${recentVisitTime }"/>
 											</div>
 										</li>
 										<li class="nav-item"><span>${visitCount }회</span></li>

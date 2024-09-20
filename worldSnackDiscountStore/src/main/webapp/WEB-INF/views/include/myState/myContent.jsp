@@ -3,9 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}/" />
 
-<!-- 날짜 형식 변환 태그 -->
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 								<div id="content1">
 									<form action="${root}mypage/deletePost" method="post">
 										<input type="hidden" name="page" value="${page }">
@@ -34,7 +31,7 @@
 															<th>
 																<a href="${root}board/post/${content.community_idx}">${content.community_subject}<span style="font-weight: normal; color: red;">[${content.community_comment }]</span> </a>
 											        </th>										
-															<td class="text-center d-none d-xl-table-cell"><fmt:formatDate pattern="yyyy-MM-dd" value="${content.community_date }"/></td>
+															<td class="text-center d-none d-xl-table-cell">${content.community_date }</td>
 															<td class="text-center d-none d-xl-table-cell">${content.community_view }</td>
 														</tr>
 													</c:forEach>
