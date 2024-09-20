@@ -49,8 +49,6 @@ public class HomeController {
 		}
 		model.addAttribute("contentDTO", contentDTO);
 		
-		// 예기치 못한 상황에 로그아웃 못하고 서버가 재시작 됐을 때
-		// 로그아웃 로그 저장
 		userService.setAllLogoutLog();
 		
 		return "main";
@@ -79,9 +77,6 @@ public class HomeController {
   		}
 		}
 		model.addAttribute("contentDTO", contentDTO);
-		
-		//System.out.println("category_idx : " + category_idx);
-		//System.out.println("contentDTO : " + contentDTO);
 		
 		return "productList";
 	}

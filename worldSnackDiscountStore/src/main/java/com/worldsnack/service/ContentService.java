@@ -166,7 +166,7 @@ public class ContentService {
 		return result;
 	}
 	
-	/* 파일 저장 메소드 */
+	/* 파일 저장 */
 	private String saveUploadFile(MultipartFile multipartFile) {
 		
 		String originalFilename = multipartFile.getOriginalFilename();
@@ -200,45 +200,12 @@ public class ContentService {
 			System.out.println("업로드한 파일 이름 : " + uploadFileName);
 			writeContentDTO.setContent_file(uploadFileName);
 		}
-		
-		//test
-		//writeContentDTO.setContent_writer_idx(1);
-		//writeContentDTO.setContent_prodno("NO_0000003");
-		
-		System.out.println("제품번호 : NO_" + prodnoSet());
+		//System.out.println("제품번호 : NO_" + prodnoSet());
 		
 		writeContentDTO.setContent_writer_idx(loginUserDTO.getUser_idx());
 		writeContentDTO.setContent_prodno("NO_" + prodnoSet());
-
 		
 		contentDAO.insertContent(writeContentDTO);
-		
-		
-		/* 게시글 100개 등록하는 반복문
-		for (int i = 0; i < 100; i++) {
-			MultipartFile uploadFile = writeContentDTO.getUploadFile();
-			
-			if(uploadFile.getSize() > 0) {
-				String uploadFileName = saveUploadFile(uploadFile);
-				System.out.println("업로드한 파일 이름 : " + uploadFileName);
-				writeContentDTO.setContent_file(uploadFileName);
-			}
-			
-			//test
-			//writeContentDTO.setContent_writer_idx(1);
-			//writeContentDTO.setContent_prodno("NO_0000003");
-			
-			System.out.println("제품번호 : NO_" + prodnoSet());
-			
-			writeContentDTO.setContent_writer_idx(loginUserDTO.getUser_idx());
-			writeContentDTO.setContent_prodno("NO_" + prodnoSet());
-
-			
-			contentDAO.insertContent(writeContentDTO);
-			
-		}
-		*/
-		
 	}
 	
 	/* 게시글 수정 */
