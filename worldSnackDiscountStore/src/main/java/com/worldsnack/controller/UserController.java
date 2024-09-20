@@ -93,8 +93,10 @@ public class UserController {
   	return "user/join_success";
   }	
 	
-	@GetMapping("/logout")
-	public String logout() {
+	@GetMapping("/logout") 
+	public String logout(HttpServletRequest request) {
+		request.getSession().invalidate();  // hs 수정
+		
 		loginUserDTO.setUserIsLogin(false);
 		userService.setLogoutLog(this.loginUserDTO.getUser_idx());
 		return "user/logout";

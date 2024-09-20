@@ -19,6 +19,14 @@ public class CommDAO {
   public List<CommDTO> findPostsByCategoryAndSortOrder(String category, String sortOrder, String viewType) {
     return commMapper.findPostsByCategory(category, sortOrder, viewType);
   }
+  
+  public List<CommDTO> getAllPostsByWeightedScore() {
+    return commMapper.findAllPostsByWeightedScore();
+  }
+  
+  public List<CommDTO> findHotPosts(String category, String viewType) {
+    return commMapper.findHotPosts(category, viewType);
+  }
 
   // 게시글 ID에 따른 게시글 조회
   public CommDTO findPostById(int id) {
@@ -31,8 +39,8 @@ public class CommDAO {
   }
 
   // 게시글 삭제
-  public void deletePost(int community_idx) {
-    commMapper.deletePost(community_idx);
+  public void deletePost(int id) {
+    commMapper.deletePost(id);
   }
 
   // 게시글 업데이트
