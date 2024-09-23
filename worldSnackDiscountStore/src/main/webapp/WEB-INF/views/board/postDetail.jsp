@@ -147,14 +147,41 @@
           <span class="mr-3 text-muted">조회수: ${post.community_view}</span>
           <!-- 댓글 수 -->
           <span class="mr-3 text-muted comment-count">댓글수: ${post.community_comment}</span>
-          <!-- 공유 버튼 -->
-          <button type="button" class="btn btn-custom btn-sm mr-2">
-            <i class="fas fa-share"></i> 공유
-          </button>
-          <!-- 저장 버튼 -->
-          <button type="button" class="btn btn-custom btn-sm mr-2">
-            <i class="fas fa-bookmark"></i> 저장
-          </button>
+         <!-- 공유 버튼 -->
+							<button type="button" class="shareBtn btn btn-custom btn-sm mr-2" aria-label="공유" data-post-id="${post.community_idx}">
+							  <i class="fas fa-share"></i> 공유
+							</button>
+							<!-- 공유 모달 -->
+							<div id="shareModal_${post.community_idx}" class="modal-share" role="dialog" aria-labelledby="shareModalTitle_${post.community_idx}">
+							  <div class="modal-content">
+							    <div class="d-flex justify-content-between align-items-center">
+							      <h3 id="shareModalTitle_${post.community_idx}">공유하기</h3>
+							      <h4 class="close" aria-label="닫기">&times;</h4>
+							    </div>
+							    <div class="mt-3">
+							      <button type="button">페이스북</button>
+							      <button type="button">트위터</button>
+							      <button type="button">이메일</button>
+							      <button type="button" id="copyLinkBtn_${post.community_idx}">링크 복사</button>
+							    </div>
+							  </div>
+							</div>
+          <!-- 스크랩 버튼 -->
+          <form id="scrapForm" action="${root}board/scrap" method="post">
+					  <input type="hidden" name="community_idx" value="${post.community_idx}">
+					  <input type="hidden" name="user_idx" value="${loginUserDTO.user_idx}">
+					  <input type="hidden" name="scrapCheck" value="${alreadyScrap ? 'true' : 'false'}">
+					  <button type="submit" class="btn btn-custom btn-sm mr-2">
+					    <c:choose>
+					      <c:when test="${alreadyScrap}">
+					        <i class="fa-solid fa-bookmark"></i> 취소
+					      </c:when>
+					      <c:otherwise>
+					        <i class="fa-regular fa-bookmark"></i> 스크랩
+					      </c:otherwise>
+					    </c:choose>
+					  </button>
+					</form>
           <!-- 신고 버튼 -->
           <button type="button" class="btn btn-custom btn-sm">
             <i class="fas fa-flag"></i> 신고
@@ -196,7 +223,6 @@
 		      </c:otherwise>
 		    </c:choose>
 		  </div>
-		  
 		  <div id="comments-list" class="mt-5">
 		    <!-- 댓글 목록이 여기에 추가됩니다 -->
 		  </div>
@@ -208,6 +234,6 @@
    </div>
    <!-- Scroll Top -->
  	<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-  
+  <c:import url="/WEB-INF/views/include/bottom_menu.jsp" />
 </body>
 </html>

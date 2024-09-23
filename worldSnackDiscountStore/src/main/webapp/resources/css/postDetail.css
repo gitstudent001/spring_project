@@ -80,3 +80,33 @@ body{
 .comment-item .mt-2.mb-2 span[style*="font-family"] {
     font-family: inherit !important;
 }
+.modal-share {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.modal-share.show {
+  display: block; 
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px; 
+  max-width: 500px;
+  width: 80%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: absolute;
+}
+
+.close {
+  font-size: 24px;
+  float: right;
+  cursor: pointer;
+}
