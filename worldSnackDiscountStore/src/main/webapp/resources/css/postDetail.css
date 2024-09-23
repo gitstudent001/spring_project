@@ -1,4 +1,12 @@
-/* 커스텀 버튼 스타일 */
+body{
+ 		margin: auto;	
+}
+    	
+.d-flex {
+		display: flex !important;
+		flex-direction: row;
+}
+
 .btn-custom {
   border-radius: 50px;
   border: none;
@@ -53,8 +61,22 @@
 	border-radius: 50px;
 	background-color: #E9ECEF;
 	width: 130px;
+}
 	
 .comment-actions{
 	width: 140px;
 }	
 
+.loader {
+  position: fixed;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.comment-item .mt-2.mb-2 {
+    font-family: inherit;
+}
+.comment-item .mt-2.mb-2 span[style*="font-family"] {
+    font-family: inherit !important;
+}

@@ -108,6 +108,7 @@ public class ContentController {
 		return "content/detail";
 	}
 	
+	// 게시글 등록 페이지
 	@GetMapping("/write")
 	public String write(@ModelAttribute("writeContentDTO") ContentDTO writeContentDTO,
 											@RequestParam(value="category_idx", defaultValue="0") int category_idx, 
@@ -118,6 +119,7 @@ public class ContentController {
 		return "content/write";
 	}
 	
+	// 게시글 등록 프로시저
 	@PostMapping("/write_procedure")
 	public String writeProcedure(@Valid @ModelAttribute("writeContentDTO") ContentDTO writeContentDTO, 
 															 BindingResult result,
@@ -130,8 +132,6 @@ public class ContentController {
 			return "content/write"; 
 		}
 		
-		// System.out.println("writeContentDTO : " + writeContentDTO);
-		
 		contentService.addContent(writeContentDTO);
 		
 		// 게시글 등록시 해당 유저의 user_content_count 증가 (희만)
@@ -143,6 +143,7 @@ public class ContentController {
 		return "content/write_success";
 	}
 	
+	// 게시글 수정 페이지
 	@GetMapping("/modify")
 	public String modify(@RequestParam(value="content_idx", defaultValue="0") int content_idx,
                 			 @RequestParam(value="limit", defaultValue="10") int limit,
@@ -175,6 +176,7 @@ public class ContentController {
 		return "content/modify";
 	}
 	
+	// 게시글 수정 프로시저
 	@PostMapping("/modify_procedure")
 	public String modifyProcedure(@Valid @ModelAttribute("modifyContentDTO") ContentDTO modifyContentDTO, 
                                 BindingResult result,

@@ -16,8 +16,8 @@
     <title>제품 목록</title>
     
     <!-- Favicons -->
-  <%-- <link href="${photoFolio}img/favicon.png" rel="icon">
-  <link href="${photoFolio}img/apple-touch-icon.png" rel="apple-touch-icon"> --%>
+	<link href="${photoFolio}img/favicon.png" rel="icon">
+  <!-- <link href="${photoFolio}img/apple-touch-icon.png" rel="apple-touch-icon"> --%>
     
    
     
@@ -139,7 +139,7 @@
 					        </form>
 								</td>
                 <td><img src="${root}upload/${dataInfo.content_file}"  style="width:100px; height:100px;" onerror="this.style.display='none';"/></td>
-								<td>${dataInfo.content_writer_idx }</td>
+								<td>${dataInfo.content_writer_nickname }</td>
 								<td>${dataInfo.content_make }</td>
 								<td>${dataInfo.content_country }</td>
 								<td>${dataInfo.content_prodno }</td>								

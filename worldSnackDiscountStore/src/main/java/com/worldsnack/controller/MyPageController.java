@@ -28,6 +28,7 @@ import com.worldsnack.dto.UserDTO;
 import com.worldsnack.service.CategoryService;
 import com.worldsnack.service.CommService;
 import com.worldsnack.service.CommentService;
+import com.worldsnack.service.ContentService;
 import com.worldsnack.service.MypageService;
 import com.worldsnack.validator.UserValidator;
 
@@ -46,6 +47,8 @@ public class MyPageController {
 	
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired ContentService contentService;
 	
 	@Resource(name = "loginUserDTO")
 	private UserDTO loginUserDTO;
@@ -258,6 +261,17 @@ public class MyPageController {
 		PageDTO contentPageDTO = mypageService.getContentCountForPage(user_idx, page);
 		model.addAttribute("contentPageDTO", contentPageDTO);
 		
+		// 내가 작성한 글 중 관심받은(스크랩 받은) 게시글 리스트 조회 (제품용)
+		List<ContentDTO> myContentByScrapContentDTO = mypageService.getReceivedScrapList(user_idx, page);
+		model.addAttribute("myContentByScrapContentDTO", myContentByScrapContentDTO);
+		/* 페이지네이션을 위한 PageDTO 선언(게시글) */
+		PageDTO scrapPageDTO = mypageService.getReceivedScrapForPage(user_idx, page);
+		model.addAttribute("scrapPageDTO", scrapPageDTO);
+		
+		// 받은 관심 수
+		int likeCount = mypageService.getReceivedScrapCount(user_idx);
+		model.addAttribute("likeCount", likeCount);
+		
 		return "myPage/myState";
 	}
 	
@@ -272,13 +286,27 @@ public class MyPageController {
 	}
 	
 	@PostMapping("/deleteComment")
-	public String deleteComment(@RequestParam("comment_idx") List<Long> comment_idx,
+	public String deleteComment(@RequestParam("comment_idx") List<Integer> comment_idx,
 															@RequestParam(value = "page", defaultValue = "1") int page,
 															@RequestParam(value="content", defaultValue = "content1") String content,
 															RedirectAttributes redirectAttributes) {
 		
-		for(Long idx : comment_idx) {
+		for(int idx : comment_idx) {
 			commentService.deleteComment(idx);
+		}
+		
+		redirectAttributes.addAttribute("content", content);
+		redirectAttributes.addAttribute("page", page);
+		return "redirect:/mypage/myState";
+	}
+	
+	@PostMapping("/deleteContent")
+	public String deleteContent(@RequestParam("content_idx") List<Integer> content_idx,
+                        			@RequestParam(value = "page", defaultValue = "1") int page,
+                        			@RequestParam(value="content", defaultValue = "content1") String content,
+                        			RedirectAttributes redirectAttributes) {
+		for(int idx : content_idx) {
+			contentService.deleteContent(idx);
 		}
 		
 		redirectAttributes.addAttribute("content", content);

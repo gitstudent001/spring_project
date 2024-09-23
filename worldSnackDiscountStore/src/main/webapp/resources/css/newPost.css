@@ -1,3 +1,11 @@
+body{
+ 		margin: auto;	
+}
+    	
+.d-flex {
+		display: flex !important;
+		flex-direction: row;
+}
 
 .drop-zone {
     width: 100%;

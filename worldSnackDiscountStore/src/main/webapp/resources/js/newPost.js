@@ -1,4 +1,18 @@
 $(document).ready(function () {
+  const categories = {
+	  text: [
+	    { value: 'free', text: '자유' },
+	    { value: 'question', text: '질문' }
+	  ],
+	  image: [
+	    { value: 'free', text: '자유' },
+	    { value: 'question', text: '질문' },
+	    { value: 'review', text: '리뷰' }
+	  ],
+	  ranking: [{ value: 'my_ranking', text: '마이랭킹' }],
+	  promotion: [{ value: 'promotion', text: '가게홍보' }]
+	};
+	
   // 드롭다운 메뉴 초기화 함수
   function initializeDropdowns() {
     document.querySelectorAll('.category-dropdown').forEach(function (dropdown) {
@@ -35,60 +49,80 @@ $(document).ready(function () {
       });
     });
   }
-
+  
   // 탭 및 드롭다운 초기화 함수
   function initializeTabs() {
-    var urlParams = new URLSearchParams(window.location.search);
-    var type = urlParams.get('type');
-    if (type) {
-      $('#postTypeTabs a[href="#' + type.toLowerCase() + '"]').tab('show');
-    }
+    const hiddenTypeInput = $('#hidden_type');
+    const activeTab = $('#postTypeTabs .nav-link.active');
+    const initialTabId = activeTab.length > 0 ? activeTab.attr('href').replace('#', '').toUpperCase() : 'TEXT';
+    
+		updateCategoryOptions(initialTabId);
+    setHiddenTypeValue(initialTabId);
 
-    // 탭 클릭 시 드롭다운 카테고리 동기화
     $('#postTypeTabs a').on('click', function (e) {
       e.preventDefault();
       $(this).tab('show');
 
-      const selectedTabId = $(this).attr('href').replace('#', '');
-      const categoryDropdown = $('.category-dropdown .selectedCategory');
-      const hiddenCategoryInput = $('input[name="community_category"]');
-
-      if (selectedTabId === 'text') {
-        categoryDropdown.text('자유');
-        hiddenCategoryInput.val('free');
-      } else if (selectedTabId === 'image') {
-        categoryDropdown.text('리뷰');
-        hiddenCategoryInput.val('review');
-      } else if (selectedTabId === 'ranking') {
-        categoryDropdown.text('마이랭킹');
-        hiddenCategoryInput.val('my_ranking');
-      } else if (selectedTabId === 'promotion') {
-        categoryDropdown.text('가게홍보');
-        hiddenCategoryInput.val('promotion');
-      }
+      const selectedTabId = $(this).attr('href').replace('#', '').toUpperCase();
+      console.log("Selected Tab:", selectedTabId);
+      setHiddenTypeValue(selectedTabId);
+      updateCategoryOptions(selectedTabId);
     });
+
+    function setHiddenTypeValue(tabId) {
+      const hiddenInput = $(`#hidden_type_${tabId.toLowerCase()}`);
+      if (hiddenInput.length) {
+        hiddenInput.val(tabId);
+      }
+    }
+
+		function updateCategoryOptions(tabId) {
+		  const dropdownMenu = $('.category-dropdown .dropdown-menu');
+		  const categoryDropdown = $('.category-dropdown .selectedCategory');
+		  const hiddenCategoryInput = $('input[name="community_category"]');
+		
+		  // 카테고리 목록을 가져옵니다.
+		  const categoryList = categories[tabId.toLowerCase()];
+		
+		  if (!categoryList) {
+		    console.warn(`categories[${tabId}]가 정의되지 않았습니다.`);
+		    return;
+		  }
+		
+		  // 드롭다운 항목을 업데이트합니다.
+		  dropdownMenu.hide().empty().html(
+		    categoryList.map(category => `<li data-value="${category.value}">${category.text}</li>`).join('')
+		  );
+		
+	    // 선택된 카테고리를 유지하거나 첫 번째 항목을 기본값으로 선택
+		  const currentCategory = hiddenCategoryInput.val() || categoryList[0].value;
+		  let selectedCategory = categoryList.find(category => category.value === currentCategory);
+		
+		  // 선택된 카테고리가 없으면 첫 번째 카테고리로 기본값 설정
+		  if (!selectedCategory) {
+		    selectedCategory = categoryList[0];
+  		}
+		
+		  // 드롭다운과 hidden input 업데이트
+		  categoryDropdown.text(selectedCategory.text);
+		  hiddenCategoryInput.val(selectedCategory.value);
+		
+		}
   }
 
   // 랭킹 항목 드래그 앤 드롭 및 옵션 추가/제거 초기화
   function initializeRankingOptions() {
-    $("#ranking-options").sortable({
-      handle: ".sortable-handle",
-      placeholder: "ui-state-highlight",
-      update: function () {
-        updateOptionIndexes();
-      }
+    const rankingOptions = $('#ranking-options');
+
+    rankingOptions.sortable({
+      handle: '.sortable-handle',
+      placeholder: 'ui-state-highlight',
+      update: updateOptionIndexes
     });
 
-    function updateOptionIndexes() {
-      $('#ranking-options li').each(function (index) {
-        $(this).find('.option-label').text((index + 1) + '.');
-        $(this).find('input').attr('placeholder', 'Option ' + (index + 1));
-      });
-    }
-
     $('#add-option').on('click', function () {
-      var newOptionIndex = $('#ranking-options li').length + 1;
-      $('#ranking-options').append(`
+      const newOptionIndex = rankingOptions.children().length + 1;
+      rankingOptions.append(`
         <li>
           <div class="form-group centered-content">
             <i class="fas fa-bars sortable-handle"></i>
@@ -101,150 +135,123 @@ $(document).ready(function () {
       updateOptionIndexes();
     });
 
-    $(document).on('click', '.remove-option', function () {
+    rankingOptions.on('click', '.remove-option', function () {
       $(this).closest('li').remove();
       updateOptionIndexes();
     });
 
-    // 기본 인덱스 업데이트 실행
     updateOptionIndexes();
+  }
+
+  // 옵션 인덱스를 업데이트하는 함수
+  function updateOptionIndexes() {
+    $('#ranking-options li').each(function (index) {
+      $(this).find('.option-label').text(`${index + 1}.`);
+      $(this).find('input').attr('placeholder', `Option ${index + 1}`);
+    });
   }
 
   // 드래그 앤 드롭 초기화 함수
   function initializeDragAndDrop() {
-    document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
-      const dropZoneElement = inputElement.closest(".drop-zone");
+    const dropZoneInputs = document.querySelectorAll('.drop-zone__input');
 
-      dropZoneElement.addEventListener("click", (e) => {
+    dropZoneInputs.forEach(inputElement => {
+      const dropZoneElement = inputElement.closest('.drop-zone');
+
+      dropZoneElement.addEventListener('click', (e) => {
         if (e.target !== inputElement) {
           e.preventDefault();
           inputElement.click();
         }
       });
 
-      inputElement.addEventListener("change", (e) => {
-        if (inputElement.files.length) {
-          updateThumbnail(dropZoneElement, inputElement.files[0]);
-        }
+      inputElement.addEventListener('change', () => {
+        if (inputElement.files.length) updateThumbnail(dropZoneElement, inputElement.files[0]);
       });
 
-      dropZoneElement.addEventListener("dragover", (e) => {
+      dropZoneElement.addEventListener('dragover', (e) => {
         e.preventDefault();
-        e.stopPropagation();
-        dropZoneElement.classList.add("drop-zone--over");
+        dropZoneElement.classList.add('drop-zone--over');
       });
 
-      ["dragleave", "dragend"].forEach((type) => {
-        dropZoneElement.addEventListener(type, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          dropZoneElement.classList.remove("drop-zone--over");
+      ['dragleave', 'dragend'].forEach((type) => {
+        dropZoneElement.addEventListener(type, () => {
+          dropZoneElement.classList.remove('drop-zone--over');
         });
       });
 
-      dropZoneElement.addEventListener("drop", (e) => {
+      dropZoneElement.addEventListener('drop', (e) => {
         e.preventDefault();
-        e.stopPropagation();
-
         if (e.dataTransfer.files.length) {
           inputElement.files = e.dataTransfer.files;
           updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
         }
-
-        dropZoneElement.classList.remove("drop-zone--over");
+        dropZoneElement.classList.remove('drop-zone--over');
       });
     });
 
     function updateThumbnail(dropZoneElement, file) {
-      let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+      let thumbnailElement = dropZoneElement.querySelector('.drop-zone__thumb');
 
-      if (dropZoneElement.querySelector(".drop-zone__prompt")) {
-        dropZoneElement.querySelector(".drop-zone__prompt").remove();
+      if (dropZoneElement.querySelector('.drop-zone__prompt')) {
+        dropZoneElement.querySelector('.drop-zone__prompt').remove();
       }
 
       if (!thumbnailElement) {
-        thumbnailElement = document.createElement("div");
-        thumbnailElement.classList.add("drop-zone__thumb");
+        thumbnailElement = document.createElement('div');
+        thumbnailElement.classList.add('drop-zone__thumb');
         dropZoneElement.appendChild(thumbnailElement);
       }
 
-      if (file.type.startsWith("image/")) {
+      if (file.type.startsWith('image/')) {
         const reader = new FileReader();
-
         reader.readAsDataURL(file);
         reader.onload = () => {
           thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
-          thumbnailUrl = reader.result;
         };
       } else {
         thumbnailElement.style.backgroundImage = null;
-        thumbnailUrl = '';
       }
     }
   }
-
-  // Toast UI Editor 초기화
-  let editor;
-  function initializeEditor() {
-    editor = new toastui.Editor({
-      el: document.querySelector('#editor'),
-      height: '400px',
-      initialEditType: 'wysiwyg',
-      previewStyle: 'vertical',
-      placeholder: '글을 작성해주세요',
-      toolbarItems: [
-        ['heading', 'bold', 'italic', 'strike'],
-        ['hr', 'quote'],
-        ['ul', 'ol', 'task'],
-        ['code', 'codeblock'],
-        ['scrollSync'],
-      ],
-    });
+  
+	// 에디터 초기화
+	const editorElement = document.querySelector('#editor');
+	if (editorElement) {
+    const editor = initializeEditor(editorElement, communityText);
+    bindEditorToForm(editor, 'form', '#hidden_text');
   }
+	
+	// 폼 유효성 검사 함수
+	function validateForm() {
+	  const hiddenCategoryInput = $('input[name="community_category"]');
+	  const categoryDropdown = $('.category-dropdown .selectedCategory');
+	  
+	  // 카테고리 값이 비어 있으면 경고 및 폼 제출 중단
+	  if (!hiddenCategoryInput.val()) {
+	    console.warn('카테고리 입력이 비어 있습니다.');
+	    alert('카테고리를 선택해주세요.');
+	    return false;  // 카테고리 값이 없으면 폼을 제출하지 않음
+	  }
+	
+	  // 탭 타입 가져오기
+	  const activeTab = $('#postTypeTabs .nav-link.active').attr('href').replace('#', '').toUpperCase();
+	  const hiddenTypeValue = $(`#hidden_type_${activeTab.toLowerCase()}`).val();
+	
+	  // 탭 타입이 설정되지 않았으면 경고 및 폼 제출 중단
+	  if (!hiddenTypeValue) {
+	    console.warn('탭 타입이 설정되지 않았습니다.');
+	    alert('유효한 탭을 선택해주세요.');
+	    return false;
+	  }
+	
+	  return true;  // 모든 유효성 검사가 통과하면 true를 반환
+	}
 
-  // 폼 제출 시 에디터의 내용을 숨겨진 필드에 설정하는 함수
-  window.handleFormSubmit = function() {
-    try {
-      if (!editor) {
-        console.error('Editor not initialized');
-        return false;
-      }
-
-      const editorContent = editor.getHTML();
-      const hiddenTextElement = document.getElementById('hidden_text');
-
-      if (hiddenTextElement) {
-        hiddenTextElement.value = editorContent;
-      } else {
-        console.error('Hidden text element not found.');
-        return false;
-      }
-
-      const activeTab = $('#postTypeTabs .active').attr('href').replace('#', '');
-      const hiddenCategoryInput = $('input[name="community_category"]');
-
-      if (activeTab === 'text') {
-        hiddenCategoryInput.val('free');
-      } else if (activeTab === 'image') {
-        hiddenCategoryInput.val('review');
-      } else if (activeTab === 'ranking') {
-        hiddenCategoryInput.val('my_ranking');
-      } else if (activeTab === 'promotion') {
-        hiddenCategoryInput.val('promotion');
-      }
-
-      console.log('Editor Content:', editorContent); // 디버깅: 콘솔에 에디터 내용 출력
-      return true;
-    } catch (error) {
-      console.error('Error during form submission:', error);
-      return false; // 에러가 발생한 경우 폼 제출을 중단
-    }
-  };
 
   // 초기화 함수 호출
   initializeDropdowns();
   initializeTabs();
   initializeRankingOptions();
   initializeDragAndDrop();
-  initializeEditor();
 });

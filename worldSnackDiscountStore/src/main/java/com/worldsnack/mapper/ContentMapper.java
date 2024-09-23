@@ -14,6 +14,7 @@ import com.worldsnack.dto.ContentDTO;
 
 public interface ContentMapper {
 
+	// 전체 검색
 	@Select("SELECT * "
 			+ "FROM CONTENT_TABLE CO "
 			+ "INNER JOIN CATEGORY_TABLE CA "
@@ -102,10 +103,11 @@ public interface ContentMapper {
 			+ "ON CO.CATEGORY_IDX = CA.CATEGORY_IDX "
 			+ "WHERE CO.CONTENT_IDX = #{content_idx}")
 	ContentDTO getContentDetail(int content_idx);
-		
+	
+	// 게시글 등록에 필요한 증가값
 	@SelectKey(statement="SELECT CONTENT_SEQ.NEXTVAL FROM DUAL", 
 						 keyProperty="content_idx", before=true, resultType=int.class)
-	
+	// 게시글 등록
 	@Insert("INSERT INTO CONTENT_TABLE VALUES( "
 			+ "#{content_idx}, "
 			+ "#{category_idx}, " 
@@ -120,6 +122,7 @@ public interface ContentMapper {
 			+ "0, SYSDATE)")
 	void insertContent(ContentDTO writeContentDTO);
 	
+	//게시글 수정
 	@Update("UPDATE CONTENT_TABLE SET "
 			+ "CATEGORY_IDX=#{category_idx} "
 			+ ",CONTENT_SUBJECT=#{content_subject} "
@@ -158,9 +161,22 @@ public interface ContentMapper {
       	+ "WHERE CONTENT_IDX = #{content_idx}")
 	void increaseView(int content_idx);
 	
-//게시글 삭제하기 (용기)
-	@Delete("DELETE FROM CONTENT_TABLE "
-			+ "WHERE CONTENT_IDX=#{content_idx}")
+	//게시글 삭제하기 (용기) --- (희만 수정)
+	@Delete({"BEGIN",
+    			 "	DELETE FROM CONTENT_TABLE WHERE CONTENT_IDX = #{content_idx}; ",
+    			 "	DELETE FROM SCRAP_TABLE WHERE CONTENT_IDX = #{content_idx}; ",
+    
+    			 "	COMMIT; ",
+					 "EXCEPTION ",
+    			 "	WHEN OTHERS THEN ",
+        	 "		ROLLBACK; ",
+					 "END;"})
 	void deleteContent(int content_idx);
+	
+	// 게시글 작성자 닉네임 조회 (희만)
+	@Select("SELECT USER_NICKNAME AS CONTENT_WRITER_NICKNAME " +
+					"FROM USER_TABLE " +
+					"WHERE USER_IDX = #{CONTENT_WRITER_IDX}")
+	String getWriterNickname(int content_writer_idx);
 	
 }

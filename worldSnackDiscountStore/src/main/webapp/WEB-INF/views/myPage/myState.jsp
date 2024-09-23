@@ -28,6 +28,13 @@
 		rel="stylesheet" type="text/css" />
 	<!-- Core theme CSS (includes Bootstrap)-->
 	<link href="${root }css/mypage.css" rel="stylesheet" />
+	
+	<style type="text/css">
+	.selectedActive {
+    font-weight: bold;
+    color: rgb(189 93 56);
+	}
+	</style>
 </head>
 <body id="page-top">
 	<!-- top_menu 삽입 -->
@@ -43,7 +50,7 @@
 		</h1>
 	</div>
 
-	<!-- 회원 탈퇴 -->
+	<!-- 나의 활동 -->
 	<section class="resume-section" id="myState">
 		<div class="resume-section-content">
 			<h3 class="mb-5">나의 활동</h3>
@@ -72,13 +79,13 @@
 									<ul class="navbar-nav">
 										<li class="nav-item" style="font-size:14px;">
 											<div style="height:24px;">
-												<fmt:formatDate pattern="yyyy.MM.dd.HH:mm:dd" value="${recentVisitTime }"/>
+												<fmt:formatDate pattern="yyyy.MM.dd.HH:mm:ss" value="${recentVisitTime }"/>
 											</div>
 										</li>
 										<li class="nav-item"><span>${visitCount }회</span></li>
 										<li class="nav-item"><a href="?content=content1" onclick="showContent('content1')">${myCommunityContentCount }개</a></li>
 										<li class="nav-item"><a href="?content=content2" onclick="showContent('content2')">${myCommunityCommentCount }개</a></li>
-										<li class="nav-item"><a href="?content=content3" onclick="showContent('content3')">??개</a></li>
+										<li class="nav-item"><a href="?content=content3" onclick="showContent('content3')">${likeCount }</a></li>
 										<li class="nav-item"><span>총 ${activityTime }시간</span></li>
 									</ul>
 								</div>
@@ -90,11 +97,10 @@
 					<div class="col-lg-6 col-md-6 right-box">
 						<div class="content-box orange-box card shadow">
 							<div class="content-box-title">
-									<a class="nav-link js-scroll-trigger" href="?content=content1" onclick="showContent('content1')">작성글</a>
-									<a class="nav-link js-scroll-trigger" href="?content=content2" onclick="showContent('content2')">작성댓글</a>
-									<a class="nav-link js-scroll-trigger" href="?content=content3" onclick="showContent('content3')">관심 받은 글</a>
-									<a class="nav-link js-scroll-trigger" href="?content=content4" onclick="showContent('content4')">임시 메뉴</a>
-									
+									<a class="nav-link js-scroll-trigger content1" href="?content=content1" onclick="showContent('content1')">작성글</a>
+									<a class="nav-link js-scroll-trigger content2" href="?content=content2" onclick="showContent('content2')">작성댓글</a>
+									<a class="nav-link js-scroll-trigger content3" href="?content=content3" onclick="showContent('content3')">관심 받은 글</a>
+									<a class="nav-link js-scroll-trigger content4" href="?content=content4" onclick="showContent('content4')">임시 메뉴</a>
 							</div>
 							<hr style="background-color: #bd5d38;height: 3px;border: none;margin-top: 16px;margin-bottom: 0px;">
 							<div class="card-body">
@@ -162,6 +168,12 @@
 			// 클릭한 콘텐츠 표시
 			$('#' + contentId).show();
 			
+			// 선택되지 않은 탭 selectedActive 클래스 제거
+			$('.content-box-title a').removeClass('selectedActive');
+			
+			// 선택한 탭의 css스타일 적용
+			$('.' + contentId).addClass('selectedActive');
+			
 			/*
 			// 콘텐츠 숨김
 			document.getElementById('content1').style.display = 'none';
@@ -173,6 +185,30 @@
 			document.getElementById(contentId).style.display = 'block';
 			*/
 		};
+		
+		// 나의활동 -> 관심 받은 글 스크립트
+		$(document).ready(function() {
+			$('.submit-link').on('click', function(event) {
+				event.preventDefault(); // a 태그 동작 방지
+				
+				var contentIdx = $(this).data('content-idx');
+				
+				var form = $('<form>', {
+					'method' : 'post',
+					'action' : '${root}content/detail'
+				});
+				
+				$('<input>', {
+					'type' : 'hidden',
+					'name' : 'content_idx',
+					'value' : contentIdx
+				}).appendTo(form);
+				
+				form.appendTo('body');
+				
+				form.submit();
+			});
+		});
 		
 	</script>
 </body>
