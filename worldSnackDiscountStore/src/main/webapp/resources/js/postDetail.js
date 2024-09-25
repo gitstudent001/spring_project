@@ -491,7 +491,7 @@ async function voteComment(commentId, voteType) {
     return;
   }
 
-  // Optimistic UI: 즉시 UI 업데이트
+  // Optimistic UI
   updateVoteCount(commentId, voteType);
   
   try {
@@ -695,4 +695,131 @@ async function getCommentData(commentId) {
   }
 }
 
+const PostDetailShareModal = {
+  root: rootPath,
+
+  init: function() {
+    this.bindEvents();
+  },
+
+  bindEvents: function() {
+    document.addEventListener('click', (event) => {
+      if (event.target.classList.contains('shareBtn')) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.openShareModal(event);
+      } else if (event.target.classList.contains('modal-share')) {
+        this.closeModal(event.target);
+      } else if (event.target.classList.contains('close')) {
+        event.preventDefault();
+        const modal = event.target.closest('.modal-share');
+        this.closeModal(modal);
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (event.target.closest('.modal-content')) {
+        event.stopPropagation();
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (event.target.id.startsWith('copyLinkBtn_')) {
+        this.copyLink(event);
+      }
+    });
+  },
+
+  openShareModal: function(event) {
+    const postId = event.target.getAttribute('data-post-id');
+    const modal = document.getElementById(`shareModal_${postId}`);
+
+    if (modal) {
+      const mouseX = event.clientX;
+      const mouseY = event.clientY;
+      modal.style.visibility = 'hidden';
+      modal.style.display = 'block';
+
+      const modalContent = modal.querySelector('.modal-content');
+      const modalWidth = modalContent.offsetWidth;
+      const modalHeight = modalContent.offsetHeight;
+
+      const viewportHeight = window.innerHeight;
+      const viewportWidth = window.innerWidth;
+
+      let topPosition = mouseY - modalHeight / 2;
+      let leftPosition = mouseX - modalWidth / 2;
+
+      topPosition = Math.max(10, Math.min(topPosition, viewportHeight - modalHeight - 10));
+      leftPosition = Math.max(10, Math.min(leftPosition, viewportWidth - modalWidth - 10));
+
+      modalContent.style.position = 'absolute';
+      modalContent.style.top = `${topPosition}px`;
+      modalContent.style.left = `${leftPosition}px`;
+
+      modal.style.visibility = 'visible';
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('show');
+
+      this.setupShareButtons(modal, postId);
+
+      console.log(`Modal shown for post ID: ${postId} at (${mouseX}, ${mouseY})`);
+    } else {
+      console.error('Modal not found for post:', postId);
+    }
+  },
+
+  closeModal: function(modal) {
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+    console.log('Modal closed');
+  },
+
+  setupShareButtons: function(modal, postId) {
+    const postUrl = `${window.location.origin}${this.root}board/post/${postId}`;
+
+    const facebookBtn = modal.querySelector('button:nth-child(1)');
+    const twitterBtn = modal.querySelector('button:nth-child(2)');
+    const emailBtn = modal.querySelector('button:nth-child(3)');
+
+    facebookBtn.onclick = () => this.shareFacebook(postUrl);
+    twitterBtn.onclick = () => this.shareTwitter(postUrl);
+    emailBtn.onclick = () => this.shareEmail(postUrl);
+  },
+
+  shareFacebook: function(url) {
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    window.open(facebookUrl, '_blank');
+  },
+
+  shareTwitter: function(url) {
+    const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`;
+    window.open(twitterUrl, '_blank');
+  },
+
+  shareEmail: function(url) {
+    const subject = encodeURIComponent('게시물 공유');
+    const body = encodeURIComponent(`이 링크를 확인하세요: ${url}`);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  },
+
+  copyLink: function(event) {
+    const postId = event.target.id.split('_')[1];
+    const baseUrl = window.location.origin;
+    const postUrl = `${baseUrl}${this.root}board/post/${postId}`;
+
+    navigator.clipboard.writeText(postUrl)
+      .then(() => {
+        alert('링크가 복사되었습니다.');
+      })
+      .catch(err => {
+        console.error('링크 복사 실패:', err);
+      });
+  }
+};
+
+// 초기화 함수를 호출합니다.
+document.addEventListener('DOMContentLoaded', function() {
+  PostDetailShareModal.init();
+});
 

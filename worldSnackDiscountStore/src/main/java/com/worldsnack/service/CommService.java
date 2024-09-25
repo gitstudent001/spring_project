@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -54,16 +55,16 @@ public class CommService {
    }
 
   // 카테고리와 정렬 기준에 따른 게시글 목록 조회
-  public List<CommDTO> getPostsByCategoryAndSortOrder(String category, String sortOrder, String viewType) {
-    return commDAO.findPostsByCategoryAndSortOrder(category, sortOrder, viewType);
+  public List<CommDTO> getPostsByCategoryAndSortOrder(int lastCommunityId, String category, String sortOrder, String viewType) {
+    return commDAO.findPostsByCategoryAndSortOrder(lastCommunityId, category, sortOrder, viewType);
   }
   
-  public List<CommDTO> getAllPostsSortedByWeightedScore() {
-    return commDAO.getAllPostsByWeightedScore();
+  public List<CommDTO> getAllPostsSortedByWeightedScore(int lastCommunityId) {
+    return commDAO.getAllPostsByWeightedScore(lastCommunityId);
   }
   
-  public List<CommDTO> getHotPosts(String category, String viewType) {
-    return commDAO.findHotPosts(category, viewType);
+  public List<CommDTO> getHotPosts(int lastCommunityId, String category, String viewType) {
+    return commDAO.findHotPosts(lastCommunityId, category, viewType);
   }
 
   // 게시글 ID에 따른 게시글 조회
@@ -346,6 +347,32 @@ public class CommService {
 
     post.setCommunity_writer_idx(getCurrentUserId());
     commDAO.updatePost(post);
-}
+  }
+  
+  //게시글 스크랩
+	public void insertScrap(int user_idx, int community_idx) {
+		commDAO.insertScrap(user_idx, community_idx);
+	}
+	
+	// 게시글 스크랩 유무 확인 
+	public boolean checkScrap(int user_idx, int community_idx) {
+		return commDAO.checkScrap(user_idx, community_idx);
+	}
+	
+	//게시글 스크랩 취소하기
+	public void deleteScrap(@Param("user_idx")int user_idx, @Param("community_idx") int community_idx) {
+		commDAO.deleteScrap(user_idx, community_idx);
+	}
+	
+	public boolean toggleScrap(int userIdx, int communityIdx) {
+    boolean alreadyScraped = checkScrap(userIdx, communityIdx);
+    if (alreadyScraped) {
+        deleteScrap(userIdx, communityIdx);
+        return false; // 스크랩 취소됨
+     } else {
+        insertScrap(userIdx, communityIdx);
+        return true; // 새로 스크랩됨
+     }
+	}
 
 }

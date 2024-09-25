@@ -13,49 +13,95 @@ import com.worldsnack.dto.CommDTO;
 
 public interface CommMapper {
 
-    // 카테고리에 따른 게시글 목록 조회 (정렬 및 뷰 타입 추가)
-		@Select("<script> "
-      + "  SELECT c.*, u.user_nickname AS community_nickname "
-      + "  FROM COMMUNITY_TABLE c "
-      + "  LEFT JOIN USER_TABLE u ON c.community_writer_idx = u.user_idx "
-      + "  <if test='category != null and category != \"\"'> "
-      + "    WHERE c.COMMUNITY_CATEGORY = #{category} "
-      + "  </if> "
-      + "  ORDER BY "
-      + "  <choose> "
-      + "    <when test='sortOrder == \"latest\"'> "
-      + "      c.COMMUNITY_DATE DESC "
-      + "    </when> "
-      + "    <otherwise> "
-      + "      c.COMMUNITY_VIEW DESC "
-      + "    </otherwise> "
-      + "  </choose> "
-      + "</script>")
-    List<CommDTO> findPostsByCategory(
-            @Param("category") String category,
-            @Param("sortOrder") String sortOrder,
-            @Param("viewType") String viewType
-    );
-		
-		@Select("SELECT c.*, " +
-        "       ((c.COMMUNITY_UPVOTES - c.COMMUNITY_DOWNVOTES) * 0.5 + " +
-        "        c.COMMUNITY_COMMENT * 0.3 + " +
-        "        c.COMMUNITY_VIEW * 0.1 + " +
-        "        (1 / (SYSDATE - c.COMMUNITY_DATE + 1)) * 0.1) AS score " +
-        "FROM COMMUNITY_TABLE c " +
-        "LEFT JOIN USER_TABLE u ON c.community_writer_idx = u.user_idx " +
-        "ORDER BY score DESC")
-		List<CommDTO> findAllPostsByWeightedScore();
-		
-		// 핫 정렬 게시물 조회
-		@Select("SELECT c.*, " +
-	       "       (LOG(10, GREATEST(c.COMMUNITY_UPVOTES - c.COMMUNITY_DOWNVOTES, 1)) " +
-	       "       + (SYSDATE - c.COMMUNITY_DATE) / 45000) AS score " +
-	       "FROM COMMUNITY_TABLE c " +
-	       "LEFT JOIN USER_TABLE u ON c.community_writer_idx = u.user_idx " +
-	       "ORDER BY score DESC")
-		List<CommDTO> findHotPosts(@Param("category") String category, @Param("viewType") String viewType);
+  //카테고리에 따른 게시글 목록 조회 (정렬 및 뷰 타입 추가)
+	@Select("<script>" +
+	    "SELECT * FROM (" +
+	    "  SELECT a.*, ROWNUM rn FROM (" +
+	    "    SELECT c.*, u.user_nickname AS community_nickname " +
+	    "    FROM COMMUNITY_TABLE c " +
+	    "    LEFT JOIN USER_TABLE u ON c.community_writer_idx = u.user_idx " +
+	    "    WHERE c.COMMUNITY_IDX > #{lastCommunityId} " +
+	    "    <if test='category != null and category != \"\"'>" +
+	    "      AND c.COMMUNITY_CATEGORY = #{category}" +
+	    "    </if>" +
+	    "    <if test='viewType != null and viewType != \"\"'>" +
+	    "      AND c.COMMUNITY_VIEW_TYPE = #{viewType}" +
+	    "    </if>" +
+	    "    ORDER BY" +
+	    "    <choose>" +
+	    "      <when test='sortOrder == \"latest\"'>" +
+	    "        c.COMMUNITY_DATE DESC" +
+	    "      </when>" +
+	    "      <when test='sortOrder == \"popular\"'>" +
+	    "        c.COMMUNITY_VIEW DESC" +
+	    "      </when>" +
+	    "      <otherwise>" +
+	    "        c.COMMUNITY_DATE DESC" +
+	    "      </otherwise>" +
+	    "    </choose>" +
+	    "  ) a WHERE ROWNUM &lt;= 20" +
+	    ") WHERE rn > 0" +
+	    "</script>")
+	List<CommDTO> findPostsByCategory(
+	    @Param("lastCommunityId") int lastCommunityId,
+	    @Param("category") String category,
+	    @Param("sortOrder") String sortOrder,
+	    @Param("viewType") String viewType
+	);
+  
+  //베스트 정렬 게시글 조회
+  @Select("WITH scored_posts AS (" +
+     "SELECT c.COMMUNITY_IDX, c.COMMUNITY_SUBJECT, c.COMMUNITY_TEXT, c.COMMUNITY_FILE, " +
+     "c.COMMUNITY_WRITER_IDX, c.COMMUNITY_VIEW, c.COMMUNITY_COMMENT, c.COMMUNITY_DATE, " +
+     "c.COMMUNITY_TYPE, c.COMMUNITY_CATEGORY, c.COMMUNITY_URL, c.COMMUNITY_THUMB, " +
+     "c.COMMUNITY_UPVOTES, c.COMMUNITY_DOWNVOTES, u.user_nickname AS community_nickname, " +
+     "((c.COMMUNITY_UPVOTES + 1.9208) / NULLIF(c.COMMUNITY_UPVOTES + c.COMMUNITY_DOWNVOTES, 0) - " +
+     "1.96 * SQRT((c.COMMUNITY_UPVOTES * c.COMMUNITY_DOWNVOTES) / NULLIF(c.COMMUNITY_UPVOTES + c.COMMUNITY_DOWNVOTES, 0) + 0.9604) / " +
+     "NULLIF(c.COMMUNITY_UPVOTES + c.COMMUNITY_DOWNVOTES, 0)) / " +
+     "(1 + 3.8416 / NULLIF(c.COMMUNITY_UPVOTES + c.COMMUNITY_DOWNVOTES, 0)) * " +
+     "EXP(-(24 * (SYSDATE - c.COMMUNITY_DATE)) / 48) AS score " +
+     "FROM COMMUNITY_TABLE c " +
+     "LEFT JOIN USER_TABLE u ON c.community_writer_idx = u.user_idx " +
+     "WHERE (c.COMMUNITY_UPVOTES > 0 OR c.COMMUNITY_DOWNVOTES > 0)" + 
+     ") " +
+     "SELECT * FROM (" +
+     "    SELECT sp.*, ROWNUM rn " +
+     "    FROM scored_posts sp " +
+     "    ORDER BY score DESC" +
+     ") WHERE rn <= 20")
+  List<CommDTO> findAllPostsByWeightedScore(@Param("lastCommunityId") int lastCommunityId);
 
+  
+  //HOT 정렬 게시글 조회
+  @Select("<script>" +
+      "SELECT * FROM (" +
+      "  SELECT b.*, ROWNUM rn FROM (" +
+      "    SELECT " +
+      "      c.COMMUNITY_IDX, c.COMMUNITY_SUBJECT, c.COMMUNITY_TEXT, c.COMMUNITY_FILE, " +
+      "      c.COMMUNITY_WRITER_IDX, c.COMMUNITY_VIEW, c.COMMUNITY_COMMENT, c.COMMUNITY_DATE, " +
+      "      c.COMMUNITY_TYPE, c.COMMUNITY_CATEGORY, c.COMMUNITY_URL, c.COMMUNITY_THUMB, " +
+      "      c.COMMUNITY_UPVOTES, c.COMMUNITY_DOWNVOTES, c.COMMUNITY_SORT_ORDER, c.COMMUNITY_VIEW_TYPE, " +
+      "      u.user_nickname AS community_nickname, " +
+      "      ((c.COMMUNITY_UPVOTES - c.COMMUNITY_DOWNVOTES) / " +
+      "      POWER((SYSDATE - c.COMMUNITY_DATE) * 24 + 2, 1.8)) AS score " +
+      "    FROM COMMUNITY_TABLE c " +
+      "    LEFT JOIN USER_TABLE u ON c.community_writer_idx = u.user_idx " +
+      "    WHERE c.COMMUNITY_IDX > #{lastCommunityId} " +
+      "    <if test='category != null and category != \"\"'>" +
+      "      AND c.COMMUNITY_CATEGORY = #{category}" +  // 
+      "    </if>" +
+      "    <if test='viewType != null and viewType != \"\"'>" +
+      "      AND c.COMMUNITY_VIEW_TYPE = #{viewType}" +
+      "    </if>" +
+      "    ORDER BY score DESC" +
+      "  ) b WHERE ROWNUM &lt;= 20" +
+      ") WHERE rn > 0" +
+      "</script>")
+  List<CommDTO> findHotPosts(
+      @Param("lastCommunityId") int lastCommunityId,
+      @Param("category") String category,
+      @Param("viewType") String viewType
+  );
 
     // 게시글 ID에 따른 게시글 조회
     @Select("SELECT c.*, u.user_nickname AS community_nickname " +
@@ -128,5 +174,19 @@ public interface CommMapper {
     @Select("SELECT (COMMUNITY_UPVOTES - COMMUNITY_DOWNVOTES) FROM COMMUNITY_TABLE WHERE COMMUNITY_IDX = #{id}")
     int getNetVotes(@Param("id") int id);
     
-    
+    // 게시글 스크랩
+  	@Insert("INSERT INTO COMM_SCRAP_TABLE VALUES(#{user_idx}, #{community_idx})")
+  	void insertScrap(@Param("user_idx")int user_idx, @Param("community_idx") int community_idx);
+  	
+  	// 게시글 스크랩 유무 확인
+  	@Select("SELECT COUNT(*) " +
+  		  		"FROM COMM_SCRAP_TABLE " +
+  		  		"WHERE USER_IDX=#{user_idx} " +
+  	    		"AND COMMUNITY_IDX=#{community_idx}")
+  	boolean checkScrap(@Param("user_idx")int user_idx, @Param("community_idx") int community_idx);
+  	
+  	// 게시글 스크랩 취소하기
+  	@Delete("DELETE FROM COMM_SCRAP_TABLE " +
+  					"WHERE USER_IDX = #{user_idx} AND COMMUNITY_IDX = #{community_idx}")
+  	void deleteScrap(@Param("user_idx")int user_idx, @Param("community_idx") int community_idx);
 }

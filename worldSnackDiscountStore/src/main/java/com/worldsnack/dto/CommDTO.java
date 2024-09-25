@@ -31,8 +31,11 @@ public class CommDTO {
 	// 통계
 	private int community_view;
 	private int community_comment;
+	private double score;
 	
 	// 추천
 	private int community_upvotes;
   private int community_downvotes;
+  
+  private boolean isScraped;
 }

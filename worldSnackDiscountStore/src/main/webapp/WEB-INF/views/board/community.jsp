@@ -36,49 +36,14 @@
   <script src="${fruitables}lib/waypoints/waypoints.min.js"></script>
   <script src="${fruitables}lib/lightbox/js/lightbox.min.js"></script>
   <script src="${fruitables}lib/owlcarousel/owl.carousel.min.js"></script>
-  
-  <script src="${root}js/community.js"></script>
-  
+	
 	<script>
-		let root = "${root}";
+		let rootPath = "${root}";
     let defaultThumbnailUrl = "${root}images/default-thumbnail.png";
-    
-    function updateSortAndView() {
-        let sortOrder = $('#sortOrder').val();
-        let viewType = $('#viewType').val();
-        let url = '${root}board/community?sortOrder=' + sortOrder + '&viewType=' + viewType;
-        window.location.href = url;
-    }
-    
-    function vote(type, postId) {
-    	$.ajax({
-    		  url: '${root}article/vote',  // 서버에 보낼 URL
-    		  type: 'POST',
-    		  data: {
-    		    id: postId,
-    		    voteType: type
-    		  },
-    		  success: function(response) {
-    		    // 투표 결과를 성공적으로 받은 경우, 페이지의 표시를 업데이트합니다.
-    		    if (response.success) {
-    		      updateVoteCount(postId, response.newVoteCount);
-    		    } else {
-    		      alert('Error: ' + response.message);
-    		    }
-    		  },
-    		  error: function(xhr, status, error) {
-    			  console.error('AJAX Error:', status, error);
-    			  console.error('Response Text:', xhr.responseText);
-    			  alert('서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
-    			}
-    		});
-      }
-
-      function updateVoteCount(postId, newVoteCount) {
-        $('#vote-count-' + postId).text(newVoteCount);  // 새 투표 수로 UI 업데이트
-      }
-    </script>
-    
+  </script>
+  <script src="${root}template/post_templates.js" defer></script>
+  <script src="${root}js/community.js" defer></script>
+  
 </head>
 <body>
   <!-- top_menu 삽입 -->
@@ -134,8 +99,8 @@
     <div id="post-container">
       <c:forEach var="post" items="${posts}">
         <div class="compact-post d-flex p-2 border-bottom post-link" 
-				     onclick="location.href='${root}board/post/${post.community_idx}'" 
-				     style="cursor: pointer;">
+		     data-post-id="${post.community_idx}" 
+		     style="cursor: pointer;">
           <!-- 썸네일 이미지 -->
           <div class="thumbnail mr-3 post-thumbnail" style="width: 100px; height: 100px; overflow: hidden;" 
 				     data-thumbnail="${not empty post.community_thumb ? root.concat(post.community_thumb) : ''}">
@@ -161,40 +126,63 @@
             <h5 class="mb-1"><a href="${root}board/post/${post.community_idx}" class="text-dark">${post.community_subject}</a></h5>
             
             <!-- 하단 기능 버튼들 -->
-            <div class="post-actions d-flex align-items-center" onclick="event.stopPropagation();">
+            <div class="post-actions d-flex align-items-center">
               <!-- 확장 -->
               <button type="button" id="btn-expand" class="btn-fills mr-2">
               	<i class="fa-solid fa-up-right-and-down-left-from-center"></i>
               </button>
               
               <!-- 업보트/다운보트 -->
-              <div class="btn-fills d-flex justify-content-between align-items-center mr-3">
-							  <!-- 업보트 버튼 -->
-							  <button type="button" id="up-vote"class="rounded-circle btn-vote" onclick="vote('upvote', ${post.community_idx})" >
+							<div class="btn-fills d-flex justify-content-between align-items-center mr-3">
+							  <button type="button" class="rounded-circle btn-vote up-vote" data-vote-type="upvote" data-post-id="${post.community_idx}">
 							    <i class="fa-regular fa-thumbs-up"></i>
 							  </button>
-							  <!-- 추천수 -->
-								<span id="vote-count-${post.community_idx}" class="mx-2 text-center">${post.community_upvotes - post.community_downvotes}</span>
-							  <!-- 다운보트 버튼 -->
-							  <button type="button" id="down-vote" class="rounded-circle btn-vote" onclick="vote('downvote', ${post.community_idx})">
+							  <span id="vote-count-${post.community_idx}" class="mx-2 text-center">${post.community_upvotes - post.community_downvotes}</span>
+							  <button type="button" class="rounded-circle btn-vote down-vote" data-vote-type="downvote" data-post-id="${post.community_idx}">
 							    <i class="fa-regular fa-thumbs-down"></i>
 							  </button>
 							</div>
-              
+						              
               <!-- 조회수 -->
               <small class="mr-3 text-muted">조회수: ${post.community_view}</small>
 
               <!-- 댓글 수 -->
               <a href="${root}board/post/${post.community_idx}#comments-section" class="mr-3 comment-count" style="color: black; font-size:15px; ">댓글 수: ${post.community_comment}</a>
-              <!-- 공유 버튼 -->
-              <button type="button" class="btn btn-custom btn-sm mr-2">
-                <i class="fas fa-share"></i> 공유
-              </button>
               
-              <!-- 저장 버튼 -->
-              <button type="button" class="btn btn-custom btn-sm mr-2">
-                <i class="fas fa-bookmark"></i> 저장
-              </button>
+              <!-- 공유 버튼 -->
+							<button type="button" class="shareBtn btn btn-custom btn-sm mr-2" aria-label="공유" data-post-id="${post.community_idx}">
+							  <i class="fas fa-share"></i> 공유
+							</button>
+							<!-- 공유 모달 -->
+							<div id="shareModal_${post.community_idx}" class="modal-share" role="dialog" aria-labelledby="shareModalTitle_${post.community_idx}">
+							  <div class="modal-content">
+							    <div class="d-flex justify-content-between align-items-center">
+							      <h3 id="shareModalTitle_${post.community_idx}">공유하기</h3>
+							      <h4 class="close position-absolute top-0 end-0 p-2 mr-1" aria-label="닫기">&times;</h4>
+							    </div>
+							    <div class="mt-3">
+							      <button type="button">페이스북</button>
+							      <button type="button">트위터</button>
+							      <button type="button">이메일</button>
+							      <button type="button" id="copyLinkBtn_${post.community_idx}">링크 복사</button>
+							    </div>
+							  </div>
+							</div>
+              
+              <!-- 스크랩 버튼 -->
+		          <button type="button" class="btn btn-custom btn-sm mr-2 btn-scrap" 
+					            data-post-id="${post.community_idx}"
+					            data-user-idx="${not empty loginUserDTO ? loginUserDTO.user_idx : ''}"
+					            data-is-scraped="${post.scraped ? 'true' : 'false'}">
+						      <c:choose>
+						        <c:when test="${scrapStatus[post.community_idx]}">
+						          <i class="fa-solid fa-bookmark"></i> 취소
+						        </c:when>
+						        <c:otherwise>
+						          <i class="fa-regular fa-bookmark"></i> 스크랩
+						        </c:otherwise>
+						      </c:choose>
+				    		</button>
               
               <!-- 숨기기 버튼 -->
               <button type="button" class="btn btn-custom btn-sm mr-2">
